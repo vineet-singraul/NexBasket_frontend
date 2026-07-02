@@ -1,0 +1,278 @@
+/* ===== NexBasket Home Header — Primary + Secondary Navbar ===== */
+
+.header {
+  --nb-primary-bg: #0a1a2b;
+  --nb-secondary-bg: #232f3e;
+  --nb-yellow: #febd69;
+  --nb-orange: #eb8505;
+  --nb-white: #ffffff;
+
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  font-family: 'Roboto', 'Segoe UI', sans-serif;
+}
+
+/* ---------- Primary navbar ---------- */
+.primaryNav {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background-color: var(--nb-primary-bg);
+  color: var(--nb-white);
+  padding: 8px 18px;
+  min-height: 56px;
+}
+
+.navBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  padding: 6px 8px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.navBlock:hover {
+  border-color: var(--nb-white);
+}
+
+/* Logo */
+.logoLink {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 6px 8px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
+
+.logoLink:hover {
+  border-color: var(--nb-white);
+}
+
+.logo {
+  height: 34px;
+  width: auto;
+}
+
+/* Delivery location */
+.deliveryRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.locationIcon {
+  font-size: 18px !important;
+  color: var(--nb-white);
+  margin-top: 2px;
+}
+
+.smallLabel {
+  font-size: 12px;
+  color: #cccccc;
+  line-height: 1.2;
+}
+
+.boldLabel {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--nb-white);
+  line-height: 1.2;
+}
+
+/* Search bar */
+.searchBar {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: stretch;
+  height: 40px;
+  max-width: 760px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.searchScope {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #f3f3f3;
+  color: #111111;
+  font-size: 12px;
+  padding: 0 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.searchScope .caret {
+  font-size: 16px !important;
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 0 10px;
+  font-size: 14px;
+  color: #111111;
+}
+
+.searchInput::placeholder {
+  color: #6b6b6b;
+}
+
+.searchButton {
+  width: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--nb-yellow);
+  border: none;
+  cursor: pointer;
+}
+
+.searchButton .searchIcon {
+  color: var(--nb-primary-bg) !important;
+  font-size: 22px !important;
+}
+
+/* Language selector */
+.langRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.flag {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.caret {
+  font-size: 16px !important;
+  color: var(--nb-white);
+}
+
+/* Cart */
+.cartLink {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.cartIconWrap {
+  position: relative;
+}
+
+.cartIcon {
+  font-size: 30px !important;
+  color: var(--nb-white);
+}
+
+.cartBadge {
+  position: absolute;
+  top: -6px;
+  left: 14px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 3px;
+  border-radius: 50%;
+  background-color: var(--nb-orange);
+  color: var(--nb-primary-bg);
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cartText {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* ---------- Secondary navbar ---------- */
+.secondaryNav {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  background-color: var(--nb-secondary-bg);
+  padding: 0 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.secondaryNav::-webkit-scrollbar {
+  display: none;
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px 0;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  flex-shrink: 0;
+}
+
+.navItem:hover .iconBox {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.navItem.active {
+  border-bottom-color: var(--nb-orange);
+}
+
+.iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  transition: background-color 0.15s ease;
+}
+
+.navItem.active .iconBox {
+  background-color: var(--nb-yellow);
+}
+
+.navIcon {
+  font-size: 20px !important;
+  color: var(--nb-yellow);
+}
+
+.navItem.active .navIcon {
+  color: var(--nb-primary-bg) !important;
+}
+
+.navLabel {
+  font-size: 12px;
+  color: var(--nb-white);
+  max-width: 70px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-bottom: 8px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .smallLabel,
+  .boldLabel {
+    display: none;
+  }
+
+  .langRow span:not(.flag) {
+    display: none;
+  }
+}
