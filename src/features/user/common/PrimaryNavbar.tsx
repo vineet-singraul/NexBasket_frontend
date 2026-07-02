@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Box, InputBase, Typography, Tooltip } from '@mui/material'
+import { Box, InputBase, Typography, Tooltip, Divider } from '@mui/material'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
@@ -65,38 +65,10 @@ const PrimaryNavbar = () => {
         sx={{
           display: { xs: 'flex', sm: 'none' },
           alignItems: 'center',
-          gap: 1.5,
           background: 'linear-gradient(135deg, #0A1A2B 0%, #14283d 100%)',
           padding: '12px 16px',
         }}
       >
-        <Tooltip title="Deliver to Indore 452001" arrow>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              flexShrink: 0,
-              cursor: 'pointer',
-              opacity: 0.95,
-              '&:hover': { opacity: 1 },
-            }}
-          >
-            <LocationOnOutlinedIcon sx={{ fontSize: 18, color: '#ffffff' }} />
-            <Typography
-              sx={{
-                fontSize: 12.5,
-                fontWeight: 600,
-                color: '#ffffff',
-                lineHeight: 1,
-                whiteSpace: 'nowrap',
-              }}
-            >
-              Indore
-            </Typography>
-          </Box>
-        </Tooltip>
-
         <Box
           sx={{
             display: 'flex',
@@ -106,7 +78,7 @@ const PrimaryNavbar = () => {
             borderRadius: '999px',
             height: 44,
             pl: '14px',
-            pr: '6px',
+            pr: '10px',
             gap: 1,
             boxShadow: '0 2px 6px rgba(0, 0, 0, 0.18)',
           }}
@@ -122,6 +94,31 @@ const PrimaryNavbar = () => {
               '& input::placeholder': { color: '#8a8a8a', opacity: 1 },
             }}
           />
+          <Divider orientation="vertical" flexItem sx={{ height: 22, alignSelf: 'center' }} />
+          <Tooltip title="Deliver to Indore 452001" arrow>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '3px',
+                flexShrink: 0,
+                cursor: 'pointer',
+              }}
+            >
+              <LocationOnOutlinedIcon sx={{ fontSize: 16, color: '#0A1A2B' }} />
+              <Typography
+                sx={{
+                  fontSize: 12.5,
+                  fontWeight: 600,
+                  color: '#0A1A2B',
+                  lineHeight: 1,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                Indore
+              </Typography>
+            </Box>
+          </Tooltip>
         </Box>
       </Box>
     </>

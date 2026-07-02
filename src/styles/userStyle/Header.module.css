@@ -207,6 +207,7 @@
   padding: 0 12px;
   overflow-x: auto;
   scrollbar-width: none;
+  z-index: 1000000 !important;
 }
 
 .secondaryNav::-webkit-scrollbar {

@@ -5,7 +5,7 @@ const UserHome = () => {
     <div>
       <Header />
     </div>
-  )
+) 
 }
 
 export default UserHome
