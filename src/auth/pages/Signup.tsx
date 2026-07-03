@@ -2,6 +2,7 @@ import {
   Box,
   Typography,
   TextField,
+  MenuItem,
   Checkbox,
   FormControlLabel,
   Button,
@@ -12,7 +13,7 @@ import {
 } from '@mui/material'
 import React, { useState } from 'react'
 import type { ChangeEvent, FocusEvent } from 'react'
-import type { ErrorsInterface, SignUpInterface } from '../types/auth.types'
+import type { ErrorsInterface, SignUpInterface, NotificationInterfacce } from '../types/auth.types'
 import { validateField } from '../../utils/validators'
 import { Link as RouterLink } from 'react-router-dom'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
@@ -20,8 +21,16 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined'
 import AuthHeroPanel from '../components/AuthHeroPanel'
 import styles from '../../styles/authStyle/SignupAndSignin.module.css'
+import { apiPost } from '../../api/userApi'
+import { AUTH_ENDPOINTS } from '../../api/endpoints'
+import Loader from '../../utils/Loader'
+import Notification from '../../utils/Notification'
+import Verify from './verify'
+
+const ROLE_OPTIONS = ['user', 'owner', 'admin', 'delivery_boy']
 
 const Signup = () => {
   const [formData, setFormData] = useState<SignUpInterface>({
@@ -42,6 +51,13 @@ const Signup = () => {
     role: '',
   })
 
+  const [verify, setVerify] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [notification, setNotification] = useState<NotificationInterfacce>({
+    open: false,
+    message: '',
+    severity: 'success',
+  })
 
   const handleOnBlur = (e: FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -51,9 +67,56 @@ const Signup = () => {
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
-    setError((prev) => ({ ...prev, [name]: prev[name as keyof ErrorsInterface] ? validateField(name, value) : '' }))
+    setError((prev) => ({
+      ...prev,
+      [name]: prev[name as keyof ErrorsInterface] ? validateField(name, value) : '',
+    }))
   }
-  
+
+  const handleSignup = async (e: React.SyntheticEvent) => {
+    e.preventDefault()
+
+    const newErrors: ErrorsInterface = {
+      firstName: validateField('firstName', formData.firstName),
+      lastName: validateField('lastName', formData.lastName),
+      email: validateField('email', formData.email),
+      password: validateField('password', formData.password),
+      mobile: validateField('mobile', formData.mobile),
+    }
+    setError(newErrors)
+    if (Object.values(newErrors).some(Boolean)) return
+
+    const payload = {
+      fullName: `${formData.firstName} ${formData.lastName}`.trim(),
+      email: formData.email,
+      password: formData.password,
+      mobile: formData.mobile,
+      role: formData.role || 'user',
+    }
+
+    setLoading(true)
+    try {
+      const response = await apiPost<{ message: string; userId: string }>(
+        AUTH_ENDPOINTS.SIGNUP,
+        payload
+      )
+      setVerify(true)
+      setNotification({
+        open: true,
+        message: response?.message || 'Please varify the otp',
+        severity: 'success',
+      })
+    } catch (err) {
+      setNotification({
+        open: true,
+        message: err instanceof Error ? err.message : 'Something went wrong',
+        severity: 'error',
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <Box className={styles.authPage}>
       <AuthHeroPanel
@@ -66,7 +129,7 @@ const Signup = () => {
       />
 
       <Box className={styles.formPanel}>
-        <Box className={styles.formCard}>
+        <Box component="form" className={styles.formCard} onSubmit={handleSignup} noValidate>
           <Box className={styles.titleAccent} />
           <Typography variant="h4" className={styles.title}>
             Create Account
@@ -140,6 +203,38 @@ const Signup = () => {
           />
 
           <TextField
+            select
+            label="Register As"
+            variant="outlined"
+            fullWidth
+            className={styles.textField}
+            name="role"
+            value={formData.role}
+            onBlur={handleOnBlur}
+            onChange={handleOnChange}
+            error={Boolean(error?.role)}
+            helperText={error.role}
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <BadgeOutlinedIcon className={styles.inputIcon} />
+                  </InputAdornment>
+                ),
+              },
+            }}
+          >
+            {ROLE_OPTIONS.map((role) => (
+              <MenuItem key={role} value={role}>
+                {role
+                  .split('_')
+                  .map((word) => word[0].toUpperCase() + word.slice(1))
+                  .join(' ')}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <TextField
             label="Email Address"
             placeholder="email address"
             type="email"
@@ -203,7 +298,7 @@ const Signup = () => {
             }
           />
 
-          <Button fullWidth variant="contained" className={styles.primaryButton} type='submit'>
+          <Button fullWidth variant="contained" className={styles.primaryButton} type="submit">
             Create Account
           </Button>
 
@@ -217,6 +312,21 @@ const Signup = () => {
           </Typography>
         </Box>
       </Box>
+      {verify && <Verify onClose={() => setVerify(false)} email={formData.email} />}
+      {loading && <Loader />}
+      {notification && (
+        <Notification
+          open={notification.open}
+          message={notification.message}
+          severity={notification.severity}
+          onClose={() =>
+            setNotification((prev) => ({
+              ...prev,
+              open: false,
+            }))
+          }
+        />
+      )}
     </Box>
   )
 }

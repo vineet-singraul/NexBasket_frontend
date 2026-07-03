@@ -1,0 +1,258 @@
+/* ===== NexBasket OTP Verification — Yellow / Grey / Black theme ===== */
+
+.otpBackdrop {
+  --auth-yellow: #ffc72c;
+  --auth-yellow-dark: #e0a800;
+  --auth-black: #0d0d0d;
+  --auth-grey-900: #121212;
+  --auth-grey-800: #1c1c1c;
+  --auth-grey-700: #2a2a2a;
+  --auth-grey-500: #4d4d4d;
+  --auth-grey-400: #9e9e9e;
+  --auth-grey-200: #ececec;
+  --auth-white: #f5f5f5;
+
+  position: relative;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Roboto', 'Segoe UI', sans-serif;
+  box-sizing: border-box;
+  background-image: url('/auth/background_Singin_Singup.png') !important;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow-y: auto;
+}
+
+.otpBackdrop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(13, 13, 13, 0.7) 0%,
+    rgba(13, 13, 13, 0.45) 45%,
+    rgba(13, 13, 13, 0.85) 100%
+  );
+}
+
+.otpCard {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  margin: 32px 20px;
+  background: #00000066;
+  border-radius: 28px;
+  padding: 56px 24px 36px;
+  text-align: center;
+  box-shadow: 0 25px 50px rgba(13, 13, 13, 0.45);
+}
+
+.backButton {
+  position: absolute !important;
+  z-index: 2;
+  top: 20px;
+  left: 20px;
+  background-color: var(--auth-grey-200) !important;
+  color: var(--auth-black) !important;
+  width: 40px;
+  height: 40px;
+}
+
+.mascotWrap {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 45%, #ffe6a8 0%, #ffd873 55%, #fff2d1 78%, rgba(255, 242, 209, 0) 100%);
+}
+
+.mascotIcon {
+  font-size: 68px !important;
+  color: var(--auth-black);
+}
+
+.boltIcon {
+  position: absolute !important;
+  color: var(--auth-yellow-dark);
+  font-size: 22px !important;
+}
+
+.boltIconTop {
+  top: 6px;
+  right: 18px;
+  transform: rotate(15deg);
+}
+
+.boltIconBottom {
+  bottom: 14px;
+  left: 6px;
+  transform: rotate(-10deg);
+}
+
+.title {
+  font-weight: 700 !important;
+  color: rgba(168, 206, 0, 0.792) !important;
+  margin-bottom: 10px !important;
+}
+
+.subtitle {
+  color: rgb(255, 255, 255) !important;
+  font-size: 14px !important;
+  line-height: 1.5;
+  margin: 0 auto 4px !important;
+  max-width: 260px;
+}
+
+.phoneNumber {
+  font-weight: 700 !important;
+  color: var(--auth-black);
+  margin-bottom: 28px !important;
+}
+
+.otpRow {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.otpInput :global(.MuiOutlinedInput-root) {
+  width: 48px;
+  height: 52px;
+  border-radius: 16px;
+  background-color: #000000;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.otpInput :global(.MuiOutlinedInput-input) {
+  padding: 0;
+  height: 52px;
+  width: 48px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--auth-black);
+  caret-color: var(--auth-yellow-dark);
+}
+
+.otpInput :global(.MuiOutlinedInput-notchedOutline) {
+  border-color: var(--auth-grey-400);
+  border-width: 2px;
+  transition: border-color 0.15s ease;
+}
+
+.otpInput :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
+  border-color: var(--auth-yellow-dark);
+}
+
+.otpInput :global(.MuiOutlinedInput-root.Mui-focused) {
+  transform: translateY(-3px) scale(1.06);
+  box-shadow: 0 8px 16px rgba(255, 199, 44, 0.35);
+}
+
+.otpInput :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
+  border-color: var(--auth-yellow-dark);
+  border-width: 2px;
+}
+
+.otpInputFilled :global(.MuiOutlinedInput-root) {
+  background-color: #fff6e0;
+}
+
+.otpInputFilled :global(.MuiOutlinedInput-notchedOutline) {
+  border-color: var(--auth-yellow);
+}
+
+.otpInputError :global(.MuiOutlinedInput-notchedOutline) {
+  border-color: #d32f2f !important;
+}
+
+.errorText {
+  color: #d32f2f !important;
+  font-size: 13px !important;
+  margin: -12px 0 16px !important;
+}
+
+.timer {
+  color: var(--auth-grey-500);
+  font-size: 13px !important;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px !important;
+}
+
+.resendRow {
+  color: var(--auth-grey-500);
+  font-size: 13px !important;
+  margin-bottom: 28px !important;
+}
+
+.resendLink {
+  color: var(--auth-yellow-dark) !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+.resendLinkDisabled {
+  color: var(--auth-grey-400) !important;
+  cursor: default;
+  pointer-events: none;
+}
+
+.submitButton {
+  width: 160px !important;
+  margin: 0 auto !important;
+  background-color: var(--auth-yellow) !important;
+  color: var(--auth-black) !important;
+  border-radius: 30px !important;
+  padding: 12px !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  text-transform: none !important;
+  box-shadow: 0 12px 24px rgba(255, 199, 44, 0.4) !important;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease !important;
+}
+
+.submitButton:hover {
+  background-color: var(--auth-yellow-dark) !important;
+  transform: translateY(-1px);
+}
+
+.submitButton:disabled {
+  background-color: var(--auth-grey-200) !important;
+  color: var(--auth-grey-400) !important;
+  box-shadow: none !important;
+}
+
+.submitSpinner {
+  color: var(--auth-black) !important;
+}
+
+@media (max-width: 480px) {
+  .otpCard {
+    padding: 48px 16px 28px;
+    border-radius: 20px;
+  }
+
+  .otpInput :global(.MuiOutlinedInput-root),
+  .otpInput :global(.MuiOutlinedInput-input) {
+    width: 40px;
+    height: 46px;
+  }
+
+  .otpRow {
+    gap: 8px;
+  }
+}
