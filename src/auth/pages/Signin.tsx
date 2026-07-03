@@ -10,14 +10,40 @@ import {
   InputAdornment,
   IconButton,
 } from '@mui/material'
+import { useState } from 'react'
+import type { ChangeEvent, FocusEvent } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import AuthHeroPanel from '../components/AuthHeroPanel'
+import type { SignInErrorsInterface, SignInInterface } from '../types/auth.types'
+import { validateField } from '../../utils/validators'
 import styles from '../../styles/authStyle/SignupAndSignin.module.css'
 
 const Signin = () => {
+  const [formData, setFormData] = useState<SignInInterface>({
+    identifier: '',
+    password: '',
+  })     
+  
+
+  const [error, setError] = useState<SignInErrorsInterface>({
+    identifier: '',
+    password: '',
+  })
+
+  const handleOnBlur = (e: FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setError((prev) => ({ ...prev, [name]: validateField(name, value) }))
+  }
+
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+    setError((prev) => ({ ...prev, [name]: prev[name as keyof SignInErrorsInterface] ? validateField(name, value) : '' }))
+  }
+
   return (
     <Box className={styles.authPage}>
       <AuthHeroPanel
@@ -43,6 +69,11 @@ const Signin = () => {
             variant="outlined"
             fullWidth
             className={styles.textField}
+            name="identifier"
+            onBlur={handleOnBlur}
+            onChange={handleOnChange}
+            error={Boolean(error?.identifier)}
+            helperText={error.identifier}
             slotProps={{
               input: {
                 startAdornment: (
@@ -61,6 +92,11 @@ const Signin = () => {
             variant="outlined"
             fullWidth
             className={styles.textField}
+            name="password"
+            onBlur={handleOnBlur}
+            onChange={handleOnChange}
+            error={Boolean(error?.password)}
+            helperText={error.password}
             slotProps={{
               input: {
                 startAdornment: (

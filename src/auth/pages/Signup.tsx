@@ -10,6 +10,10 @@ import {
   InputAdornment,
   IconButton,
 } from '@mui/material'
+import React, { useState } from 'react'
+import type { ChangeEvent, FocusEvent } from 'react'
+import type { ErrorsInterface, SignUpInterface } from '../types/auth.types'
+import { validateField } from '../../utils/validators'
 import { Link as RouterLink } from 'react-router-dom'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
@@ -20,6 +24,36 @@ import AuthHeroPanel from '../components/AuthHeroPanel'
 import styles from '../../styles/authStyle/SignupAndSignin.module.css'
 
 const Signup = () => {
+  const [formData, setFormData] = useState<SignUpInterface>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    mobile: '',
+    role: '',
+  })
+
+  const [error, setError] = useState<ErrorsInterface>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    mobile: '',
+    role: '',
+  })
+
+
+  const handleOnBlur = (e: FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setError((prev) => ({ ...prev, [name]: validateField(name, value) }))
+  }
+
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+    setError((prev) => ({ ...prev, [name]: prev[name as keyof ErrorsInterface] ? validateField(name, value) : '' }))
+  }
+  
   return (
     <Box className={styles.authPage}>
       <AuthHeroPanel
@@ -45,6 +79,11 @@ const Signup = () => {
               variant="outlined"
               fullWidth
               className={styles.textField}
+              name="firstName"
+              onBlur={handleOnBlur}
+              onChange={handleOnChange}
+              error={Boolean(error?.firstName)}
+              helperText={error.firstName}
               slotProps={{
                 input: {
                   startAdornment: (
@@ -61,6 +100,11 @@ const Signup = () => {
               variant="outlined"
               fullWidth
               className={styles.textField}
+              name="lastName"
+              onBlur={handleOnBlur}
+              onChange={handleOnChange}
+              error={Boolean(error?.lastName)}
+              helperText={error.lastName}
               slotProps={{
                 input: {
                   startAdornment: (
@@ -79,6 +123,11 @@ const Signup = () => {
             variant="outlined"
             fullWidth
             className={styles.textField}
+            name="mobile"
+            onBlur={handleOnBlur}
+            onChange={handleOnChange}
+            error={Boolean(error?.mobile)}
+            helperText={error.mobile}
             slotProps={{
               input: {
                 startAdornment: (
@@ -97,6 +146,11 @@ const Signup = () => {
             variant="outlined"
             fullWidth
             className={styles.textField}
+            name="email"
+            onBlur={handleOnBlur}
+            onChange={handleOnChange}
+            error={Boolean(error?.email)}
+            helperText={error.email}
             slotProps={{
               input: {
                 startAdornment: (
@@ -115,6 +169,11 @@ const Signup = () => {
             variant="outlined"
             fullWidth
             className={styles.textField}
+            name="password"
+            onBlur={handleOnBlur}
+            onChange={handleOnChange}
+            error={Boolean(error?.password)}
+            helperText={error.password}
             slotProps={{
               input: {
                 startAdornment: (
@@ -144,7 +203,7 @@ const Signup = () => {
             }
           />
 
-          <Button fullWidth variant="contained" className={styles.primaryButton}>
+          <Button fullWidth variant="contained" className={styles.primaryButton} type='submit'>
             Create Account
           </Button>
 
