@@ -2,10 +2,12 @@ const AUTH_STORAGE_KEY = "nexbasket_auth";
 
 const SESSION_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 const REMEMBER_ME_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
+export const TOKEN_TTL_MS = 60 * 1000; // matches backend access-token lifetime
 
 export interface StoredAuthSession<TUser = unknown> {
   user: TUser;
   expiresAt: number;
+  tokenExpiresAt: number;
 }
 
 export const saveAuthSession = <TUser>(user: TUser, rememberMe = false): void => {
@@ -13,6 +15,7 @@ export const saveAuthSession = <TUser>(user: TUser, rememberMe = false): void =>
   const session: StoredAuthSession<TUser> = {
     user,
     expiresAt: Date.now() + ttl,
+    tokenExpiresAt: Date.now() + TOKEN_TTL_MS,
   };
   localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(session));
 };

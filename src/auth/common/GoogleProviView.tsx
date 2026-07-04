@@ -17,7 +17,7 @@ const GoogleProviView = () => {
 
   const handleContinue = useCallback(() => {
     if (!currentUser) return
-    saveAuthSession({
+    saveAuthSession({   
       fullName: currentUser.displayName ?? undefined,
       email: currentUser.email ?? undefined,
     })

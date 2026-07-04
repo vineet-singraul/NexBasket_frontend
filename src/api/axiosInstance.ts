@@ -1,5 +1,5 @@
 import axios from "axios";
-import { clearAuthSession } from "../utils/authStorage";
+import { clearAuthSession, getAuthSession } from "../utils/authStorage";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
@@ -15,7 +15,12 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error?.response?.status === 401) {
+      const hadSession = getAuthSession() !== null;
       clearAuthSession();
+
+      if (hadSession && window.location.pathname !== "/signin") {
+        window.location.href = "/signin";
+      }
     }
 
     const message =
