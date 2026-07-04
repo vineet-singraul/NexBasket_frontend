@@ -30,8 +30,9 @@ import type {NotificationInterfacce} from '../../../auth/types/auth.types'
 import Loader from "../../../utils/Loader";
 import Notification from "../../../utils/Notification";
 import { clearAuthSession } from "../../../utils/authStorage";
+import PasswordIcon from '@mui/icons-material/Password';
 
-const buildMenuItems = (handleSingout: () => void) => [
+const buildMenuItems = (handleSingout: () => void, moveToChnagePasswordPage: () => void) => [
   {
     icon: <PersonOutlineOutlinedIcon fontSize="small" />,
     text: "My Profile",
@@ -96,10 +97,10 @@ const buildMenuItems = (handleSingout: () => void) => [
     }
   },
   {
-    icon: <CampaignOutlinedIcon fontSize="small" />,
-    text: "Advertise",
+    icon: <PasswordIcon fontSize="small" />,
+    text: "Chnage Password",
     onClick: ()=>{
-        console.log("hiii")
+        moveToChnagePasswordPage()
     }
   },
   {
@@ -146,7 +147,12 @@ const ProfilePopUp = ({ userDetails, setShowProfile }:ProfilePopUpProps) => {
         }
     }
 
-    const menuItems = buildMenuItems(handleSingout)
+    const moveToChnagePasswordPage = () => {
+        setShowProfile(false)
+        navigate('/change-password')
+    }
+
+    const menuItems = buildMenuItems(handleSingout, moveToChnagePasswordPage)
 
   return (
     <Paper elevation={6} className={styles.profilePopup}>

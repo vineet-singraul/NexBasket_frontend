@@ -5,6 +5,7 @@ import GoogleProviView from './auth/common/GoogleProviView'
 import SessionExpiryWatcher from './auth/common/SessionExpiryWatcher'
 import UserHome from './features/user/pages/UserHome'
 import useGetCity from "./hooks/useGetCity"
+import ChnagePassword from './features/user/components/ChnagePassword'
 function App() {
     useGetCity()
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/google-continue" element={<GoogleProviView />} />
+        <Route path='/change-password' element={<ChnagePassword/>}/>
       </Routes>
     </>
   )

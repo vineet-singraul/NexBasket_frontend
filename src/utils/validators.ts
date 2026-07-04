@@ -35,6 +35,14 @@ export const validateField = (name: string, value: string): string => {
         return 'Enter a valid email or 10-digit mobile number'
       return ''
 
+    case 'oldPassword':
+    case 'newPassword':
+    case 'confirmPassword':
+      if (!trimmed) return 'Password is required'
+      if (!PASSWORD_REGEX.test(trimmed))
+        return 'Password must be 8+ characters with uppercase, lowercase, number and special character'
+      return ''
+
     default:
       return ''
   }
