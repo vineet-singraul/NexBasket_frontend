@@ -334,6 +334,23 @@
   text-decoration: underline !important;
 }
 
+.googleButton {
+  border-color: var(--auth-grey-700) !important;
+  color: var(--auth-white) !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  font-size: 0.8rem !important;
+  padding: 8px !important;
+  border-radius: 8px !important;
+  gap: 8px;
+  margin-top: 4px !important;
+}
+
+.googleButton:hover {
+  border-color: var(--auth-grey-400) !important;
+  background-color: var(--auth-grey-900) !important;
+}
+
 /* ---------- Divider ---------- */
 .divider {
   margin: 18px 0 !important;

@@ -15,13 +15,16 @@ import React, { useState } from 'react'
 import type { ChangeEvent, FocusEvent } from 'react'
 import type { ErrorsInterface, SignUpInterface, NotificationInterfacce } from '../types/auth.types'
 import { validateField } from '../../utils/validators'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined'
+import GoogleIcon from '@mui/icons-material/Google'
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { auth } from '../../utils/firebase'
 import AuthHeroPanel from '../components/AuthHeroPanel'
 import styles from '../../styles/authStyle/SignupAndSignin.module.css'
 import { apiPost } from '../../api/userApi'
@@ -33,6 +36,7 @@ import Verify from './verify'
 const ROLE_OPTIONS = ['user', 'owner', 'admin', 'delivery_boy']
 
 const Signup = () => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState<SignUpInterface>({
     firstName: '',
     lastName: '',
@@ -110,6 +114,22 @@ const Signup = () => {
       setNotification({
         open: true,
         message: err instanceof Error ? err.message : 'Something went wrong',
+        severity: 'error',
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleGoogleSignup = async () => {
+    setLoading(true)
+    try {
+      await signInWithPopup(auth, new GoogleAuthProvider())
+      navigate('/google-continue')
+    } catch (error) {
+      setNotification({
+        open: true,
+        message: error instanceof Error ? error.message : 'Google sign-up failed',
         severity: 'error',
       })
     } finally {
@@ -303,6 +323,16 @@ const Signup = () => {
           </Button>
 
           <Divider className={styles.divider}>OR</Divider>
+
+          <Button
+            fullWidth
+            variant="outlined"
+            className={styles.googleButton}
+            startIcon={<GoogleIcon />}
+            onClick={handleGoogleSignup}
+          >
+            Sign up with Google
+          </Button>
 
           <Typography className={styles.loginPrompt}>
             Already have an account?

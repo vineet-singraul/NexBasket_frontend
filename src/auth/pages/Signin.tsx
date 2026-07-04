@@ -16,6 +16,9 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import GoogleIcon from '@mui/icons-material/Google'
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { auth } from '../../utils/firebase'
 import AuthHeroPanel from '../components/AuthHeroPanel'
 import type { SignInErrorsInterface, SignInInterface, SignInResponse } from '../types/auth.types'
 import { validateField } from '../../utils/validators'
@@ -94,6 +97,22 @@ const Signin = () => {
       })
     }
     finally {
+      setLoading(false);
+    }
+  }
+
+  const handleGoogleSignin = async () => {
+    setLoading(true);
+    try {
+      await signInWithPopup(auth, new GoogleAuthProvider())
+      navigate('/google-continue')
+    } catch (error) {
+      setNotification({
+        open: true,
+        message: error instanceof Error ? error.message : 'Google sign-in failed',
+        severity: 'error',
+      })
+    } finally {
       setLoading(false);
     }
   }
@@ -189,6 +208,16 @@ const Signin = () => {
           </Button>
 
           <Divider className={styles.divider}>OR</Divider>
+
+          <Button
+            fullWidth
+            variant="outlined"
+            className={styles.googleButton}
+            startIcon={<GoogleIcon />}
+            onClick={handleGoogleSignin}
+          >
+            Sign in with Google
+          </Button>
 
           <Typography className={styles.loginPrompt}>
             Don't have an account?
