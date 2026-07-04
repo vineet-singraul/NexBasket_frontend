@@ -17,7 +17,7 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import AuthHeroPanel from '../components/AuthHeroPanel'
-import type { SignInErrorsInterface, SignInInterface } from '../types/auth.types'
+import type { SignInErrorsInterface, SignInInterface, SignInResponse } from '../types/auth.types'
 import { validateField } from '../../utils/validators'
 import styles from '../../styles/authStyle/SignupAndSignin.module.css'
 import type {NotificationInterfacce} from '../types/auth.types'
@@ -25,6 +25,7 @@ import Loader from '../../utils/Loader'
 import Notification from '../../utils/Notification'
 import { apiPost } from '../../api/userApi'
 import { AUTH_ENDPOINTS } from '../../api/endpoints'
+import { saveAuthSession } from '../../utils/authStorage'
 
 const Signin = () => {
   const navigate = useNavigate()
@@ -39,6 +40,7 @@ const Signin = () => {
     password: '',
   })
 
+  const [rememberMe, setRememberMe] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false);
   const [notification, setNotification] = useState<NotificationInterfacce>({
     open:false,
@@ -74,13 +76,16 @@ const Signin = () => {
 
     setLoading(true);
     try {
-      const response = await apiPost<{ message: string }>(AUTH_ENDPOINTS.SIGNIN, payload)
+      const response = await apiPost<SignInResponse>(AUTH_ENDPOINTS.SIGNIN, payload)
+      const rawUser = response?.user ?? response ?? {}
+      const { password: _password, message: _message, ...userData } = rawUser
+      saveAuthSession(Object.keys(userData).length ? userData : { email: payload.email }, rememberMe)
       setNotification({
         open: true,
         message: response?.message || "User Signin successfully",
         severity: 'success',
       })
-      navigate('/home')
+      navigate('/')
     } catch (error) {
       setNotification({
         open: true,
@@ -168,7 +173,12 @@ const Signin = () => {
           <Box className={styles.rememberRow}>
             <FormControlLabel
               className={styles.rememberLabel}
-              control={<Checkbox />}
+              control={
+                <Checkbox
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
+              }
               label="Remember me"
             />
             <Link className={styles.forgotLink}>Forgot password?</Link>
@@ -182,7 +192,7 @@ const Signin = () => {
 
           <Typography className={styles.loginPrompt}>
             Don't have an account?
-            <Link component={RouterLink} to="/" className={styles.loginLink}>
+            <Link component={RouterLink} to="/signup" className={styles.loginLink}>
               Create one
             </Link>
           </Typography>

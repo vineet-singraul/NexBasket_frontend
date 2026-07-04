@@ -1,170 +1,235 @@
 /* ===== NexBasket Home Header — Primary + Secondary Navbar ===== */
+/* ============================================================
+   PRIMARY NAVBAR — ULTIMATE EFFECTIVE VERSION
+   Colors: #0A192A (bg), #FCCF8F (gold), White
+   ============================================================ */
 
 .header {
-  --nb-primary-bg: #0a1a2b;
+  --nb-primary-bg: #0A192A;
   --nb-secondary-bg: #232f3e;
-  --nb-yellow: #febd69;
-  --nb-orange: #eb8505;
+  --nb-gold: #FCCF8F;
+  --nb-gold-hover: #fad282;
   --nb-white: #ffffff;
+  --nb-text-muted: rgba(255, 255, 255, 0.65);
 
   position: sticky;
   top: 0;
   z-index: 100;
-  font-family: 'Roboto', 'Segoe UI', sans-serif;
+  font-family: 'Inter', 'Roboto', 'Segoe UI', sans-serif;
 }
 
-/* ---------- Primary navbar ---------- */
+/* ---------- Primary navbar container ---------- */
 .primaryNav {
   display: flex;
   align-items: center;
-  gap: 18px;
-  background-color: var(--nb-primary-bg);
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--nb-primary-bg);
   color: var(--nb-white);
-  padding: 8px 18px;
-  min-height: 56px;
+  padding: 8px 20px;
+  min-height: 40px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  flex-wrap: nowrap;
 }
 
+/* ---------- Nav blocks (location, sign in, cart) ---------- */
 .navBlock {
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 2px;
-  padding: 6px 8px;
-  border: 1px solid transparent;
-  border-radius: 3px;
+  padding: 6px 10px;
+  border-radius: 8px;
   cursor: pointer;
   text-decoration: none;
   color: inherit;
+  transition: background 0.15s ease, transform 0.15s ease;
+  position: relative;
+  white-space: nowrap;
 }
 
 .navBlock:hover {
-  border-color: var(--nb-white);
+  background: rgba(255, 255, 255, 0.07);
+  transform: translateY(-1px);
 }
 
-/* Logo */
+.navBlock:active {
+  transform: scale(0.96);
+}
+
+
+/* ---------- Logo ---------- */
 .logoLink {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  padding: 6px 8px;
-  border: 1px solid transparent;
-  border-radius: 3px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+  text-decoration: none;
 }
 
-.logoLink:hover {
-  border-color: var(--nb-white);
+/* Logo text styling (matches your JSX classes) */
+.SLogoName {
+  display: inline-flex;
+  align-items: baseline;
+  margin: 0;
+  font-size: 21px !important;
+  font-weight: 800;
+  font-style: normal;
+  letter-spacing: -0.3px;
+  color: var(--nb-gold) !important;
+  text-shadow: 0 1px 8px rgba(252, 207, 143, 0.35);
 }
 
-.logo {
-  height: 34px;
-  width: auto;
+.fLogoName {
+  font-size: 21px !important;
+  font-weight: 800;
+  color: #ffffff !important;
+  letter-spacing: -0.3px;
 }
 
-/* Delivery location */
+
 .deliveryRow {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .locationIcon {
-  font-size: 18px !important;
-  color: var(--nb-white);
+  font-size: 16px !important;
+  color: var(--nb-gold);
   margin-top: 2px;
 }
 
 .smallLabel {
-  font-size: 12px;
-  color: #cccccc;
+  font-size: 15px !important; 
+  color: var(--nb-text-muted);
   line-height: 1.2;
+  letter-spacing: 0.02em;
 }
 
 .boldLabel {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 600;
   color: var(--nb-white);
   line-height: 1.2;
+  letter-spacing: 0.01em;
 }
 
-/* Search bar */
+/* ---------- Search bar ---------- */
 .searchBar {
   flex: 1 1 auto;
   display: flex;
   align-items: stretch;
-  height: 40px;
+  height: 42px;
   max-width: 760px;
-  border-radius: 4px;
+  min-width: 160px;
+  border-radius: 30px;            /* fully pill-shaped */
   overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.searchBar:focus-within {
+  box-shadow: 0 0 0 3px rgba(252, 207, 143, 0.5), 0 4px 16px rgba(0, 0, 0, 0.3);
+  transform: scale(1.01);
 }
 
 .searchScope {
   display: flex;
   align-items: center;
   gap: 4px;
-  background-color: #f3f3f3;
+  background: #f0f2f5;
   color: #111111;
-  font-size: 12px;
-  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 0 14px 0 18px;
   cursor: pointer;
   white-space: nowrap;
+  border: none;
+  transition: background 0.15s ease;
+}
+
+.searchScope:hover {
+  background: #e4e6ea;
 }
 
 .searchScope .caret {
-  font-size: 16px !important;
+  font-size: 15px !important;
+  color: #555;
 }
 
 .searchInput {
   flex: 1;
   border: none;
   outline: none;
-  padding: 0 10px;
-  font-size: 14px;
+  padding: 0 16px;
+  font-size: 13px;
   color: #111111;
+  background: transparent;
+  min-width: 80px;
 }
 
 .searchInput::placeholder {
-  color: #6b6b6b;
+  color: #8a8a8a;
+  font-weight: 300;
 }
 
 .searchButton {
-  width: 45px;
+  width: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--nb-yellow);
+  background: var(--nb-gold);
   border: none;
   cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.searchButton:hover {
+  background: var(--nb-gold-hover);
+}
+
+.searchButton:active {
+  transform: scale(0.92);
 }
 
 .searchButton .searchIcon {
-  color: var(--nb-primary-bg) !important;
-  font-size: 22px !important;
+  font-size: 18px !important;
+  color: var(--nb-primary-bg);
 }
 
-/* Language selector */
+/* ---------- Language selector (if you keep it) ---------- */
 .langRow {
   display: flex;
   align-items: center;
   gap: 4px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .flag {
-  font-size: 18px;
+  font-size: 17px;
   line-height: 1;
 }
 
 .caret {
-  font-size: 16px !important;
+  font-size: 15px !important;
   color: var(--nb-white);
 }
 
-/* Cart */
+/* ---------- Cart ---------- */
 .cartLink {
   display: flex;
   align-items: flex-end;
-  gap: 4px;
+  gap: 6px;
+  text-decoration: none;
+  color: inherit;
+  padding: 4px 0;
 }
 
 .cartIconWrap {
@@ -172,42 +237,222 @@
 }
 
 .cartIcon {
-  font-size: 30px !important;
+  font-size: 24px !important;
   color: var(--nb-white);
+  transition: transform 0.2s ease;
+}
+
+.cartLink:hover .cartIcon {
+  transform: scale(1.05) rotate(-3deg);
 }
 
 .cartBadge {
   position: absolute;
   top: -6px;
-  left: 14px;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 3px;
+  left: 16px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
   border-radius: 50%;
-  background-color: var(--nb-orange);
+  background: var(--nb-gold);
   color: var(--nb-primary-bg);
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 2px 8px rgba(252, 207, 143, 0.5);
+  transition: transform 0.2s ease;
+}
+
+.cartLink:hover .cartBadge {
+  transform: scale(1.1);
 }
 
 .cartText {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
+/* ============================================================
+   RESPONSIVE — SHRINKS GRACEFULLY
+   ============================================================ */
+
+/* --- Tablets & small laptops (≤ 1024px) --- */
+@media (max-width: 1024px) {
+  .primaryNav {
+    gap: 12px;
+    padding: 6px 14px;
+    min-height: 52px;
+  }
+
+  .navBlock {
+    padding: 4px 6px;
+  }
+
+  .logoLink .SLogoName {
+    font-size: 13px !important;
+  }
+  .logoLink .fLogoName {
+    font-size: 13px !important;
+  }
+
+  .boldLabel {
+    font-size: 11px;
+  }
+
+  .searchBar {
+    height: 38px;
+    max-width: 500px;
+  }
+}
+
+/* --- Mobile landscape (≤ 768px) --- */
+@media (max-width: 768px) {
+  .primaryNav {
+    gap: 8px;
+    padding: 4px 10px;
+    min-height: 44px;
+  }
+
+  /* Hide non‑essential nav blocks on small screens */
+  .navBlock:not(:first-child):not(:last-child) {
+    display: none;
+  }
+
+  .logoLink .SLogoName {
+    font-size: 11px !important;
+  }
+  .logoLink .fLogoName {
+    font-size: 10px !important;
+  }
+
+  .deliveryRow .smallLabel {
+    font-size: 8px;
+  }
+  .deliveryRow .boldLabel {
+    font-size: 9px;
+  }
+
+  .searchBar {
+    height: 34px;
+    min-width: 100px;
+    border-radius: 20px;
+  }
+
+  .searchScope {
+    font-size: 9px;
+    padding: 0 10px;
+  }
+  .searchScope .caret {
+    font-size: 12px !important;
+  }
+  .searchInput {
+    font-size: 11px;
+    padding: 0 10px;
+  }
+  .searchButton {
+    width: 40px;
+  }
+  .searchButton .searchIcon {
+    font-size: 15px !important;
+  }
+
+  .cartIcon {
+    font-size: 20px !important;
+  }
+  .cartBadge {
+    min-width: 14px;
+    height: 14px;
+    font-size: 8px;
+    left: 12px;
+    top: -4px;
+  }
+  .cartText {
+    font-size: 10px;
+  }
+
+  /* Hide language selector if present */
+  .langRow {
+    display: none;
+  }
+}
+
+/* --- Extra small (≤ 480px) --- */
+@media (max-width: 480px) {
+  .primaryNav {
+    gap: 6px;
+    padding: 4px 6px;
+  }
+
+  .logoLink .SLogoName {
+    font-size: 10px !important;
+  }
+  .logoLink .fLogoName {
+    font-size: 9px !important;
+  }
+
+  .deliveryRow .smallLabel {
+    display: none;
+  }
+  .deliveryRow .boldLabel {
+    font-size: 9px;
+  }
+
+  .searchBar {
+    height: 30px;
+    border-radius: 16px;
+    min-width: 70px;
+  }
+  .searchScope {
+    font-size: 9px;
+    padding: 0 6px;
+  }
+  .searchScope .caret {
+    font-size: 11px !important;
+  }
+  .searchInput {
+    font-size: 10px;
+    padding: 0 6px;
+    min-width: 40px;
+  }
+  .searchButton {
+    width: 32px;
+  }
+  .searchButton .searchIcon {
+    font-size: 13px !important;
+  }
+
+  .cartIcon {
+    font-size: 18px !important;
+  }
+  .cartBadge {
+    min-width: 13px;
+    height: 13px;
+    font-size: 7px;
+    left: 10px;
+    top: -3px;
+  }
+  .cartText {
+    font-size: 9px;
+  }
+}
 /* ---------- Secondary navbar ---------- */
+
 .secondaryNav {
   display: flex;
-  align-items: stretch;
-  gap: 2px;
-  background-color: var(--nb-secondary-bg);
-  padding: 0 12px;
+  align-items: center;
+  gap: 8px;
+  background: #001226;                /* dark navy */
+  padding: 8px 16px;
   overflow-x: auto;
+  overflow-y: hidden;
   scrollbar-width: none;
   z-index: 1000000 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  height: 40px !important;
 }
 
 .secondaryNav::-webkit-scrollbar {
@@ -215,65 +460,170 @@
 }
 
 .navItem {
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: row !important;
   align-items: center;
-  gap: 4px;
-  padding: 8px 12px 0;
+  gap: 6px;
+  padding: 4px 12px 4px 10px;
+  border-radius: 30px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   cursor: pointer;
-  border-bottom: 3px solid transparent;
   flex-shrink: 0;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  backdrop-filter: blur(4px);
 }
 
-.navItem:hover .iconBox {
-  background-color: rgba(255, 255, 255, 0.08);
+.navItem:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .navItem.active {
-  border-bottom-color: var(--nb-orange);
+  background: #FCCF8F;         
+  border-color: #FCCF8F;
+  color: #0A192A;            
+  box-shadow: 0 4px 16px rgba(252, 207, 143, 0.35);
+  transform: translateY(-1px);
+}
+
+.navItem.active:hover {
+  background: #fad282;
+  box-shadow: 0 6px 24px rgba(252, 207, 143, 0.5);
 }
 
 .iconBox {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  transition: background-color 0.15s ease;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .navItem.active .iconBox {
-  background-color: var(--nb-yellow);
+  background: rgba(10, 25, 42, 0.10);
+}
+
+.navItem:hover .iconBox {
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .navIcon {
-  font-size: 20px !important;
-  color: var(--nb-yellow);
+  font-size: 15px !important;
+  color: inherit;
+  transition: all 0.2s ease;
 }
 
 .navItem.active .navIcon {
-  color: var(--nb-primary-bg) !important;
+  color: #0A192A;
 }
 
 .navLabel {
-  font-size: 12px;
-  color: var(--nb-white);
-  max-width: 70px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: inherit;
+  padding: 0;                     
+  max-width: none;                  
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-bottom: 8px;
+  overflow: visible;
+  text-overflow: clip;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  transition: color 0.2s ease;
+}
+
+.navItem::after {
+  display: none !important;
+}
+
+.secondaryNav::before,
+.secondaryNav::after {
+  content: '';
+  position: sticky;
+  top: 0;
+  width: 24px;
+  min-height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.secondaryNav::before {
+  left: 0;
+  background: linear-gradient(to right, #0A192A, transparent);
+}
+
+.secondaryNav::after {
+  right: 0;
+  background: linear-gradient(to left, #0A192A, transparent);
 }
 
 /* ---------- Responsive ---------- */
-@media (max-width: 900px) {
-  .smallLabel,
-  .boldLabel {
-    display: none;
+@media (max-width: 768px) {
+  .secondaryNav {
+    padding: 6px 12px;
+    gap: 6px;
+    height: 40px !important;
   }
 
-  .langRow span:not(.flag) {
-    display: none;
+  .navItem {
+    padding: 3px 10px 3px 8px;
+    gap: 5px;
+  }
+
+  .iconBox {
+    width: 17px;
+    height: 17px;
+  }
+
+  .navIcon {
+    font-size: 11px !important;
+  }
+
+  .navLabel {
+    font-size: 9px;
   }
 }
+
+@media (max-width: 480px) {
+  .secondaryNav {
+    padding: 4px 8px;
+    gap: 4px;
+  }
+
+  .navItem {
+    padding: 2px 8px 2px 6px;
+    gap: 3px;
+    border-radius: 20px;
+  }
+
+  .iconBox {
+    width: 15px;
+    height: 15px;
+  }
+
+  .navIcon {
+    font-size: 9px !important;
+  }
+
+  .navLabel {
+    font-size: 8px;
+  }
+
+  .secondaryNav::before,
+  .secondaryNav::after {
+    width: 12px;
+  }
+}
+
+

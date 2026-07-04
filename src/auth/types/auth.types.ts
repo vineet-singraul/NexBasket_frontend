@@ -34,3 +34,22 @@ export interface NotificationInterfacce {
   message: string
   severity: AlertColor
 }
+
+export interface SignInUser {
+  _id?: string
+  fullName?: string
+  email?: string
+  mobile?: string
+  role?: string
+  isVerified?: boolean
+  createdAt?: string
+  updatedAt?: string
+  password?: string
+  [key: string]: unknown
+}
+
+export interface SignInResponse {
+  message?: string
+  user?: SignInUser
+  [key: string]: unknown
+}

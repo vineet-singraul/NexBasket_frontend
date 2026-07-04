@@ -1,21 +1,41 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Box, InputBase, Typography, Tooltip, Divider } from '@mui/material'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import styles from '../../../styles/userStyle/Header.module.css'
+import { getAuthSession, clearAuthSession } from '../../../utils/authStorage'
+import { apiPost } from '../../../api/userApi'
+import { AUTH_ENDPOINTS } from '../../../api/endpoints'
 
 const PrimaryNavbar = () => {
+  const navigate = useNavigate()
+  const session = getAuthSession<{ email?: string; fullName?: string }>()
+  const displayName = session?.user?.fullName || session?.user?.email
+
+  const handleAccountClick = async () => {
+    if (!session) {
+      navigate('/signin')
+      return
+    }
+    try {
+      await apiPost(AUTH_ENDPOINTS.SIGNOUT)
+    } finally {
+      clearAuthSession()
+      navigate('/signin')
+    }
+  }
+
   return (
     <>
       {/* Desktop / tablet bar */}
       <Box className={styles.primaryNav} sx={{ display: { xs: 'none', sm: 'flex' } }}>
         <Link to="/" className={styles.logoLink}>
-          <img src="/com_loggo.png" alt="NexBasket" className={styles.logo} />
+          <p className={styles.SLogoName}><span className={styles.fLogoName}>Nex</span>Basket</p>
         </Link>
 
-        <div className={styles.navBlock}>
+        <div className={`${styles.navBlock} navBlock`}>
           <div className={styles.deliveryRow}>
             <LocationOnOutlinedIcon className={styles.locationIcon} />
             <div>
@@ -40,22 +60,23 @@ const PrimaryNavbar = () => {
           </button>
         </div>
 
-        <Link to="/signin" className={styles.navBlock}>
-          <div className={styles.smallLabel}>Hello, sign in</div>
+        <div className={styles.navBlock} onClick={handleAccountClick} style={{ cursor: 'pointer' }}>
+          <div className={styles.smallLabel}>
+            {displayName ? `Hello, ${displayName}` : 'Hello, sign in'}
+          </div>
           <div className={styles.boldLabel}>
-            Account & Lists
+            {session ? 'Sign out' : 'Account & Lists'}
             <KeyboardArrowDownOutlinedIcon className={styles.caret} />
           </div>
-        </Link>
+        </div>
 
 
-        <div className={styles.navBlock}>
+        <div  className={styles.navBlock}>
           <Link to="/cart" className={styles.cartLink}>
             <div className={styles.cartIconWrap}>
               <ShoppingCartOutlinedIcon className={styles.cartIcon} />
               <span className={styles.cartBadge}>0</span>
-            </div>
-            <span className={styles.cartText}>Cart</span>
+            </div> 
           </Link>
         </div>
       </Box>
