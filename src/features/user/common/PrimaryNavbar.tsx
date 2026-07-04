@@ -9,13 +9,18 @@ import { getAuthSession, clearAuthSession } from '../../../utils/authStorage'
 import { apiPost } from '../../../api/userApi'
 import { AUTH_ENDPOINTS } from '../../../api/endpoints'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import ProfilePopUp from '../components/ProfilePopUp'
+import type { RootState } from '../../../redux/store'
 
 const PrimaryNavbar = () => {
   const [showeProfile, setShowProfile] = useState<boolean>(false)
   const navigate = useNavigate()
   const session = getAuthSession<{ email?: string; fullName?: string }>()
   const displayName = session?.user?.fullName || session?.user?.email
+  const city = useSelector((state: RootState) => state.user.city?.city)
+  const pinCode = useSelector((state: RootState) => state.user.pinCode?.postcode)
+  const deliveryLocation = city ? `${city}${pinCode ? ` ${pinCode}` : ''}` : 'Indore 452001'
 
   const handleAccountClick = async () => {
     if (!session) {
@@ -42,7 +47,7 @@ const PrimaryNavbar = () => {
           <div className={styles.deliveryRow}>
             <LocationOnOutlinedIcon className={styles.locationIcon} />
             <div>
-              <div className={styles.smallLabel}>Delivering to Indore 452001</div>
+              <div className={styles.smallLabel}>Delivering to {deliveryLocation}</div>
               <div className={styles.boldLabel}>Update location</div>
             </div>
           </div>

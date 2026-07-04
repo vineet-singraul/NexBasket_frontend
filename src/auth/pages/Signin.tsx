@@ -29,9 +29,13 @@ import Notification from '../../utils/Notification'
 import { apiPost } from '../../api/userApi'
 import { AUTH_ENDPOINTS } from '../../api/endpoints'
 import { saveAuthSession } from '../../utils/authStorage'
+import { useDispatch } from 'react-redux'
+import { setUserData } from '../../redux/slice/userSlice'
+
 
 const Signin = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [formData, setFormData] = useState<SignInInterface>({
     identifier: '',
     password: '',
@@ -82,7 +86,9 @@ const Signin = () => {
       const response = await apiPost<SignInResponse>(AUTH_ENDPOINTS.SIGNIN, payload)
       const rawUser = response?.user ?? response ?? {}
       const { password: _password, message: _message, ...userData } = rawUser
-      saveAuthSession(Object.keys(userData).length ? userData : { email: payload.email }, rememberMe)
+      const finalUserData = Object.keys(userData).length ? userData : { email: payload.email }
+      dispatch(setUserData(finalUserData))
+      saveAuthSession(finalUserData, rememberMe)
       setNotification({
         open: true,
         message: response?.message || "User Signin successfully",
@@ -104,7 +110,13 @@ const Signin = () => {
   const handleGoogleSignin = async () => {
     setLoading(true);
     try {
-      await signInWithPopup(auth, new GoogleAuthProvider())
+      const response = await signInWithPopup(auth, new GoogleAuthProvider())
+      const payload = {
+        fullName: response.user.displayName ?? undefined,
+        email: response.user.email ?? undefined,
+        provider: response.providerId ?? undefined,
+      }
+      dispatch(setUserData(payload))
       navigate('/google-continue')
     } catch (error) {
       setNotification({

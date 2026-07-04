@@ -1,70 +1,30 @@
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { clearAuthSession, getAuthSession } from "../../utils/authStorage";
-import Notification from "../../utils/Notification";
-import type { NotificationInterfacce } from "../types/auth.types";
+import { useEffect } from "react";
+import { apiGet } from "../../api/userApi";
+import { AUTH_ENDPOINTS } from "../../api/endpoints";
+import { getAuthSession } from "../../utils/authStorage";
 
-const WARNING_BEFORE_EXPIRY_MS = 15 * 1000;
+// How often to ping the backend to check whether the (httpOnly) session
+// cookie is still valid. We can't read the cookie itself from JS, so this
+// is the only way to detect expiry proactively instead of waiting for the
+// user to trigger some other request.
+const CHECK_INTERVAL_MS = 15 * 1000;
 
 const SessionExpiryWatcher = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [notification, setNotification] = useState<NotificationInterfacce>({
-    open: false,
-    message: "",
-    severity: "warning",
-  });
-
   useEffect(() => {
-    const session = getAuthSession();
-    if (!session) return;
+    const checkSession = () => {
+      if (!getAuthSession()) return;
 
-    const remaining = session.tokenExpiresAt - Date.now();
-
-    const forceLogout = () => {
-      clearAuthSession();
-      setNotification((prev) => ({ ...prev, open: false }));
-      if (window.location.pathname !== "/signin") {
-        navigate("/signin");
-      }
+      // A 401 here is handled globally by axiosInstance's response
+      // interceptor: it clears the local session and redirects to
+      // /signin. Nothing further to do in that case.
+      apiGet(AUTH_ENDPOINTS.ME).catch(() => {});
     };
 
-    if (remaining <= 0) {
-      forceLogout();
-      return;
-    }
+    const interval = setInterval(checkSession, CHECK_INTERVAL_MS);
+    return () => clearInterval(interval);
+  }, []);
 
-    const showWarning = () => {
-      setNotification({
-        open: true,
-        message: "Your session is about to expire soon. Please save your work.",
-        severity: "warning",
-      });
-    };
-
-    const warningDelay = remaining - WARNING_BEFORE_EXPIRY_MS;
-
-    const warningTimer = setTimeout(
-      showWarning,
-      warningDelay > 0 ? warningDelay : 0
-    );
-    const expiryTimer = setTimeout(forceLogout, remaining);
-
-    return () => {
-      clearTimeout(warningTimer);
-      clearTimeout(expiryTimer);
-    };
-  }, [location.pathname, navigate]);
-
-  return (
-    <Notification
-      open={notification.open}
-      message={notification.message}
-      severity={notification.severity}
-      autoHideDuration={WARNING_BEFORE_EXPIRY_MS}
-      onClose={() => setNotification((prev) => ({ ...prev, open: false }))}
-    />
-  );
+  return null;
 };
 
 export default SessionExpiryWatcher;
