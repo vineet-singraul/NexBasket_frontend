@@ -1,4 +1,5 @@
 import React from "react";
+import { createPortal } from "react-dom";
 import { Snackbar, Alert } from "@mui/material";
 import type { AlertColor } from "@mui/material";
 
@@ -20,7 +21,7 @@ const Notification = ({
   autoHideDuration = 3000,
   onClose,
 }: NotificationProps) => {
-  return (
+  return createPortal(
     <Snackbar
       open={open}
       autoHideDuration={autoHideDuration}
@@ -44,7 +45,8 @@ const Notification = ({
       >
         {message}
       </Alert>
-    </Snackbar>
+    </Snackbar>,
+    document.body
   );
 };
 

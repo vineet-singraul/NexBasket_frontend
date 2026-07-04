@@ -8,8 +8,11 @@ import styles from '../../../styles/userStyle/Header.module.css'
 import { getAuthSession, clearAuthSession } from '../../../utils/authStorage'
 import { apiPost } from '../../../api/userApi'
 import { AUTH_ENDPOINTS } from '../../../api/endpoints'
+import { useState } from 'react'
+import ProfilePopUp from '../components/ProfilePopUp'
 
 const PrimaryNavbar = () => {
+  const [showeProfile, setShowProfile] = useState<boolean>(false)
   const navigate = useNavigate()
   const session = getAuthSession<{ email?: string; fullName?: string }>()
   const displayName = session?.user?.fullName || session?.user?.email
@@ -60,17 +63,7 @@ const PrimaryNavbar = () => {
           </button>
         </div>
 
-        <div className={styles.navBlock} onClick={handleAccountClick} style={{ cursor: 'pointer' }}>
-          <div className={styles.smallLabel}>
-            {displayName ? `Hello, ${displayName}` : 'Hello, sign in'}
-          </div>
-          <div className={styles.boldLabel}>
-            {session ? 'Sign out' : 'Account & Lists'}
-            <KeyboardArrowDownOutlinedIcon className={styles.caret} />
-          </div>
-        </div>
-
-
+        
         <div  className={styles.navBlock}>
           <Link to="/cart" className={styles.cartLink}>
             <div className={styles.cartIconWrap}>
@@ -79,6 +72,19 @@ const PrimaryNavbar = () => {
             </div> 
           </Link>
         </div>
+
+        <div className={styles.navBlock} style={{ cursor: 'pointer' }} onMouseEnter={() => setShowProfile(true)}>
+          <div className={styles.smallLabel} >
+            {displayName ? `Hello, ${displayName}` : 'Hello, sign in'}
+          </div>
+          <div className={styles.boldLabel} onClick={handleAccountClick}>
+            {session ? 'Sign out' : 'Account & Lists'}
+            <KeyboardArrowDownOutlinedIcon className={styles.caret} />
+          </div>
+
+          {showeProfile && <ProfilePopUp userDetails={session?.user} setShowProfile={setShowProfile}/>}
+        </div>
+
       </Box>
 
       {/* Mobile search bar */}
