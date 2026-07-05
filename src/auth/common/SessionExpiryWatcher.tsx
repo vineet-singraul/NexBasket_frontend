@@ -1,28 +1,46 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { apiGet } from "../../api/userApi";
 import { AUTH_ENDPOINTS } from "../../api/endpoints";
-import { getAuthSession } from "../../utils/authStorage";
+import { getAuthSession, hasStoredAuthMarker } from "../../utils/authStorage";
 
-// How often to ping the backend to check whether the (httpOnly) session
-// cookie is still valid. We can't read the cookie itself from JS, so this
-// is the only way to detect expiry proactively instead of waiting for the
-// user to trigger some other request.
 const CHECK_INTERVAL_MS = 15 * 1000;
 
 const SessionExpiryWatcher = () => {
-  useEffect(() => {
-    const checkSession = () => {
-      if (!getAuthSession()) return;
+  const navigate = useNavigate();
+  const hadSessionRef = useRef(hasStoredAuthMarker());
 
-      // A 401 here is handled globally by axiosInstance's response
-      // interceptor: it clears the local session and redirects to
-      // /signin. Nothing further to do in that case.
-      apiGet(AUTH_ENDPOINTS.ME).catch(() => {});
+  useEffect(() => {
+    const redirectIfSessionLost = () => {
+      // Read the raw marker before getAuthSession() has a chance to clear
+      // it, so a session that was already expired when this check runs
+      // (e.g. right after page load) is still treated as "had a session".
+      const markerExisted = hasStoredAuthMarker();
+      const hasSession = getAuthSession() !== null;
+
+      if (!hasSession && (hadSessionRef.current || markerExisted) && window.location.pathname !== "/signin") {
+        navigate("/signin");
+      }
+
+      hadSessionRef.current = hasSession;
     };
 
+    const checkSession = () => {
+      redirectIfSessionLost();
+      if (hadSessionRef.current) {
+        apiGet(AUTH_ENDPOINTS.ME).catch(() => {});
+      }
+    };
+
+    checkSession();
     const interval = setInterval(checkSession, CHECK_INTERVAL_MS);
-    return () => clearInterval(interval);
-  }, []);
+    window.addEventListener("storage", redirectIfSessionLost);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("storage", redirectIfSessionLost);
+    };
+  }, [navigate]);
 
   return null;
 };

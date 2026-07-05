@@ -17,14 +17,20 @@ export const saveAuthSession = <TUser>(user: TUser, rememberMe = false): void =>
   localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(session));
 };
 
+const redirectToSignin = (): void => {
+  if (window.location.pathname !== "/signin") {
+    window.location.href = "/signin";
+  }
+};
+
 export const getAuthSession = <TUser = unknown>(): StoredAuthSession<TUser> | null => {
   const raw = localStorage.getItem(AUTH_STORAGE_KEY);
   if (!raw) return null;
-
   try {
     const session = JSON.parse(raw) as StoredAuthSession<TUser>;
     if (Date.now() >= session.expiresAt) {
       clearAuthSession();
+      redirectToSignin();
       return null;
     }
     return session;
@@ -37,5 +43,10 @@ export const getAuthSession = <TUser = unknown>(): StoredAuthSession<TUser> | nu
 export const clearAuthSession = (): void => {
   localStorage.removeItem(AUTH_STORAGE_KEY);
 };
+
+// Unlike getAuthSession(), this does not treat an expired-but-present
+// record as absent — it just answers "is there a stored record at all".
+export const hasStoredAuthMarker = (): boolean =>
+  localStorage.getItem(AUTH_STORAGE_KEY) !== null;
 
 export const isLoggedIn = (): boolean => getAuthSession() !== null;

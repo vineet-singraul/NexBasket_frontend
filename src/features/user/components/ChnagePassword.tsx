@@ -14,12 +14,20 @@ import LockResetRoundedIcon from '@mui/icons-material/LockResetRounded'
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded'
 import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded'
 import styles from '../../../styles/userStyle/popUpStyle.module.css'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import type { ChangeEvent, FocusEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {validateField} from "../../../utils/validators"
 import type {ChangePasswordForm,ChangePasswordErrors} from "../types/user.types"
+import type {NotificationInterfacce} from '../../../auth/types/auth.types'
+import { apiPost } from '../../../api/userApi'
+import { AUTH_ENDPOINTS } from '../../../api/endpoints'
+import Loader from '../../../utils/Loader'
+import Notification from '../../../utils/Notification'
 
 const ChnagePassword = () => {
+    const navigate = useNavigate()
+
     const [showPassword, setShowPassword] = useState<Record<keyof ChangePasswordForm, boolean>>({
         oldPassword: false,
         newPassword: false,
@@ -34,6 +42,12 @@ const ChnagePassword = () => {
         oldPassword: '',
         newPassword: '',
         confirmPassword: '',
+    })
+    const [loading, setLoading] = useState<boolean>(false)
+    const [notification, setNotification] = useState<NotificationInterfacce>({
+        open: false,
+        message: '',
+        severity: 'success',
     })
 
     const toggleShowPassword = (field: keyof ChangePasswordForm) => {
@@ -54,6 +68,47 @@ const ChnagePassword = () => {
         }))
     }
 
+    const handleCancel = () => {
+        navigate('/')
+    }
+
+    const handleChangePassword = async (event: React.SyntheticEvent) => {
+        event.preventDefault()
+
+        const newErrors: ChangePasswordErrors = {
+            oldPassword: validateField('oldPassword', formData.oldPassword),
+            newPassword: validateField('newPassword', formData.newPassword),
+            confirmPassword: validateField('confirmPassword', formData.confirmPassword),
+        }
+
+        if (!newErrors.confirmPassword && formData.newPassword !== formData.confirmPassword) {
+            newErrors.confirmPassword = 'New password and confirm password do not match'
+        }
+
+        setError(newErrors)
+        if (Object.values(newErrors).some(Boolean)) return
+
+        setLoading(true)
+        try {
+            const response = await apiPost<{ message?: string }>(AUTH_ENDPOINTS.CHNAGEPASSWORD, formData)
+            setNotification({
+                open: true,
+                message: response?.message || 'Password changed successfully',
+                severity: 'success',
+            })
+            setFormData({ oldPassword: '', newPassword: '', confirmPassword: '' })
+            setTimeout(() => navigate('/'), 2000)
+        } catch (err) {
+            setNotification({
+                open: true,
+                message: err instanceof Error ? err.message : 'Something went wrong',
+                severity: 'error',
+            })
+        } finally {
+            setLoading(false)
+        }
+    }
+
   return (
     <Box className={styles.wrapper}>
       <Card className={styles.card}>
@@ -69,7 +124,7 @@ const ChnagePassword = () => {
             </Typography>
           </Box>
 
-          <Stack spacing={3}>
+          <Stack spacing={3} component="form" onSubmit={handleChangePassword} noValidate>
             <TextField
               fullWidth
               label="Current Password"
@@ -140,17 +195,31 @@ const ChnagePassword = () => {
             />
 
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-              <Button variant="outlined" className={styles.cancelBtn}>
+              <Button
+                type="button"
+                variant="outlined"
+                className={styles.cancelBtn}
+                onClick={handleCancel}
+                disabled={loading}
+              >
                 Cancel
               </Button>
 
-              <Button variant="contained" className={styles.saveBtn}>
+              <Button type="submit" variant="contained" className={styles.saveBtn} disabled={loading}>
                 Update Password
               </Button>
             </Stack>
           </Stack>
         </CardContent>
       </Card>
+
+      {loading && <Loader />}
+      <Notification
+        open={notification.open}
+        message={notification.message}
+        severity={notification.severity}
+        onClose={() => setNotification((prev) => ({ ...prev, open: false }))}
+      />
     </Box>
   )
 }

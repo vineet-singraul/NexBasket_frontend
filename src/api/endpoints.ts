@@ -8,4 +8,5 @@ export const AUTH_ENDPOINTS = {
   // session cookie is expired/removed. Rename to match your backend's
   // actual route if it isn't literally /auth/me.
   ME: "/auth/me",
+  CHNAGEPASSWORD: "/auth/change-password"
 };
