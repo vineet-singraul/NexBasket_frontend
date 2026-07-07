@@ -127,7 +127,7 @@ const PrimaryNavbar = () => {
             }}
           />
           <Divider orientation="vertical" flexItem sx={{ height: 22, alignSelf: 'center' }} />
-          <Tooltip title="Deliver to Indore 452001" arrow>
+          <Tooltip title={`Deliver to ${city} and pin code ${pinCode}`}>
             <Box
               sx={{
                 display: 'flex',
@@ -147,7 +147,7 @@ const PrimaryNavbar = () => {
                   whiteSpace: 'nowrap',
                 }}
               >
-                Indore
+                {city}
               </Typography>
             </Box>
           </Tooltip>

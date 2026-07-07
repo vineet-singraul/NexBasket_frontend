@@ -10,3 +10,7 @@ export const AUTH_ENDPOINTS = {
   ME: "/auth/me",
   CHNAGEPASSWORD: "/auth/change-password"
 };
+
+export const CATEGORY_ENDPOINTS = {
+  CREATE: "/category",
+};

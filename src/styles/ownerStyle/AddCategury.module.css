@@ -1,0 +1,149 @@
+/* ==========================================================================
+   AddCategury.module.css
+   NexBasket Owner Panel — add category form
+   ========================================================================== */
+
+.wrap {
+  --nb-orange: #fc8019;
+  --nb-dark: #f2f2f5;
+  --nb-gray: #989ba8;
+  --nb-border: rgba(255, 255, 255, 0.08);
+  --nb-surface: #16161d;
+  max-width: 640px;
+}
+
+.pageHeader {
+  margin-bottom: 20px;
+}
+
+.pageTitle {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--nb-dark);
+  margin: 0 0 4px;
+}
+
+.pageSubtitle {
+  font-size: 13.5px;
+  color: var(--nb-gray);
+  margin: 0;
+}
+
+.card {
+  background: var(--nb-surface);
+  border-radius: 16px;
+  border: 1px solid var(--nb-border);
+  padding: 28px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.cardHeaderIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(252, 128, 25, 0.1);
+  color: var(--nb-orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cardHeaderTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--nb-dark);
+}
+
+.cardHeaderSubtitle {
+  font-size: 12.5px;
+  color: var(--nb-gray);
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fieldLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--nb-dark);
+  margin-bottom: 8px;
+}
+
+/* MUI overrides — keep inputs consistent with the Swiggy-admin look */
+
+.card :global(.MuiOutlinedInput-root) {
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--nb-dark);
+}
+
+.card :global(.MuiOutlinedInput-input),
+.card :global(.MuiSelect-select) {
+  color: var(--nb-dark);
+}
+
+.card :global(.MuiOutlinedInput-input)::placeholder {
+  color: #7d7f92;
+  opacity: 1;
+}
+
+.card :global(.MuiSvgIcon-root) {
+  color: var(--nb-gray);
+}
+
+.card :global(.MuiOutlinedInput-notchedOutline) {
+  border-color: var(--nb-border);
+}
+
+.card :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
+  border-color: var(--nb-orange);
+}
+
+.card :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
+  border-color: var(--nb-orange);
+  border-width: 2px;
+}
+
+.card :global(.MuiFormHelperText-root) {
+  margin-left: 2px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.cancelBtn {
+  border: 1px solid var(--nb-border) !important;
+  color: var(--nb-dark) !important;
+  border-radius: 10px !important;
+  text-transform: none !important;
+  font-weight: 700 !important;
+  padding: 10px 22px !important;
+}
+
+.saveBtn {
+  background: var(--nb-orange) !important;
+  color: #fff !important;
+  border-radius: 10px !important;
+  text-transform: none !important;
+  font-weight: 700 !important;
+  padding: 10px 22px !important;
+  box-shadow: none !important;
+}
+
+.saveBtn:hover {
+  background: #e56f10 !important;
+}

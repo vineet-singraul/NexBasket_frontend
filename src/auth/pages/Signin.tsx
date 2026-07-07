@@ -94,7 +94,7 @@ const Signin = () => {
         message: response?.message || "User Signin successfully",
         severity: 'success',
       })
-      navigate('/')
+      navigate(finalUserData.role === 'owner' ? '/owner/dashboard' : '/')
     } catch (error) {
       setNotification({
         open: true,

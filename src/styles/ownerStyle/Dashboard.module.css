@@ -1,0 +1,440 @@
+/* ==========================================================================
+   Dashboard.module.css
+   NexBasket Owner Panel — dashboard content
+   ========================================================================== */
+
+.wrap {
+  --nb-orange: #fc8019;
+  --nb-dark: #f2f2f5;
+  --nb-gray: #989ba8;
+  --nb-border: rgba(255, 255, 255, 0.08);
+  --nb-surface: #16161d;
+  --nb-surface-alt: #1c1f2e;
+}
+
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.pageTitle {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--nb-dark);
+  margin: 0 0 4px;
+}
+
+.pageSubtitle {
+  font-size: 13.5px;
+  color: var(--nb-gray);
+  margin: 0;
+}
+
+.headerButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.primaryBtn {
+  background: var(--nb-orange);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.secondaryBtn {
+  background: var(--nb-surface);
+  color: var(--nb-dark);
+  border: 1px solid var(--nb-border);
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ---------------- Grid ---------------- */
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 1100px) {
+  .statGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card {
+  background: var(--nb-surface) !important;
+  color: var(--nb-dark);
+  border-radius: 16px;
+  border: 1px solid var(--nb-border) !important;
+  padding: 18px 20px;
+}
+
+.statCardDark {
+  background: linear-gradient(160deg, var(--nb-orange), #ff9d45) !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+.statTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  opacity: 0.9;
+  color: inherit;
+}
+
+.statValue {
+  font-size: 30px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: inherit;
+}
+
+.statTrend {
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.statTrendLight {
+  background: rgba(28, 163, 84, 0.1);
+  color: #1ca354;
+}
+
+/* ---------------- Middle row ---------------- */
+.middleRow {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 1100px) {
+  .middleRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cardTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.cardTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--nb-dark);
+  margin: 0;
+}
+
+.linkBtn {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--nb-orange);
+  background: rgba(252, 128, 25, 0.1);
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+/* bar chart */
+.barChart {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  height: 140px;
+  padding-top: 10px;
+}
+
+.barCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.bar {
+  width: 100%;
+  max-width: 26px;
+  border-radius: 8px;
+  background: rgba(252, 128, 25, 0.18);
+  position: relative;
+}
+
+.barActive {
+  background: var(--nb-orange);
+}
+
+.barLabel {
+  font-size: 11.5px;
+  color: var(--nb-gray);
+  font-weight: 600;
+}
+
+/* reminder card */
+.reminderCard {
+  background: linear-gradient(160deg, var(--nb-surface-alt), #0d0e15) !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+.reminderTag {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffb178;
+  margin-bottom: 8px;
+}
+
+.reminderTitle {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.reminderTime {
+  font-size: 12.5px;
+  color: #c7c9d6;
+  margin-bottom: 18px;
+}
+
+.reminderBtn {
+  width: 100%;
+  background: var(--nb-orange);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* task list */
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.taskRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.taskIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(252, 128, 25, 0.1);
+  color: var(--nb-orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.taskText {
+  flex: 1;
+  min-width: 0;
+}
+
+.taskTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--nb-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.taskMeta {
+  font-size: 11.5px;
+  color: var(--nb-gray);
+}
+
+/* ---------------- Bottom row ---------------- */
+.bottomRow {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 1100px) {
+  .bottomRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.teamRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--nb-border);
+}
+
+.teamRow:last-child {
+  border-bottom: none;
+}
+
+.teamAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.teamText {
+  flex: 1;
+  min-width: 0;
+}
+
+.teamName {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--nb-dark);
+}
+
+.teamTask {
+  font-size: 11.5px;
+  color: var(--nb-gray);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statusChip {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.statusDone {
+  background: rgba(28, 163, 84, 0.1);
+  color: #1ca354;
+}
+
+.statusProgress {
+  background: rgba(252, 128, 25, 0.12);
+  color: var(--nb-orange);
+}
+
+/* progress donut */
+.donutWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.donutValue {
+  font-size: 13px;
+  color: var(--nb-gray);
+  margin-top: 8px;
+}
+
+.donutLegend {
+  display: flex;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--nb-gray);
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* tracker card */
+.trackerCard {
+  background: linear-gradient(160deg, var(--nb-surface-alt), #0d0e15) !important;
+  color: #fff !important;
+  border: none !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.trackerLabel {
+  font-size: 12.5px;
+  color: #c7c9d6;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.trackerTime {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.trackerControls {
+  display: flex;
+  gap: 10px;
+}
+
+.trackerBtn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.trackerPause {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.trackerStop {
+  background: #ff4d4d;
+  color: #fff;
+}
