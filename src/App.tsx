@@ -9,6 +9,7 @@ import ChnagePassword from './features/user/components/ChnagePassword'
 import OwnerLayout from './features/owner/components/OwnerLayout'
 import OwnerDashboard from './features/owner/components/Ownerdashboard'
 import AddCategury from './features/owner/pages/AddCategury'
+import AddStore from './features/owner/pages/AddStore'
 function App() {
     useGetCity()
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/owner/dashboard" element={<OwnerLayout><OwnerDashboard /></OwnerLayout>} />
         <Route path='/owner/orders' />
         <Route path="/owner/category/add" element={<OwnerLayout><AddCategury /></OwnerLayout>} />
+        <Route path='/owner/stores/add' element={<OwnerLayout><AddStore/></OwnerLayout>}/>
       </Routes>
     </>
   )
