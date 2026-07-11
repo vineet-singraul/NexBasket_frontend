@@ -11,6 +11,7 @@ import OwnerDashboard from './features/owner/components/Ownerdashboard'
 import AddCategury from './features/owner/pages/AddCategury'
 import AddStore from './features/owner/pages/AddStore'
 import Products from './features/owner/pages/Products'
+import SubOwnerDashboard from './features/owner/components/SubOwnerDashboard'
 function App() {
     useGetCity()
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/owner/category/add" element={<OwnerLayout><AddCategury /></OwnerLayout>} />
         <Route path='/owner/stores/add' element={<OwnerLayout><AddStore/></OwnerLayout>}/>
         <Route path='/owner/Products' element={<OwnerLayout><Products/></OwnerLayout>}/>
+        <Route path='/owner/store/:id' element={<OwnerLayout><SubOwnerDashboard/></OwnerLayout>}/> 
       </Routes>
     </>
   )
