@@ -30,7 +30,7 @@ const sections: SidebarSection[] = [
       { id: 'dashboard', label: 'Dashboard', icon: <DashboardRoundedIcon fontSize="inherit" />, path: '/owner/dashboard' },
       { id: 'Add Categury', label: 'Add Categury', icon: <CategoryIcon fontSize="inherit" />, path: '/owner/category/add'},
       { id: 'stores', label: 'Stores', icon: <StorefrontRoundedIcon fontSize="inherit" />, path: '/owner/stores/add' },
-      { id: 'inventory', label: 'Inventory', icon: <Inventory2RoundedIcon fontSize="inherit" />, path: '/owner/inventory' },
+      { id: 'Products', label: 'Products', icon: <Inventory2RoundedIcon fontSize="inherit" />, path: '/owner/Products' },
       { id: 'delivery', label: 'Delivery Partners', icon: <TwoWheelerRoundedIcon fontSize="inherit" />, path: '/owner/delivery-partners' },
     ],
   },

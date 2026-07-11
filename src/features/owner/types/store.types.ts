@@ -41,6 +41,7 @@ export interface Store {
 export interface StoreListItem {
   _id: string;
   storeName: string;
+  description?: string;
   logo?: string | null;
   banner?: string | null;
   address?: {

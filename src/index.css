@@ -66,7 +66,124 @@ body {
 /* ============================================================= */
 /* ================== Global Css =============================== */
 /* ============================================================= */
+.button {
+  --btn-bg: linear-gradient(135deg, #fc8019 0%, #ff9d45 100%);
+  --btn-bg-hover: linear-gradient(135deg, #e86f0d 0%, #fc8019 100%);
 
-.GlobalInputWrapper{
-  
+  position: relative;
+  overflow: hidden;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  min-width: 160px;
+  height: 48px;
+  padding: 0 26px;
+
+  border: none;
+  outline: none;
+  border-radius: 14px;
+
+  background: var(--btn-bg);
+  background-size: 160% 160%;
+  background-position: 0% 50%;
+  color: #fff;
+
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+
+  cursor: pointer;
+  user-select: none;
+
+  transition:
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.25s ease,
+    background-position 0.4s ease,
+    filter 0.25s ease;
+
+  box-shadow:
+    0 10px 20px rgba(252, 128, 25, 0.25),
+    0 4px 8px rgba(252, 128, 25, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* Subtle shine sweep */
+
+.button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    115deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.35) 40%,
+    transparent 60%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+
+.button:hover::before {
+  transform: translateX(120%);
+}
+
+/* Hover */
+
+.button:hover {
+  background: var(--btn-bg-hover);
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 18px 35px rgba(252, 128, 25, 0.32),
+    0 8px 16px rgba(252, 128, 25, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Click */
+
+.button:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow:
+    0 6px 14px rgba(252, 128, 25, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Keyboard */
+
+.button:focus-visible {
+  box-shadow:
+    0 0 0 4px rgba(252, 128, 25, 0.22),
+    0 10px 25px rgba(252, 128, 25, 0.28);
+}
+
+/* Disabled */
+
+.button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.button:disabled::before {
+  display: none;
+}
+
+/* Optional icon */
+
+.button svg {
+  position: relative;
+  z-index: 1;
+  font-size: 18px;
+  transition: transform 0.25s ease;
+}
+
+.button:hover svg {
+  transform: translateX(3px);
 }

@@ -227,3 +227,176 @@
     height: 56px;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ========================================= */
+/* ======== ShowAllStore.tsx ======== */
+/* ========================================= */
+.SAS_stack {
+  width: 100%;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
+  gap: 24px;
+}
+
+@media (max-width: 1000px) {
+  .SAS_stack {
+    grid-template-columns: 1fr;
+  }
+}
+
+.SAS_card {
+  overflow: hidden;
+  border-radius: 20px !important;
+  border: 1px solid var(--nb-border);
+  background: var(--nb-surface) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+.SAS_card:hover {
+  border-color: rgba(252, 128, 25, 0.35);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4) !important;
+}
+
+.SAS_bannerWrap {
+  position: relative;
+  overflow: hidden;
+  height: 200px;
+}
+
+.SAS_banner {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.SAS_card:hover .SAS_banner {
+  transform: scale(1.06);
+}
+
+.SAS_bannerScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 55%, var(--nb-surface) 100%);
+  pointer-events: none;
+}
+
+.SAS_content {
+  position: relative;
+  padding: 24px 26px 26px;
+  padding-top: 56px;
+}
+
+.SAS_logo {
+  position: absolute !important;
+  top: -100px;
+  left: 26px;
+  width: 140px !important;
+  height: 140px !important;
+  border: 4px solid var(--nb-surface);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  background-position: center !important;
+  background-size: contain !important;
+}
+
+.SAS_header {
+  justify-content: space-between;
+  align-items: flex-end !important;
+  gap: 20px;
+}
+
+.SAS_left {
+  flex: 1;
+  min-width: 0;
+}
+
+.SAS_title {
+  font-weight: 800 !important;
+  color: var(--nb-dark) !important;
+}
+
+.SAS_description {
+  margin-top: 10px !important;
+  color: var(--nb-gray);
+  line-height: 1.6;
+  font-size: 13.5px;
+}
+
+.SAS_address {
+  margin-top: 16px;
+  align-items: flex-start !important;
+}
+
+.SAS_addressText {
+  color: var(--nb-gray);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.SAS_right {
+  align-items: flex-end;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.SAS_ratingBox {
+  text-align: center;
+}
+
+.SAS_ratingBox :global(.MuiRating-iconEmpty) {
+  color: rgba(255, 255, 255, 0.15);
+}
+
+.SAS_ratingBox :global(.MuiRating-iconFilled) {
+  color: var(--nb-orange);
+}
+
+.SAS_ratingText {
+  font-weight: 700 !important;
+  color: var(--nb-dark) !important;
+  margin-top: 2px !important;
+  font-size: 12.5px !important;
+}
+
+.SAS_sales {
+  font-weight: 600 !important;
+  color: var(--nb-gray) !important;
+  font-size: 13px !important;
+}
+
+@media (max-width: 600px) {
+  .SAS_content {
+    padding: 20px;
+    padding-top: 52px;
+  }
+
+  .SAS_logo {
+    width: 72px !important;
+    height: 72px !important;
+    top: -36px;
+  }
+
+  .SAS_header {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+
+  .SAS_right {
+    align-items: flex-start;
+    width: 100%;
+  }
+}
