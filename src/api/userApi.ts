@@ -18,6 +18,18 @@ export const apiPost = async <T, D = unknown>(
   return response.data;
 };
 
+export const apiPostForm = async <T>(
+  url: string,
+  data: FormData,
+  config?: AxiosRequestConfig
+): Promise<T> => {
+  const response = await axiosInstance.post<T>(url, data, {
+    ...config,
+    headers: { ...config?.headers, "Content-Type": undefined },
+  });
+  return response.data;
+};
+
 export const apiPut = async <T, D = unknown>(
   url: string,
   data?: D,

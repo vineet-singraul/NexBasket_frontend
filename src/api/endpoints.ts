@@ -14,3 +14,8 @@ export const AUTH_ENDPOINTS = {
 export const CATEGORY_ENDPOINTS = {
   CREATE: "/category",
 };
+
+export const STORE_ENDPOINTS = {
+  CREATE: "/store",
+  LIST: "/store",
+};
