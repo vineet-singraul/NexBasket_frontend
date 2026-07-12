@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { Box, Stack, Chip, Typography, Avatar, Divider } from '@mui/material'
 import style from '../../../styles/ownerStyle/SubOwnerDasboardStyle.module.css'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
@@ -8,27 +8,17 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import StarIcon from '@mui/icons-material/Star'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
+import { apiGet } from '../../../api/userApi'
+import { useParams } from 'react-router-dom'
+import type {StoreListItem} from "../types/store.types";
+import {STORE_ENDPOINTS} from "../../../api/endpoints"
+import type { NotificationInterfacce } from '../../../auth/types/auth.types'
+import Loader from '../../../utils/Loader'
+import Notification from '../../../utils/Notification'
 
-const storeData = {
-  storeName: 'NexBasket Fresh Mart',
-  logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNFmQ5ApPOsmZBm6u215YY1H-vO-CcXARNz6JFOtt3pw&s=10',
-  banner:
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTxjqUx3RcikmUgVW_vkNY211z0PceFm6SLfFGw9glpw&s=10',
-  description:
-    'Your neighbourhood store for fresh groceries, daily essentials and fast delivery.',
-  email: 'store@nexbasket.com',
-  phone: '+91 98765 43210',
-  gstNumber: '27ABCDE1234F1Z5',
-  address: {
-    city: 'Pune',
-    state: 'Maharashtra',
-    country: 'India',
-    pincode: '411001',
-  },
-  rating: 4.5,
-  totalSales: 12500,
-  active: true,
-  owner: 'Vineet Singraul',
+interface StoreDetailsResponse {
+  message: string
+  store: StoreListItem
 }
 
 const InfoRow = ({
@@ -52,19 +42,66 @@ const InfoRow = ({
 )
 
 const SubOwnerDashboardLeftSide = () => {
-  const { address } = storeData
+  const { id } = useParams();
+  const [subUserDetails, setSubUserDetails] = useState<StoreListItem | null>(null);
+  const [loading, setLoading] = useState<boolean>(false)
+  const [notification, setNotification] = useState<NotificationInterfacce>({
+    open:false,
+    message:"",
+    severity:"success"
+  })
+
+  useEffect(() => {
+    const fetchSubOwnerDetails = async () => {
+      if (!id) return
+      setLoading(true)
+      try {
+        const response = await apiGet<StoreDetailsResponse>(STORE_ENDPOINTS.SINGLELIST(id));
+        if (response?.store) {
+          setSubUserDetails(response.store)
+        }
+      } catch {
+        setNotification({
+          open: true,
+          message: "Sub Owner details not fetched",
+          severity: "error"
+        })
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchSubOwnerDetails()
+  }, [id])
+
+  if (!subUserDetails) {
+    return (
+      <Box className={style.SODL_Main_Wrapper}>
+        {loading && <Loader/>}
+        {notification && <Notification
+          open={notification.open}
+          message={notification.message}
+          severity={notification.severity}
+          onClose={() => setNotification(prev => ({ ...prev, open: false }))}
+        />
+        }
+      </Box>
+    )
+  }
+
+  const address = subUserDetails.address
 
   return (
     <Box className={style.SODL_Main_Wrapper}>
       <Box className={style.SODL_Left_Wrapper}>
         <img
-          src={storeData.banner}
-          alt={`${storeData.storeName} banner`}
+          src={subUserDetails.banner ?? undefined}
+          alt={`${subUserDetails.storeName} banner`}
           className={style.SODL_image}
         />
         <img
-          src={storeData.logo}
-          alt={`${storeData.storeName} logo`}
+          src={subUserDetails.logo ?? undefined}
+          alt={`${subUserDetails.storeName} logo`}
           className={style.SODL_image_SEC}
         />
       </Box>
@@ -77,49 +114,57 @@ const SubOwnerDashboardLeftSide = () => {
           sx={{ alignItems: 'center', justifyContent: 'space-between' }}
         >
           <Typography variant="h6" className={style.SODL_StoreName}>
-            {storeData.storeName}
+            {subUserDetails.storeName}
           </Typography>
           <Chip
-            label={storeData.active ? 'Active' : 'Inactive'}
-            className={`${style.SODL_StatusChip} ${storeData.active ? style.SODL_StatusActive : style.SODL_StatusInactive}`}
+            label={subUserDetails.active ? 'Active' : 'Inactive'}
+            className={`${style.SODL_StatusChip} ${subUserDetails.active ? style.SODL_StatusActive : style.SODL_StatusInactive}`}
           />
         </Stack>
 
         <Stack className={style.SODL_ChipWrapper} direction="row" spacing={1}>
           <Chip
-            avatar={<Avatar src={storeData.logo} />}
-            label={storeData.owner}
+            avatar={<Avatar src={subUserDetails.logo ?? undefined} />}
+            label={subUserDetails.owner}
             className={style.SODL_Chip}
           />
           <Chip
             icon={<StarIcon className={style.SODL_RatingIcon} />}
-            label={storeData.rating.toFixed(1)}
+            label={(subUserDetails.rating ?? 0).toFixed(1)}
             className={style.SODL_RatingChip}
           />
         </Stack>
 
         <Typography className={style.SODL_Description}>
-          {storeData.description}
+          {subUserDetails.description}
         </Typography>
 
         <Divider className={style.SODL_Divider} />
 
         <Stack className={style.SODL_InfoList} spacing={1.1}>
-          <InfoRow icon={<EmailIcon className={style.SODL_InfoIcon} />} text={storeData.email} />
-          <InfoRow icon={<PhoneIcon className={style.SODL_InfoIcon} />} text={storeData.phone} />
-          <InfoRow icon={<ReceiptLongIcon className={style.SODL_InfoIcon} />} text={storeData.gstNumber} />
-          <InfoRow icon={<AdminPanelSettingsIcon className={style.SODL_InfoIcon} />} text={storeData.owner} />
+          <InfoRow icon={<EmailIcon className={style.SODL_InfoIcon} />} text={subUserDetails.email ?? ''} />
+          <InfoRow icon={<PhoneIcon className={style.SODL_InfoIcon} />} text={subUserDetails.phone ?? ''} />
+          <InfoRow icon={<ReceiptLongIcon className={style.SODL_InfoIcon} />} text={subUserDetails.gstNumber ?? ''} />
+          <InfoRow icon={<AdminPanelSettingsIcon className={style.SODL_InfoIcon} />} text={subUserDetails.owner ?? ''} />
           <InfoRow
             icon={<LocationOnIcon className={style.SODL_InfoIcon} />}
-            text={`${address.city}, ${address.state}, ${address.country} - ${address.pincode}`}
+            text={address ? `${address.city ?? ''}, ${address.state ?? ''}, ${address.country ?? ''} - ${address.pincode ?? ''}` : ''}
             alignTop
           />
           <InfoRow
             icon={<TrendingUpIcon className={style.SODL_InfoIcon} />}
-            text={`${storeData.totalSales.toLocaleString()} total sales`}
+            text={`${(subUserDetails.totalSales ?? 0).toLocaleString()} total sales`}
           />
         </Stack>
       </Box>
+      {loading && <Loader/>}
+      {notification && <Notification
+        open={notification.open}
+        message={notification.message}
+        severity={notification.severity}
+        onClose={() => setNotification(prev => ({ ...prev, open: false }))}
+      />
+      }
     </Box>
   )
 }

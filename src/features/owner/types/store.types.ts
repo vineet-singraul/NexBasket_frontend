@@ -41,9 +41,13 @@ export interface Store {
 export interface StoreListItem {
   _id: string;
   storeName: string;
+  owner?: string;
   description?: string;
   logo?: string | null;
   banner?: string | null;
+  email?: string;
+  phone?: string;
+  gstNumber?: string;
   address?: {
     street?: string;
     city?: string;

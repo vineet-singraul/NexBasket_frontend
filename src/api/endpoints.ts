@@ -18,4 +18,5 @@ export const CATEGORY_ENDPOINTS = {
 export const STORE_ENDPOINTS = {
   CREATE: "/store",
   LIST: "/store",
+  SINGLELIST: (id: string) => `/store/${id}`
 };
