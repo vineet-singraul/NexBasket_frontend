@@ -1,24 +1,16 @@
-import {
-  Box,
-  Typography,
-  TextField,
-  MenuItem,
-  Button,
-} from '@mui/material'
+import { Box, Typography, TextField, Button, MenuItem } from '@mui/material'
 import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded'
-import { useState } from 'react'
+import {  useEffect, useState } from 'react'
 import type { ChangeEvent, FocusEvent, SyntheticEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from '../../../styles/ownerStyle/AddCategury.module.css'
-import { apiPost } from '../../../api/userApi'
+import { apiGet, apiPost } from '../../../api/userApi'
 import { CATEGORY_ENDPOINTS } from '../../../api/endpoints'
 import type { NotificationInterfacce } from '../../../auth/types/auth.types'
 import type { AddCategoryForm, AddCategoryErrors, CategoryOption } from '../types/category.types'
 import Loader from '../../../utils/Loader'
 import Notification from '../../../utils/Notification'
 
-// No parent-category API to source options from yet — starts empty so the
-// dropdown only ever offers "No Parent (Top Level Category)" until one is wired up.
 const PARENT_CATEGORY_OPTIONS: CategoryOption[] = []
 
 const validateCategoryField = (name: string, value: string): string => {
@@ -46,17 +38,25 @@ const AddCategury = () => {
   const [formData, setFormData] = useState<AddCategoryForm>({
     name: '',
     description: '',
-    parentCategory: null,
+    subOwner: '',
+    isActive: '',
   })
   const [error, setError] = useState<AddCategoryErrors>({
     name: '',
     description: '',
+    subOwner: '',
+    isActive: '',
   })
   const [loading, setLoading] = useState<boolean>(false)
   const [notification, setNotification] = useState<NotificationInterfacce>({
     open: false,
     message: '',
     severity: 'success',
+  })
+
+  const [subOwnerId] = useState(() => {
+    const auth = localStorage.getItem('nexbasket_auth')
+    return auth ? JSON.parse(auth)?.user?._id || '' : ''
   })
 
   const handleOnBlur = (event: FocusEvent<HTMLInputElement>) => {
@@ -73,14 +73,29 @@ const AddCategury = () => {
     }))
   }
 
-  const handleParentCategoryChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target
-    setFormData((prev) => ({ ...prev, parentCategory: value || null }))
-  }
-
   const handleCancel = () => {
     navigate('/owner/dashboard')
   }
+  
+
+  const fetchSubOwnerCategory = async () => {
+  try {
+    const response = await apiGet(
+      CATEGORY_ENDPOINTS.GETSUBOWNERCATEGORYLIST(subOwnerId)
+    );
+
+    console.log("Response:", response);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+useEffect(() => {
+  if (subOwnerId) {
+    fetchSubOwnerCategory();
+  }
+}, [subOwnerId]);
+  
 
   const handleAddCategory = async (event: SyntheticEvent) => {
     event.preventDefault()
@@ -88,6 +103,8 @@ const AddCategury = () => {
     const newErrors: AddCategoryErrors = {
       name: validateCategoryField('name', formData.name),
       description: validateCategoryField('description', formData.description),
+      subOwner: validateCategoryField('subOwner', formData.subOwner),
+      isActive: validateCategoryField('isActive', formData.isActive),
     }
     setError(newErrors)
     if (Object.values(newErrors).some(Boolean)) return
@@ -97,7 +114,8 @@ const AddCategury = () => {
       const payload = {
         name: formData.name.trim(),
         description: formData.description.trim(),
-        parentCategory: formData.parentCategory,
+        subOwner: subOwnerId,
+        isActive: formData.isActive,
       }
       const response = await apiPost<{ message?: string }>(CATEGORY_ENDPOINTS.CREATE, payload)
       setNotification({
@@ -105,7 +123,7 @@ const AddCategury = () => {
         message: response?.message || 'Category created successfully',
         severity: 'success',
       })
-      setFormData({ name: '', description: '', parentCategory: null })
+      setFormData({ name: '', description: '', subOwner: '', isActive: '' })
     } catch (err) {
       setNotification({
         open: true,
@@ -121,9 +139,6 @@ const AddCategury = () => {
     <Box className={styles.wrap}>
       <Box className={styles.pageHeader}>
         <Typography className={styles.pageTitle}>Add Category</Typography>
-        <Typography className={styles.pageSubtitle}>
-          Create a new product category, or nest it under an existing one.
-        </Typography>
       </Box>
 
       <Box className={styles.card} component="form" onSubmit={handleAddCategory} noValidate>
@@ -133,13 +148,23 @@ const AddCategury = () => {
           </Box>
           <Box>
             <Typography className={styles.cardHeaderTitle}>Category Details</Typography>
-            <Typography className={styles.cardHeaderSubtitle}>
-              Fields marked are used to organise products in the store.
-            </Typography>
           </Box>
         </Box>
 
         <Box className={styles.fieldGroup}>
+          <Box>
+            <Typography className={styles.fieldLabel}>Parent Category</Typography>
+            <TextField
+              fullWidth
+              placeholder={subOwnerId}
+              name="subOwner"
+              value={subOwnerId}
+              onBlur={handleOnBlur}
+              onChange={handleOnChange}
+              disabled
+            />
+          </Box>
+
           <Box>
             <Typography className={styles.fieldLabel}>Category Name</Typography>
             <TextField
@@ -172,19 +197,14 @@ const AddCategury = () => {
 
           <Box>
             <Typography className={styles.fieldLabel}>Parent Category</Typography>
-            <TextField
-              select
-              fullWidth
-              name="parentCategory"
-              value={formData.parentCategory ?? ''}
-              onChange={handleParentCategoryChange}
+            <TextField select fullWidth label="Is Active" className="mui-field" 
+              value={formData.isActive}
+              onBlur={handleOnBlur}
+              onChange={handleOnChange}
+              name='isActive'
             >
-              <MenuItem value="">No Parent (Top Level Category)</MenuItem>
-              {PARENT_CATEGORY_OPTIONS.map((option) => (
-                <MenuItem key={option.id} value={option.id}>
-                  {option.name}
-                </MenuItem>
-              ))}
+              <MenuItem value="true">Active</MenuItem>
+              <MenuItem value="false">Inactive</MenuItem>
             </TextField>
           </Box>
         </Box>

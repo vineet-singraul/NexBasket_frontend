@@ -9,6 +9,7 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
 import InsightsIcon from '@mui/icons-material/Insights'
 import SettingsIcon from '@mui/icons-material/Settings'
+import AddProducts from './AddProducts'
 
 interface TabPanelProps {
   children?: ReactNode
@@ -92,7 +93,7 @@ const SubOwnerDashboardRightSide = () => {
       <Box className={style.SODR_Content}>
 
         <TabPanel value={value} index={0}>
-           Add Products
+          <AddProducts/>
         </TabPanel>
 
         <TabPanel value={value} index={1}>

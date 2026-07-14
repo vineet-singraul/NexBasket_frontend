@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded'
 import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded'
@@ -17,6 +18,7 @@ interface OwnerHeaderProps {
   messageCount?: number
   onSearch?: (value: string) => void
   onLogout?: () => void
+  onMenuClick?: () => void
 }
 
 /**
@@ -33,6 +35,7 @@ const OwnerHeader: React.FC<OwnerHeaderProps> = ({
   messageCount = 2,
   onSearch,
   onLogout,
+  onMenuClick,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
@@ -42,6 +45,15 @@ const OwnerHeader: React.FC<OwnerHeaderProps> = ({
 
   return (
     <header className={styles.header}>
+      <button
+        type="button"
+        className={styles.menuToggle}
+        aria-label="Open menu"
+        onClick={onMenuClick}
+      >
+        <MenuRoundedIcon />
+      </button>
+
       {/* Search */}
       <div className={styles.searchWrap}>
         <SearchRoundedIcon className={styles.searchIcon} />

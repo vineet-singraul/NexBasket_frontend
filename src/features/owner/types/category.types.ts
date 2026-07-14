@@ -6,10 +6,13 @@ export interface CategoryOption {
 export interface AddCategoryForm {
   name: string
   description: string
-  parentCategory: string | null
+  subOwner:string,
+  isActive:''
 }
 
 export interface AddCategoryErrors {
-  name?: string
-  description?: string
+  name: string
+  description: string
+  subOwner:string,
+  isActive:string
 }

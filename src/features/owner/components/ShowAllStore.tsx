@@ -35,7 +35,6 @@ const ShowAllStore = () => {
           STORE_ENDPOINTS.LIST
         );
         const list = Array.isArray(response) ? response : response?.stores ?? [];
-        console.log("< =============== >",list)
         setStores(list);
       } catch {
         setStores([]);

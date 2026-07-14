@@ -13,6 +13,7 @@ import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded'
 import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded'
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import CategoryIcon from '@mui/icons-material/Category';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { Tooltip } from '@mui/material'
 import type { SidebarSection } from '../types/Sidebar.types'
 import styles from '../../../styles/ownerStyle/Sidebar.module.css'
@@ -56,70 +57,88 @@ const sections: SidebarSection[] = [
 
 interface OwnerSidebarProps {
   onLogout?: () => void
+  isOpen?: boolean
+  onClose?: () => void
 }
 
-const OwnerSidebar: React.FC<OwnerSidebarProps> = ({ onLogout }) => {
+const OwnerSidebar: React.FC<OwnerSidebarProps> = ({ onLogout, isOpen = false, onClose }) => {
   const navigate = useNavigate()
   const location = useLocation()
 
   const isActive = (path: string) => location.pathname.startsWith(path)
 
+  const handleNavigate = (path: string) => {
+    navigate(path)
+    onClose?.()
+  }
+
   return (
-    <aside className={styles.sidebar}>
-      {/* Logo */}
-      <div className={styles.logoWrap}>
-        <div className={styles.logoMark}>NB</div>
-        <div className={styles.logoText}>
-          <span className={styles.logoTitle}>NexBasket</span>
-          <span className={styles.logoSubtitle}>Owner Panel</span>
-        </div>
-      </div>
-
-      {/* Menu */}
-      <nav className={styles.menuScroll}>
-        {sections.map((section) => (
-          <div key={section.id}>
-            {section.title && <p className={styles.sectionTitle}>{section.title}</p>}
-            {section.items.map((item) => {
-              const active = isActive(item.path)
-              return (
-                <div
-                  key={item.id}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => navigate(item.path)}
-                  className={`${styles.menuItem} ${active ? styles.menuItemActive : ''}`}
-                >
-                  {active && <span className={styles.activeBar} />}
-                  <span className={styles.menuIcon}>{item.icon}</span>
-                  <span className={styles.menuLabel}>{item.label}</span>
-                  {typeof item.badge === 'number' && (
-                    <span className={styles.menuBadge}>{item.badge}</span>
-                  )}
-                </div>
-              )
-            })}
+    <>
+      {isOpen && <div className={styles.overlay} onClick={onClose} />}
+      <aside className={`${styles.sidebar} ${isOpen ? styles.sidebarOpen : ''}`}>
+        {/* Logo */}
+        <div className={styles.logoWrap}>
+          <div className={styles.logoMark}>NB</div>
+          <div className={styles.logoText}>
+            <span className={styles.logoTitle}>NexBasket</span>
+            <span className={styles.logoSubtitle}>Owner Panel</span>
           </div>
-        ))}
-      </nav>
-
-      {/* Footer */}
-      <div className={styles.sidebarFooter}>
-        <Tooltip title="Log out" placement="top">
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={onLogout}
-            className={styles.menuItem}
+          <button
+            type="button"
+            aria-label="Close menu"
+            className={styles.closeButton}
+            onClick={onClose}
           >
-            <span className={styles.menuIcon}>
-              <LogoutRoundedIcon fontSize="inherit" />
-            </span>
-            <span className={styles.menuLabel}>Logout</span>
-          </div>
-        </Tooltip>
-      </div>
-    </aside>
+            <CloseRoundedIcon fontSize="inherit" />
+          </button>
+        </div>
+
+        {/* Menu */}
+        <nav className={styles.menuScroll}>
+          {sections.map((section) => (
+            <div key={section.id}>
+              {section.title && <p className={styles.sectionTitle}>{section.title}</p>}
+              {section.items.map((item) => {
+                const active = isActive(item.path)
+                return (
+                  <div
+                    key={item.id}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => handleNavigate(item.path)}
+                    className={`${styles.menuItem} ${active ? styles.menuItemActive : ''}`}
+                  >
+                    {active && <span className={styles.activeBar} />}
+                    <span className={styles.menuIcon}>{item.icon}</span>
+                    <span className={styles.menuLabel}>{item.label}</span>
+                    {typeof item.badge === 'number' && (
+                      <span className={styles.menuBadge}>{item.badge}</span>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          ))}
+        </nav>
+
+        {/* Footer */}
+        <div className={styles.sidebarFooter}>
+          <Tooltip title="Log out" placement="top">
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={onLogout}
+              className={styles.menuItem}
+            >
+              <span className={styles.menuIcon}>
+                <LogoutRoundedIcon fontSize="inherit" />
+              </span>
+              <span className={styles.menuLabel}>Logout</span>
+            </div>
+          </Tooltip>
+        </div>
+      </aside>
+    </>
   )
 }
 

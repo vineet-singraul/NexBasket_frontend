@@ -13,6 +13,7 @@ export const AUTH_ENDPOINTS = {
 
 export const CATEGORY_ENDPOINTS = {
   CREATE: "/category",
+  GETSUBOWNERCATEGORYLIST: (id: string) => `/category/${id}`
 };
 
 export const STORE_ENDPOINTS = {

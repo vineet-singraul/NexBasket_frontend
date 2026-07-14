@@ -60,9 +60,6 @@ body {
   margin: 0;
 }
 
-
-
-
 /* ============================================================= */
 /* ================== Global Css =============================== */
 /* ============================================================= */
@@ -187,3 +184,193 @@ body {
 .button:hover svg {
   transform: translateX(3px);
 }
+
+
+/* ================ */
+/* ===== Add Products (Step Form) ===== */
+
+.add-products-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.product-stepper {
+  padding: 8px 0 20px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 4px;
+}
+
+.product-stepper .MuiStepLabel-label {
+  color: rgba(255, 255, 255, 0.4) !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+}
+
+.product-stepper .MuiStepLabel-label.Mui-active,
+.product-stepper .MuiStepLabel-label.Mui-completed {
+  color: #ff8400 !important;
+}
+
+.product-stepper .MuiStepIcon-root {
+  color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.product-stepper .MuiStepIcon-root.Mui-active,
+.product-stepper .MuiStepIcon-root.Mui-completed {
+  color: #ff8400 !important;
+}
+
+.product-stepper .MuiStepIcon-text {
+  fill: #fff !important;
+}
+
+.product-stepper .MuiStepConnector-line {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.panel {
+  width: 100%;
+  /* max-width: 520px; */
+  padding: 24px !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 10px !important;
+  box-sizing: border-box;
+}
+
+.panel-title {
+  color: #fff !important;
+  font-weight: 700 !important;
+  margin-bottom: 16px !important;
+}
+
+.mui-field .MuiInputBase-input,
+.mui-field .MuiSelect-select {
+  color: #fff !important;
+}
+
+.mui-field .MuiInputLabel-root {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.mui-field .MuiInputLabel-root.Mui-focused {
+  color: #ff8400 !important;
+}
+
+.mui-field .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+.mui-field:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.35) !important;
+}
+
+.mui-field .Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #ff8400 !important;
+}
+
+.mui-field .MuiSvgIcon-root {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px !important;
+}
+
+.btn-next,
+.btn-submit {
+  background: linear-gradient(90deg, #ff8400, #ff4d00) !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  border-radius: 30px !important;
+  padding: 8px 24px !important;
+  box-shadow: 0 4px 14px rgba(255, 132, 0, 0.35) !important;
+}
+
+.btn-next:hover,
+.btn-submit:hover {
+  background: linear-gradient(90deg, #ff9420, #ff5c14) !important;
+  box-shadow: 0 6px 18px rgba(255, 132, 0, 0.45) !important;
+}
+
+.btn-back {
+  color: rgba(255, 255, 255, 0.75) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  text-transform: none !important;
+  border-radius: 30px !important;
+  padding: 8px 24px !important;
+  font-weight: 600 !important;
+}
+
+.btn-back:hover {
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* ================ */
+/* ===== Sub Owner Dashboard layout ===== */
+
+.sod-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.sod-row {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  box-sizing: border-box;
+  flex: 1 1 0%;
+  min-height: 0;
+}
+
+.sod-left {
+  flex: 0 0 30%;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.sod-right {
+  flex: 1 1 0%;
+  min-width: 0;
+  min-height: 0;
+}
+
+@media (max-width: 900px) {
+  .sod-wrapper {
+    height: auto;
+  }
+
+  .sod-row {
+    flex-direction: column;
+    flex: none;
+  }
+
+  .sod-left {
+    flex: none;
+    width: 100%;
+    overflow: visible;
+  }
+
+  .sod-right {
+    flex: none;
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .panel {
+    padding: 16px !important;
+  }
+}
+

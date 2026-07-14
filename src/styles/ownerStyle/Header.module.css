@@ -22,6 +22,25 @@
   z-index: 10;
 }
 
+/* ---------------- Menu toggle (mobile) ---------------- */
+.menuToggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--nb-dark);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.menuToggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 /* ---------------- Search ---------------- */
 .searchWrap {
   display: flex;
@@ -142,4 +161,34 @@
 .chevron {
   color: var(--nb-gray);
   font-size: 20px;
+}
+
+/* ---------------- Mobile / responsive ---------------- */
+@media (max-width: 900px) {
+  .menuToggle {
+    display: flex;
+  }
+
+  .header {
+    padding: 0 16px;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .searchWrap {
+    display: none;
+  }
+
+  .profileText {
+    display: none;
+  }
+
+  .chevron {
+    display: none;
+  }
+
+  .divider {
+    display: none;
+  }
 }

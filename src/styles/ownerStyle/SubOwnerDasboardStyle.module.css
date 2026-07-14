@@ -173,7 +173,7 @@
 /* ===========  { RIGHT SIDE SUB DASHBOARD } ========= */
 .SODR_Main_Wrapper {
   width: 100% !important;
-  height: 100% !important;
+  height: 96% !important;
   display: flex;
   flex-direction: column;
   background: rgba(255, 255, 255, 0.03) !important;
