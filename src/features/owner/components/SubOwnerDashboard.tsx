@@ -4,7 +4,7 @@ import SubOwnerDashboardRightSide from './SubOwnerDashboardRightSide'
 
 const SubOwnerDashboard = () => {
   return (
-    <div className="sod-wrapper">
+    <div className="sod-wrapper" style={{width:'90%'}}>
        <h2 style={{flexShrink:0}}>SUB OWNER DASHBOARD</h2>
        <div className="sod-row">
           <div className="sod-left"><SubOwnerDashboardLeftSide/></div>

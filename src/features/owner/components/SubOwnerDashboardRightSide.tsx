@@ -9,7 +9,7 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
 import InsightsIcon from '@mui/icons-material/Insights'
 import SettingsIcon from '@mui/icons-material/Settings'
-import AddProducts from './AddProducts'
+import AddProducts from '../pages/AddCategury'
 
 interface TabPanelProps {
   children?: ReactNode

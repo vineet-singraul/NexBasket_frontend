@@ -4,15 +4,15 @@ export interface CategoryOption {
 }
 
 export interface AddCategoryForm {
-  name: string
-  description: string
-  subOwner:string,
-  isActive:''
+  productCategory: string
+  categoryDescription: string
+  OwnerId:string,
+  categoryActive:''
 }
 
 export interface AddCategoryErrors {
-  name: string
-  description: string
-  subOwner:string,
-  isActive:string
+  productCategory: string
+  categoryDescription: string
+  OwnerId:string,
+  categoryActive:string
 }

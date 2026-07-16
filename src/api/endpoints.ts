@@ -12,12 +12,13 @@ export const AUTH_ENDPOINTS = {
 };
 
 export const CATEGORY_ENDPOINTS = {
-  CREATE: "/category",
-  GETSUBOWNERCATEGORYLIST: (id: string) => `/category/${id}`
+  CREATE: "/category/addCategory",
+  GETSUBOWNERCATEGORYLIST: (id: string) => `/category/getSingleOwnerCategory/${id}`
 };
 
 export const STORE_ENDPOINTS = {
   CREATE: "/store",
-  LIST: "/store",
+  LIST: (id: string) => `/store/${id}`,
   SINGLELIST: (id: string) => `/store/${id}`
 };
+

@@ -32,7 +32,7 @@ const ShowAllStore = () => {
       setLoading(true);
       try {
         const response = await apiGet<{ stores?: StoreListItem[] } | StoreListItem[]>(
-          STORE_ENDPOINTS.LIST
+          STORE_ENDPOINTS.LIST()
         );
         const list = Array.isArray(response) ? response : response?.stores ?? [];
         setStores(list);
