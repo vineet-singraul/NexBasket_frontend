@@ -16,3 +16,23 @@ export interface AddCategoryErrors {
   OwnerId:string,
   categoryActive:string
 }
+
+export interface CategoryListItem {
+  _id: string
+  productCategory: string
+  categoryDescription?: string
+  categoryActive?: string | boolean
+  OwnerId?: string
+  MainOwnerName?: string
+  createdAt?: string
+}
+
+export interface AddCategoryLeftPannalProps {
+  subOwnerId: string
+  onCategoryCreated?: () => void
+}
+
+export interface AddCategoryRightPannelProps {
+  categories: CategoryListItem[]
+  loading: boolean
+}

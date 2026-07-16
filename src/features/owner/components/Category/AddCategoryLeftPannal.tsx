@@ -1,18 +1,19 @@
-import React from 'react'
 import { Box, Typography, TextField, Button, MenuItem } from '@mui/material'
 import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import type { ChangeEvent, FocusEvent, SyntheticEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from '../../../../styles/ownerStyle/AddCategury.module.css'
-import { apiGet, apiPost } from '../../../../api/userApi'
+import { apiPost } from '../../../../api/userApi'
 import { CATEGORY_ENDPOINTS } from '../../../../api/endpoints'
 import type { NotificationInterfacce } from '../../../../auth/types/auth.types'
-import type { AddCategoryForm, AddCategoryErrors, CategoryOption } from '../../types/category.types'
+import type {
+  AddCategoryForm,
+  AddCategoryErrors,
+  AddCategoryLeftPannalProps,
+} from '../../types/category.types'
 import Loader from '../../../../utils/Loader'
 import Notification from '../../../../utils/Notification'
-
-const PARENT_CATEGORY_OPTIONS: CategoryOption[] = []
 
 const validateCategoryField = (name: string, value: string): string => {
   const trimmed = value.trim()
@@ -32,7 +33,8 @@ const validateCategoryField = (name: string, value: string): string => {
       return ''
   }
 }
-const AddCategoryLeftPannal = () => {
+
+const AddCategoryLeftPannal = ({ subOwnerId, onCategoryCreated }: AddCategoryLeftPannalProps) => {
   const navigate = useNavigate()
 
   const [formData, setFormData] = useState<AddCategoryForm>({
@@ -52,11 +54,6 @@ const AddCategoryLeftPannal = () => {
     open: false,
     message: '',
     severity: 'success',
-  })
-
-  const [subOwnerId] = useState(() => {
-    const auth = localStorage.getItem('nexbasket_auth')
-    return auth ? JSON.parse(auth)?.user?._id || '' : ''
   })
 
   const [MainOwnerName] = useState(() => {
@@ -82,22 +79,6 @@ const AddCategoryLeftPannal = () => {
     navigate('/owner/dashboard')
   }
 
-  const fetchSubOwnerCategory = async () => {
-    try {
-      const response = await apiGet(CATEGORY_ENDPOINTS.GETSUBOWNERCATEGORYLIST(subOwnerId))
-
-      console.log('Response:', response)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  useEffect(() => {
-    if (subOwnerId) {
-      fetchSubOwnerCategory()
-    }
-  }, [subOwnerId])
-
   const handleAddCategory = async (event: SyntheticEvent) => {
     event.preventDefault()
 
@@ -119,6 +100,7 @@ const AddCategoryLeftPannal = () => {
         categoryActive: formData.categoryActive,
         MainOwnerName: MainOwnerName,
       }
+      
       const response = await apiPost<{ message?: string }>(CATEGORY_ENDPOINTS.CREATE, payload)
       setNotification({
         open: true,
@@ -126,6 +108,7 @@ const AddCategoryLeftPannal = () => {
         severity: 'success',
       })
       setFormData({ productCategory: '', categoryDescription: '', OwnerId: '', categoryActive: '' })
+      onCategoryCreated?.()
     } catch (err) {
       setNotification({
         open: true,
@@ -138,24 +121,28 @@ const AddCategoryLeftPannal = () => {
   }
 
   return (
-    <Box className={styles.wrap}>
-      <Box className={styles.pageHeader}>
-        <Typography className={styles.pageTitle}>Add Category</Typography>
+    <Box className={styles.AC_leftWrapper}>
+      <Box className={styles.AC_panelHeader}>
+        <Box className={styles.AC_panelIcon}>
+          <CategoryRoundedIcon />
+        </Box>
+        <Box>
+          <Typography className={styles.AC_panelTitle}>Add Category</Typography>
+          <Typography className={styles.AC_panelSubtitle}>
+            Create a new product category for your store
+          </Typography>
+        </Box>
       </Box>
 
-      <Box className={styles.card} component="form" onSubmit={handleAddCategory} noValidate>
-        <Box className={styles.cardHeader}>
-          <Box className={styles.cardHeaderIcon}>
-            <CategoryRoundedIcon />
-          </Box>
+      <Box
+        className={styles.AC_form}
+        component="form"
+        onSubmit={handleAddCategory}
+        noValidate
+      >
+        <Box className={styles.AC_formBody}>
           <Box>
-            <Typography className={styles.cardHeaderTitle}>Category Details</Typography>
-          </Box>
-        </Box>
-
-        <Box className={styles.fieldGroup}>
-          <Box>
-            <Typography className={styles.fieldLabel}>Parent Category</Typography>
+            <Typography className={styles.AC_fieldLabel}>Owner Id</Typography>
             <TextField
               fullWidth
               placeholder={subOwnerId}
@@ -168,7 +155,7 @@ const AddCategoryLeftPannal = () => {
           </Box>
 
           <Box>
-            <Typography className={styles.fieldLabel}>Category Name</Typography>
+            <Typography className={styles.AC_fieldLabel}>Category Name</Typography>
             <TextField
               fullWidth
               placeholder="e.g. Groceries"
@@ -182,7 +169,7 @@ const AddCategoryLeftPannal = () => {
           </Box>
 
           <Box>
-            <Typography className={styles.fieldLabel}>Description</Typography>
+            <Typography className={styles.AC_fieldLabel}>Description</Typography>
             <TextField
               fullWidth
               multiline
@@ -198,11 +185,10 @@ const AddCategoryLeftPannal = () => {
           </Box>
 
           <Box>
-            <Typography className={styles.fieldLabel}>Parent Category</Typography>
+            <Typography className={styles.AC_fieldLabel}>Status</Typography>
             <TextField
               select
               fullWidth
-              className="mui-field"
               value={formData.categoryActive}
               onBlur={handleOnBlur}
               onChange={handleOnChange}
@@ -214,17 +200,17 @@ const AddCategoryLeftPannal = () => {
           </Box>
         </Box>
 
-        <Box className={styles.actions}>
+        <Box className={styles.AC_actions}>
           <Button
             type="button"
             variant="outlined"
-            className={styles.cancelBtn}
+            className={styles.AC_cancelBtn}
             onClick={handleCancel}
             disabled={loading}
           >
             Cancel
           </Button>
-          <Button type="submit" variant="contained" className={styles.saveBtn} disabled={loading}>
+          <Button type="submit" variant="contained" className={styles.AC_saveBtn} disabled={loading}>
             Create Category
           </Button>
         </Box>

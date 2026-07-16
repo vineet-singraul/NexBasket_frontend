@@ -1,30 +1,75 @@
-import React from 'react'
-import { Box, Typography, Avatar, Chip } from '@mui/material'
-import style from "../../../../styles/ownerStyle/AddCategury.module.css"
+import { Box, Typography, Chip } from '@mui/material'
+import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded'
+import InventoryRoundedIcon from '@mui/icons-material/InventoryRounded'
+import styles from '../../../../styles/ownerStyle/AddCategury.module.css'
+import type { AddCategoryRightPannelProps, CategoryListItem } from '../../types/category.types'
 
-const CATEGORY_PLACEHOLDERS = [1, 2, 3, 4, 5, 6]
+const isActive = (value: CategoryListItem['categoryActive']) =>
+  value === true || value === 'true'
 
-const AddCategoryRightPannel = () => {
+const AddCategoryRightPannel = ({ categories, loading }: AddCategoryRightPannelProps) => {
+  console.log("<-------- categories --------->",categories)
   return (
-    <Box className={style.wrap}>
-      <Box className={style.pageHeader}>
-        <Typography className={style.pageTitle}>Add Category</Typography>
+    <Box className={styles.AC_rightWrapper}>
+      <Box className={styles.AC_panelHeader}>
+        <Box className={styles.AC_panelIcon}>
+          <InventoryRoundedIcon />
+        </Box>
+        <Box>
+          <Typography className={styles.AC_panelTitle}>Your Categories</Typography>
+          <Typography className={styles.AC_panelSubtitle}>
+            {categories.length} categor{categories.length === 1 ? 'y' : 'ies'} created
+          </Typography>
+        </Box>
       </Box>
 
-      <Box className={style.ACRP_Wrapper}>
-        {CATEGORY_PLACEHOLDERS.map((item) => (
-          <Box className={style.ACRP_Box_Wrapper} key={item}>
-            <Box className={style.ACRP_IconWrapper}>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-              <Typography variant="subtitle1">subtitle1</Typography>
-            </Box>
-            <Box className={style.ACRP_Content_Wrapper}>
-              <Chip label="Clickable" />
-              <Typography variant="h6">h6. Heading</Typography>
-            </Box>
+      {loading && (
+        <Box className={styles.AC_emptyState}>
+          <Typography className={styles.AC_emptyDesc}>Loading categories…</Typography>
+        </Box>
+      )}
+
+      {!loading && categories.length === 0 && (
+        <Box className={styles.AC_emptyState}>
+          <Box className={styles.AC_emptyIconWrap}>
+            <CategoryRoundedIcon />
           </Box>
-        ))}
-      </Box>
+          <Typography className={styles.AC_emptyTitle}>No categories yet</Typography>
+          <Typography className={styles.AC_emptyDesc}>
+            Categories you create will show up here for quick reference.
+          </Typography>
+        </Box>
+      )}
+
+      {!loading && categories.length > 0 && (
+        <Box className={styles.AC_listBody}>
+          {categories.map((category) => (
+            <Box className={styles.AC_categoryCard} key={category._id}>
+              <Box className={styles.AC_categoryIcon}>
+                <CategoryRoundedIcon />
+              </Box>
+
+              <Box className={styles.AC_categoryInfo}>
+                <Typography className={styles.AC_categoryName}>
+                  {category.productCategory}
+                </Typography>
+                {category.categoryDescription && (
+                  <Typography className={styles.AC_categoryDesc}>
+                    {category.categoryDescription}
+                  </Typography>
+                )}
+              </Box>
+
+              <Chip
+                label={isActive(category.categoryActive) ? 'Active' : 'Inactive'}
+                className={`${styles.AC_statusChip} ${
+                  isActive(category.categoryActive) ? styles.AC_statusActive : styles.AC_statusInactive
+                }`}
+              />
+            </Box>
+          ))}
+        </Box>
+      )}
     </Box>
   )
 }
