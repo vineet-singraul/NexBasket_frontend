@@ -1,6 +1,8 @@
 /* ==========================================================================
    AddStore.module.css
    NexBasket Owner Panel — create store page
+   Shared panel/header/form/action-bar styling lives in AddCategury.module.css
+   (AC_* classes) and is reused here for visual parity with the Category page.
    ========================================================================== */
 
 .AS_mainWrapper {
@@ -23,58 +25,14 @@
   }
 }
 
-.AS_leftWrapper {
-  width: 60%;
-  padding: 28px;
-  border-radius: 16px !important;
-  background: var(--nb-surface) !important;
-  border: 1px solid var(--nb-border);
-}
-
-.AS_rightWrapper {
-  width: 40%;
-  padding: 28px;
-  border-radius: 16px !important;
-  background: var(--nb-surface) !important;
-  border: 1px solid var(--nb-border);
-}
-
-@media (max-width: 1100px) {
-  .AS_leftWrapper,
-  .AS_rightWrapper {
-    width: 100%;
-  }
-}
-
-@media (max-width: 600px) {
-  .AS_leftWrapper,
-  .AS_rightWrapper {
-    padding: 18px;
-  }
-}
-
-.heading {
-  color: var(--nb-dark) !important;
-  margin-bottom: 22px !important;
-  font-weight: 800 !important;
-}
-
-.subHeading {
-  color: var(--nb-orange) !important;
-  margin-top: 6px !important;
-  margin-bottom: 4px !important;
-  font-weight: 700 !important;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
 .row {
   display: flex;
   gap: 15px;
+}
+
+.row > * {
+  flex: 1;
+  min-width: 0;
 }
 
 @media (max-width: 560px) {
@@ -84,55 +42,6 @@
   }
 }
 
-.createBtn {
-  margin-top: 6px !important;
-  background: var(--nb-orange) !important;
-  color: #fff !important;
-  border-radius: 10px !important;
-  padding: 12px !important;
-  font-weight: 700 !important;
-  text-transform: none !important;
-  box-shadow: none !important;
-}
-
-.createBtn:hover {
-  background: #e56f10 !important;
-}
-
-/* MUI TextField overrides — default MUI text/label colors are near-black
-   and invisible against the dark card, same fix used on AddCategury/ChnagePassword */
-
-.form :global(.MuiOutlinedInput-root) {
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--nb-dark);
-}
-
-.form :global(.MuiOutlinedInput-input) {
-  color: var(--nb-dark);
-}
-
-.form :global(.MuiInputLabel-root) {
-  color: var(--nb-gray);
-}
-
-.form :global(.MuiInputLabel-root.Mui-focused) {
-  color: var(--nb-orange);
-}
-
-.form :global(.MuiOutlinedInput-notchedOutline) {
-  border-color: var(--nb-border);
-}
-
-.form :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
-  border-color: var(--nb-orange);
-}
-
-.form :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
-  border-color: var(--nb-orange);
-  border-width: 2px;
-}
-
 /* ---------------- File upload fields (Logo / Banner) ---------------- */
 
 .uploadField {
@@ -140,12 +49,6 @@
   justify-content: space-between !important;
   flex-direction: row !important;
   gap: 8px;
-}
-
-.uploadLabel {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--nb-gray);
 }
 
 .uploadRow {
@@ -182,62 +85,6 @@
   font-size: 12px !important;
   color: #ff6b6b !important;
 }
-
-/* ---------------- Store list (right panel) ---------------- */
-
-.storeList {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.storeCard {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-  padding: 14px;
-  border-radius: 12px;
-  background: var(--nb-surface-alt);
-  border: 1px solid var(--nb-border);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
-}
-
-.storeCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
-}
-
-.storeCard img {
-  width: 72px;
-  height: 72px;
-  border-radius: 12px;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-@media (max-width: 600px) {
-  .storeCard {
-    padding: 10px;
-    gap: 12px;
-  }
-
-  .storeCard img {
-    width: 56px;
-    height: 56px;
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
 
 
 

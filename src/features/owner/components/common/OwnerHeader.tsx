@@ -8,7 +8,7 @@ import { Badge, Avatar, Menu, MenuItem, Divider, ListItemIcon } from '@mui/mater
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded'
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded'
-import styles from '../../../styles/ownerStyle/Header.module.css'
+import styles from '../../../../styles/ownerStyle/Header.module.css'
 
 interface OwnerHeaderProps {
   ownerName?: string

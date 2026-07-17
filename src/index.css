@@ -61,6 +61,52 @@ body {
 }
 
 /* ============================================================= */
+/* ================== Custom Scrollbar (pill style) ============= */
+/* ============================================================= */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(252, 128, 25, 0.5) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(252, 128, 25, 0.45);
+  border-radius: 30px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(252, 128, 25, 0.8);
+  border-width: 2px;
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Page-level scroll is handled inside the app shell (sidebar / main),
+   so the outer document scrollbar is only visual clutter — hide it. */
+html,
+body {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================================= */
 /* ================== Global Css =============================== */
 /* ============================================================= */
 .button {

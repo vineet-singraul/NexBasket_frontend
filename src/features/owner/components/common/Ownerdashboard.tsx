@@ -19,7 +19,7 @@ import SpeedRoundedIcon from '@mui/icons-material/SpeedRounded'
 import CompareArrowsRoundedIcon from '@mui/icons-material/CompareArrowsRounded'
 import PauseRoundedIcon from '@mui/icons-material/PauseRounded'
 import StopRoundedIcon from '@mui/icons-material/StopRounded'
-import styles from '../../../styles/ownerStyle/Dashboard.module.css'
+import styles from '../../../../styles/ownerStyle/Dashboard.module.css'
 
 /**
  * OwnerDashboard

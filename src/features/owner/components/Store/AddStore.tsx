@@ -1,14 +1,17 @@
-import { Box, Typography, Paper, TextField, Button } from '@mui/material'
+import { Box, Typography, TextField, Button } from '@mui/material'
 import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded'
-import style from '../../../styles/ownerStyle/AddStore.module.css'
-import type { Errors, Store, StoreListItem } from '../types/store.types'
+import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined'
+import categoryStyles from '../../../../styles/ownerStyle/AddCategury.module.css'
+import style from '../../../../styles/ownerStyle/AddStore.module.css'
+import type { Errors, Store } from '../../types/store.types'
 import React, { useEffect, useState } from 'react'
-import { validateField } from '../../../utils/validators'
-import { apiGet, apiPostForm } from '../../../api/userApi'
-import { STORE_ENDPOINTS } from '../../../api/endpoints'
-import type { NotificationInterfacce } from '../../../auth/types/auth.types'
-import Loader from '../../../utils/Loader'
-import Notification from '../../../utils/Notification'
+import { useNavigate } from 'react-router-dom'
+import { validateField } from '../../../../utils/validators'
+import { apiPostForm } from '../../../../api/userApi'
+import { STORE_ENDPOINTS } from '../../../../api/endpoints'
+import type { NotificationInterfacce } from '../../../../auth/types/auth.types'
+import Loader from '../../../../utils/Loader'
+import Notification from '../../../../utils/Notification'
 
 const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024
 
@@ -20,6 +23,8 @@ const validateImageFile = (file: File | null): string => {
 }
 
 const AddStore = () => {
+  const navigate = useNavigate()
+
   const [storeData, setStoreData] = useState<Store>({
     owner: '',
     storeName: '',
@@ -106,7 +111,6 @@ const AddStore = () => {
       })
     }
 
-
   const [loading, setLoading] = useState<boolean>(false)
   const [notification, setNotification] = useState<NotificationInterfacce>({
     open: false,
@@ -114,12 +118,16 @@ const AddStore = () => {
     severity: 'success',
   })
 
+  const handleCancel = () => {
+    navigate('/owner/dashboard')
+  }
+
   const handleCreateStore = async (event: React.SyntheticEvent) => {
     event.preventDefault()
 
     const newErrors: Errors = {
       storeName: validateField('storeName', storeData.storeName),
-      description: validateField('description',storeData.description),
+      description: validateField('description', storeData.description),
       email: validateField('email', storeData.email),
       phone: validateField('phone', storeData.phone),
       gstNumber: validateField('gstNumber', storeData.gstNumber),
@@ -175,7 +183,6 @@ const AddStore = () => {
       })
       setLogoPreview(null)
       setBannerPreview(null)
-      fetchAllStores()
     } catch (err) {
       setNotification({
         open: true,
@@ -187,160 +194,184 @@ const AddStore = () => {
     }
   }
 
-  const [stores, setStores] = useState<StoreListItem[]>([])
-  const [storesLoading, setStoresLoading] = useState<boolean>(false)
-
-  const fetchAllStores = async () => {
-    setStoresLoading(true)
-    try {
-      const response = await apiGet<{ stores?: StoreListItem[] } | StoreListItem[]>(STORE_ENDPOINTS.LIST)
-      const list = Array.isArray(response) ? response : response?.stores ?? []
-      setStores(list)
-    } catch (err) {
-      setNotification({
-        open: true,
-        message: err instanceof Error ? err.message : 'Failed to load stores',
-        severity: 'error',
-      })
-    } finally {
-      setStoresLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    fetchAllStores()
-  }, [])
-
-
   return (
-    <>
-      <Box className={style.AS_mainWrapper}>
-        {/* Left Side */}
-        <Paper className={style.AS_leftWrapper} elevation={4}>
-          <Typography variant="h5" className={style.heading}>
-            Create Store
+    <Box className={categoryStyles.AC_leftWrapper}>
+      <Box className={categoryStyles.AC_panelHeader}>
+        <Box className={categoryStyles.AC_panelIcon}>
+          <StorefrontOutlinedIcon />
+        </Box>
+        <Box>
+          <Typography className={categoryStyles.AC_panelTitle}>Create Store</Typography>
+          <Typography className={categoryStyles.AC_panelSubtitle}>
+            Create a new product store for add Products
           </Typography>
+        </Box>
+      </Box>
 
-          <Box component="form" className={style.form} onSubmit={handleCreateStore} noValidate>
-            <TextField
-              fullWidth
-              label="Store Name"
-              name="storeName"
-              value={storeData.storeName}
-              onChange={handleOnchange}
-              onBlur={handleBlur}
-              error={Boolean(errors.storeName)}
-              helperText={errors.storeName}
-            />
-            <TextField
-              fullWidth
-              multiline
-              rows={3}
-              label="Description"
-              name="description"
-              value={storeData.description}
-              onChange={handleOnchange}
-              onBlur={handleBlur}
-              error={Boolean(errors.description)}
-              helperText={errors.description}
-            />
+        <Box
+          className={categoryStyles.AC_form}
+          component="form"
+          onSubmit={handleCreateStore}
+          noValidate
+        >
+          <Box className={categoryStyles.AC_formBody}>
+            <Box className={style.row}>
+              <Box>
+                <Typography className={categoryStyles.AC_fieldLabel}>Store Name</Typography>
+                <TextField
+                  fullWidth
+                  placeholder="e.g. Fresh Mart"
+                  name="storeName"
+                  value={storeData.storeName}
+                  onChange={handleOnchange}
+                  onBlur={handleBlur}
+                  error={Boolean(errors.storeName)}
+                  helperText={errors.storeName}
+                />
+              </Box>
 
-            <TextField
-              fullWidth
-              label="Email"
-              name="email"
-              value={storeData.email}
-              onChange={handleOnchange}
-              onBlur={handleBlur}
-              error={Boolean(errors.email)}
-              helperText={errors.email}
-            />
-
-            <TextField
-              fullWidth
-              label="Phone"
-              name="phone"
-              value={storeData.phone}
-              onChange={handleOnchange}
-              onBlur={handleBlur}
-              error={Boolean(errors.phone)}
-              helperText={errors.phone}
-            />
-
-            <TextField
-              fullWidth
-              label="GST Number"
-              name="gstNumber"
-              value={storeData.gstNumber}
-              onChange={handleOnchange}
-              onBlur={handleBlur}
-              error={Boolean(errors.gstNumber)}
-              helperText={errors.gstNumber}
-            />
-
-            <Typography className={style.subHeading}>Address</Typography>
-
-            <TextField
-              fullWidth
-              label="Street"
-              name="address.street"
-              value={storeData.address.street}
-              onChange={handleOnchange}
-              onBlur={handleBlur}
-              error={Boolean(errors.street)}
-              helperText={errors.street}
-            />
+              <Box>
+                <Typography className={categoryStyles.AC_fieldLabel}>Email</Typography>
+                <TextField
+                  fullWidth
+                  placeholder="e.g. store@example.com"
+                  name="email"
+                  value={storeData.email}
+                  onChange={handleOnchange}
+                  onBlur={handleBlur}
+                  error={Boolean(errors.email)}
+                  helperText={errors.email}
+                />
+              </Box>
+            </Box>
 
             <Box className={style.row}>
-              <TextField
-                fullWidth
-                label="City"
-                name="address.city"
-                value={storeData.address.city}
-                onChange={handleOnchange}
-                onBlur={handleBlur}
-                error={Boolean(errors.city)}
-                helperText={errors.city}
-              />
+              <Box>
+                <Typography className={categoryStyles.AC_fieldLabel}>Phone</Typography>
+                <TextField
+                  fullWidth
+                  placeholder="e.g. 9876543210"
+                  name="phone"
+                  value={storeData.phone}
+                  onChange={handleOnchange}
+                  onBlur={handleBlur}
+                  error={Boolean(errors.phone)}
+                  helperText={errors.phone}
+                />
+              </Box>
 
+              <Box>
+                <Typography className={categoryStyles.AC_fieldLabel}>GST Number</Typography>
+                <TextField
+                  fullWidth
+                  placeholder="e.g. 22AAAAA0000A1Z5"
+                  name="gstNumber"
+                  value={storeData.gstNumber}
+                  onChange={handleOnchange}
+                  onBlur={handleBlur}
+                  error={Boolean(errors.gstNumber)}
+                  helperText={errors.gstNumber}
+                />
+              </Box>
+            </Box>
+
+            <Box>
+              <Typography className={categoryStyles.AC_fieldLabel}>Description</Typography>
               <TextField
                 fullWidth
-                label="State"
-                name="address.state"
-                value={storeData.address.state}
+                multiline
+                minRows={2}
+                placeholder="e.g. Your one-stop grocery store"
+                name="description"
+                value={storeData.description}
                 onChange={handleOnchange}
                 onBlur={handleBlur}
-                error={Boolean(errors.state)}
-                helperText={errors.state}
+                error={Boolean(errors.description)}
+                helperText={errors.description}
+              />
+            </Box>
+
+            <Typography className={categoryStyles.AC_panelTitle} sx={{ fontSize: '14px !important' }}>
+              Address
+            </Typography>
+
+            <Box>
+              <Typography className={categoryStyles.AC_fieldLabel}>Street</Typography>
+              <TextField
+                fullWidth
+                placeholder="e.g. MG Road"
+                name="address.street"
+                value={storeData.address.street}
+                onChange={handleOnchange}
+                onBlur={handleBlur}
+                error={Boolean(errors.street)}
+                helperText={errors.street}
               />
             </Box>
 
             <Box className={style.row}>
-              <TextField
-                fullWidth
-                label="Country"
-                name="address.country"
-                value={storeData.address.country}
-                onChange={handleOnchange}
-                onBlur={handleBlur}
-                error={Boolean(errors.country)}
-                helperText={errors.country}
-              />
+              <Box>
+                <Typography className={categoryStyles.AC_fieldLabel}>City</Typography>
+                <TextField
+                  fullWidth
+                  placeholder="e.g. Indore"
+                  name="address.city"
+                  value={storeData.address.city}
+                  onChange={handleOnchange}
+                  onBlur={handleBlur}
+                  error={Boolean(errors.city)}
+                  helperText={errors.city}
+                />
+              </Box>
 
-              <TextField
-                fullWidth
-                label="Pincode"
-                name="address.pincode"
-                value={storeData.address.pincode}
-                onChange={handleOnchange}
-                onBlur={handleBlur}
-                error={Boolean(errors.pincode)}
-                helperText={errors.pincode}
-              />
+              <Box>
+                <Typography className={categoryStyles.AC_fieldLabel}>State</Typography>
+                <TextField
+                  fullWidth
+                  placeholder="e.g. Madhya Pradesh"
+                  name="address.state"
+                  value={storeData.address.state}
+                  onChange={handleOnchange}
+                  onBlur={handleBlur}
+                  error={Boolean(errors.state)}
+                  helperText={errors.state}
+                />
+              </Box>
             </Box>
 
-            <Box sx={{ display: 'flex', justifyContent: 'start', gap: 5 }}>
-              <Box className={style.uploadField}>
+            <Box className={style.row}>
+              <Box>
+                <Typography className={categoryStyles.AC_fieldLabel}>Country</Typography>
+                <TextField
+                  fullWidth
+                  placeholder="e.g. India"
+                  name="address.country"
+                  value={storeData.address.country}
+                  onChange={handleOnchange}
+                  onBlur={handleBlur}
+                  error={Boolean(errors.country)}
+                  helperText={errors.country}
+                />
+              </Box>
+
+              <Box>
+                <Typography className={categoryStyles.AC_fieldLabel}>Pincode</Typography>
+                <TextField
+                  fullWidth
+                  placeholder="e.g. 452001"
+                  name="address.pincode"
+                  value={storeData.address.pincode}
+                  onChange={handleOnchange}
+                  onBlur={handleBlur}
+                  error={Boolean(errors.pincode)}
+                  helperText={errors.pincode}
+                />
+              </Box>
+            </Box>
+
+            <Box className={style.uploadField}>
+              <Box sx={{ flex: 1 }}>
+                <Typography className={categoryStyles.AC_fieldLabel}>Logo</Typography>
                 <Box className={style.uploadRow}>
                   <Button
                     component="label"
@@ -363,7 +394,8 @@ const AddStore = () => {
                 {errors.logo && <Typography className={style.fieldError}>{errors.logo}</Typography>}
               </Box>
 
-              <Box className={style.uploadField}>
+              <Box sx={{ flex: 1 }}>
+                <Typography className={categoryStyles.AC_fieldLabel}>Banner</Typography>
                 <Box className={style.uploadRow}>
                   <Button
                     component="label"
@@ -387,67 +419,38 @@ const AddStore = () => {
                   <Typography className={style.fieldError}>{errors.banner}</Typography>
                 )}
               </Box>
-
-              <Button
-                type="submit"
-                variant="contained"
-                className={style.createBtn}
-                sx={{ mt: 5 }}
-                disabled={loading}
-              >
-                Create Store
-              </Button>
             </Box>
           </Box>
-        </Paper>
 
-        {/* Right Side */}
-
-        <Paper className={style.AS_rightWrapper} elevation={4}>
-          <Typography variant="h5" className={style.heading}>
-            Your Stores
-          </Typography>
-
-          <Box className={style.storeList}>
-            {storesLoading && (
-              <Typography sx={{ color: 'var(--nb-gray)' }}>Loading stores…</Typography>
-            )}
-
-            {!storesLoading && stores.length === 0 && (
-              <Typography sx={{ color: 'var(--nb-gray)' }}>
-                No stores yet. Create your first store.
-              </Typography>
-            )}
-
-            {stores.map((s) => (
-              <Box className={style.storeCard} key={s._id}>
-                <img src={s.logo || 'https://via.placeholder.com/80'} alt={s.storeName} />
-
-                <Box>
-                  <Typography variant="h6" sx={{ color: 'var(--nb-dark)' }}>
-                    {s.storeName}
-                  </Typography>
-
-                  <Typography sx={{ color: 'var(--nb-gray)' }}>{s.address?.city}</Typography>
-
-                  <Typography color={s.active ? '#63ff83' : '#ff6b6b'}>
-                    {s.active ? 'Active' : 'Inactive'}
-                  </Typography>
-                </Box>
-              </Box>
-            ))}
+          <Box className={categoryStyles.AC_actions}>
+            <Button
+              type="button"
+              variant="outlined"
+              className={categoryStyles.AC_cancelBtn}
+              onClick={handleCancel}
+              disabled={loading}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              className={categoryStyles.AC_saveBtn}
+              disabled={loading}
+            >
+              Create Store
+            </Button>
           </Box>
-        </Paper>
-      </Box>
+        </Box>
 
-      {loading && <Loader />}
-      <Notification
-        open={notification.open}
-        message={notification.message}
-        severity={notification.severity}
-        onClose={() => setNotification((prev) => ({ ...prev, open: false }))}
-      />
-    </>
+        {loading && <Loader />}
+        <Notification
+          open={notification.open}
+          message={notification.message}
+          severity={notification.severity}
+          onClose={() => setNotification((prev) => ({ ...prev, open: false }))}
+        />
+    </Box>
   )
 }
 

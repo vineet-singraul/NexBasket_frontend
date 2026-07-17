@@ -6,12 +6,11 @@ import SessionExpiryWatcher from './auth/common/SessionExpiryWatcher'
 import UserHome from './features/user/pages/UserHome'
 import useGetCity from "./hooks/useGetCity"
 import ChnagePassword from './features/user/components/ChnagePassword'
-import OwnerLayout from './features/owner/components/OwnerLayout'
-import OwnerDashboard from './features/owner/components/Ownerdashboard'
+import OwnerLayout from './features/owner/components/common/OwnerLayout'
+import OwnerDashboard from './features/owner/components/common/Ownerdashboard'
 import AddCategury from './features/owner/pages/AddCategury'
-import AddStore from './features/owner/pages/AddStore'
 import Products from './features/owner/pages/Products'
-import SubOwnerDashboard from './features/owner/components/SubOwnerDashboard'
+import Stores from './features/owner/pages/Stores'
 function App() {
     useGetCity()
   return (
@@ -26,9 +25,8 @@ function App() {
         <Route path="/owner/dashboard" element={<OwnerLayout><OwnerDashboard /></OwnerLayout>} />
         <Route path='/owner/orders' />
         <Route path="/owner/category/add" element={<OwnerLayout><AddCategury /></OwnerLayout>} />
-        <Route path='/owner/stores/add' element={<OwnerLayout><AddStore/></OwnerLayout>}/>
+        <Route path='/owner/stores/add' element={<OwnerLayout><Stores/></OwnerLayout>}/>
         <Route path='/owner/Products' element={<OwnerLayout><Products/></OwnerLayout>}/>
-        <Route path='/owner/store/:id' element={<OwnerLayout><SubOwnerDashboard/></OwnerLayout>}/> 
       </Routes>
     </>
   )

@@ -15,8 +15,8 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import CategoryIcon from '@mui/icons-material/Category';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { Tooltip } from '@mui/material'
-import type { SidebarSection } from '../types/Sidebar.types'
-import styles from '../../../styles/ownerStyle/Sidebar.module.css'
+import type { SidebarSection } from '../../types/Sidebar.types'
+import styles from '../../../../styles/ownerStyle/Sidebar.module.css'
 
 /**
  * OwnerSidebar
