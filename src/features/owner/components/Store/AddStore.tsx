@@ -7,7 +7,7 @@ import type { Errors, Store } from '../../types/store.types'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { validateField } from '../../../../utils/validators'
-import { apiGet, apiPostForm, apiPut } from '../../../../api/userApi'
+import { apiGet, apiPostForm, apiPutForm } from '../../../../api/userApi'
 import { STORE_ENDPOINTS } from '../../../../api/endpoints'
 import type { NotificationInterfacce } from '../../../../auth/types/auth.types'
 import Loader from '../../../../utils/Loader'
@@ -29,8 +29,9 @@ interface AddStoreProps {
 
 const AddStore = ({ onCreated, id }: AddStoreProps) => {
   const navigate = useNavigate()
-  const isEditMode = Boolean(id)
-
+  // initialize edit mode from id to avoid setting state inside effect
+  const [isEditMode, setIsEditMode] = useState<boolean>(Boolean(id))
+  console.log("<--- isEditMode -----> ",isEditMode)
   const [storeData, setStoreData] = useState<Store>({
     owner: '',
     storeName: '',
@@ -98,15 +99,29 @@ const AddStore = ({ onCreated, id }: AddStoreProps) => {
   const [bannerPreview, setBannerPreview] = useState<string | null>(null)
 
   useEffect(() => {
-    let isMounted = true
-
+     let isMounted = true
     const FatchOwnerStore = async () => {
       if (!id) return
 
       try {
-        const response = await apiGet<{ data: Store }>(STORE_ENDPOINTS.GETSTORE(id))
+        const response = await apiGet<{ data: Store & { logo?: string; banner?: string } }>(
+          STORE_ENDPOINTS.GETSTORE(id),
+        )
         const data = response?.data ?? null
-        if (data && isMounted) setStoreData(data)
+
+        if (data && isMounted) {
+          setStoreData((prev) => ({
+            ...prev,
+            ...data,
+            logo: null, // File field ko khaali rakho — sirf naya upload karne par set hoga
+            banner: null,
+            address: data.address || prev.address, // agar address missing ho toh crash na ho
+          }))
+
+          // purane logo/banner URLs ko preview ke roop mein dikhao
+          if (typeof data.logo === 'string') setLogoPreview(data.logo)
+          if (typeof data.banner === 'string') setBannerPreview(data.banner)
+        }
       } catch (error) {
         console.log(error)
       }
@@ -169,6 +184,7 @@ const AddStore = ({ onCreated, id }: AddStoreProps) => {
     if (Object.values(newErrors).some(Boolean)) return
 
     setLoading(true)
+    
     try {
       const formData = new FormData()
       formData.append('storeName', storeData.storeName.trim())
@@ -188,14 +204,19 @@ const AddStore = ({ onCreated, id }: AddStoreProps) => {
       )
       if (storeData.logo) formData.append('logo', storeData.logo)
       if (storeData.banner) formData.append('banner', storeData.banner)
-
+      
       if (isEditMode) {
-        const response = await apiPut<{message?: string}>(STORE_ENDPOINTS.UPDATESTORE, formData)
+        const response = await apiPutForm<{ message?: string }>(
+          STORE_ENDPOINTS.UPDATESTORE,
+          formData,
+        )
         setNotification({
           open: true,
           message: response?.message || 'Store created successfully',
           severity: 'success',
         })
+        setIsEditMode(false)
+        navigate("/owner/stores/add")
       } else {
         const response = await apiPostForm<{ message?: string }>(STORE_ENDPOINTS.CREATE, formData)
         setNotification({

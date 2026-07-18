@@ -39,6 +39,18 @@ export const apiPut = async <T, D = unknown>(
   return response.data;
 };
 
+export const apiPutForm = async <T>(
+  url: string,
+  data: FormData,
+  config?: AxiosRequestConfig
+): Promise<T> => {
+  const response = await axiosInstance.put<T>(url, data, {
+    ...config,
+    headers: { ...config?.headers, "Content-Type": undefined },
+  });
+  return response.data;
+};
+
 export const apiDelete = async <T>(
   url: string,
   config?: AxiosRequestConfig
