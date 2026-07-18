@@ -22,7 +22,11 @@ const validateImageFile = (file: File | null): string => {
   return ''
 }
 
-const AddStore = () => {
+interface AddStoreProps {
+  onCreated?: () => void
+}
+
+const AddStore = ({ onCreated }: AddStoreProps) => {
   const navigate = useNavigate()
 
   const [storeData, setStoreData] = useState<Store>({
@@ -183,6 +187,7 @@ const AddStore = () => {
       })
       setLogoPreview(null)
       setBannerPreview(null)
+      onCreated?.()
     } catch (err) {
       setNotification({
         open: true,

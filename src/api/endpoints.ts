@@ -17,8 +17,9 @@ export const CATEGORY_ENDPOINTS = {
 };
 
 export const STORE_ENDPOINTS = {
-  CREATE: "/store",
+  CREATE: "/store/AddStore",
   LIST: (id: string) => `/store/${id}`,
-  SINGLELIST: (id: string) => `/store/${id}`
+  SINGLELIST: (id: string) => `/store/showOnlyOwnerStore/${id}`,
+  DELETE: (id: string) => `/store/deleteOwnerStore/${id}`
 };
 

@@ -243,13 +243,18 @@
 
 .AC_categoryCard {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 14px;
-  padding: 14px 16px;
+  padding: 16px;
   border-radius: 14px;
   background: var(--nb-surface-alt);
   border: 1px solid var(--nb-border);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.AC_categoryCard .AC_categoryIcon,
+.AC_categoryCard > :global(.MuiAvatar-root) {
+  margin-top: 2px;
 }
 
 .AC_categoryCard:hover {
@@ -299,6 +304,82 @@
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+.AC_detailsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--nb-border);
+}
+
+.AC_detailPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 100%;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--nb-border);
+  color: var(--nb-gray);
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.AC_detailPill span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.AC_detailPill svg {
+  flex-shrink: 0;
+  font-size: 13px;
+  color: var(--nb-orange);
+}
+
+.AC_cardSide {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.AC_cardActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.AC_actionBtn {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 9px !important;
+  color: var(--nb-gray) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--nb-border) !important;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease !important;
+}
+
+.AC_actionBtn svg {
+  font-size: 15px;
+}
+
+.AC_actionBtn:hover {
+  color: var(--nb-orange) !important;
+  border-color: rgba(255, 132, 0, 0.4) !important;
+  background: rgba(255, 132, 0, 0.1) !important;
+}
+
+.AC_actionBtnDanger:hover {
+  color: #e74c3c !important;
+  border-color: rgba(231, 76, 60, 0.4) !important;
+  background: rgba(231, 76, 60, 0.1) !important;
 }
 
 .AC_statusChip {

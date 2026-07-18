@@ -362,3 +362,67 @@ body::-webkit-scrollbar {
 /* ================ */
 /* ===== Sub Owner Dashboard layout ===== */
 
+
+
+
+
+/* ========================== */
+    /* COMMON DELETE POP  */
+/* ========================== */
+
+/* ---------- Delete Confirm Dialog ---------- */
+
+.confirm-dialog-paper {
+  border-radius: 12px !important;
+  padding: 8px;
+  min-width: 340px;
+  background-color: #000000 !important;
+  border: 1px solid rgb(205, 103, 0);
+  color: #ddd !important;
+}
+
+.confirm-dialog-title {
+  font-weight: 600 !important;
+  font-size: 18px !important;
+  color: #ffffff !important;
+}
+
+.confirm-dialog-text {
+  font-size: 14px !important;
+  color: #ffffff !important;
+}
+
+.confirm-dialog-actions {
+  padding: 12px 20px 16px !important;
+}
+
+.confirm-dialog-btn {
+  text-transform: none !important;
+  font-weight: 500 !important;
+  border-radius: 8px !important;
+  padding: 6px 18px !important;
+}
+
+.confirm-dialog-btn-cancel {
+  color: #1a1a1a !important;
+  border: 1px solid #ddd !important;
+}
+
+.confirm-dialog-btn-cancel {
+  background-color: #000000 !important  ;
+  color: #ddd !important;
+}
+
+.confirm-dialog-btn-cancel:hover {
+  background-color: #000000 !important  ;
+  color: #ffd900 !important;
+}
+
+.confirm-dialog-btn-delete {
+  background-color: #e53935 !important;
+  color: #fff !important;
+}
+
+.confirm-dialog-btn-delete:hover {
+  background-color: #c62828 !important;
+}
