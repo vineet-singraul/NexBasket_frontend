@@ -20,6 +20,8 @@ export const STORE_ENDPOINTS = {
   CREATE: "/store/AddStore",
   LIST: (id: string) => `/store/${id}`,
   SINGLELIST: (id: string) => `/store/showOnlyOwnerStore/${id}`,
-  DELETE: (id: string) => `/store/deleteOwnerStore/${id}`
+  DELETE: (id: string) => `/store/deleteOwnerStore/${id}`,
+  GETSTORE: (id: string) => `/store/getSingleOwner/${id}`,
+  UPDATESTORE: `store/EditOwnerDetails`
 };
 

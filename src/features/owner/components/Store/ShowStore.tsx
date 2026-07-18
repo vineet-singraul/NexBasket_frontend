@@ -8,7 +8,6 @@ import EmailRoundedIcon from '@mui/icons-material/EmailRounded'
 import ReceiptLongRoundedIcon from '@mui/icons-material/ReceiptLongRounded'
 import EditRoundedIcon from '@mui/icons-material/EditRounded'
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
-import { useNavigate } from 'react-router-dom'
 import categoryStyles from '../../../../styles/ownerStyle/AddCategury.module.css'
 import type { StoreListItem } from '../../types/store.types'
 import { apiGet, apiDelete } from '../../../../api/userApi'
@@ -16,6 +15,7 @@ import { STORE_ENDPOINTS } from '../../../../api/endpoints'
 import { useEffect, useState, useCallback } from 'react'
 import DeletePopUp from '../common/DeletePopUp'
 import Loader from '../../../../utils/Loader'
+import { useNavigate } from 'react-router-dom'
 const PLACEHOLDER_LOGO = 'https://via.placeholder.com/80'
 
 interface ShowStoreProps {
@@ -28,6 +28,7 @@ const ShowStore = ({ refreshKey }: ShowStoreProps) => {
     const userData = storedUser ? JSON.parse(storedUser) : null
     return userData?.user?._id || ''
   })
+  
 
   const [ownerData, setOwnerData] = useState<StoreListItem[] | null>(null)
   const [fetchLoading, setFetchLoading] = useState<boolean>(false)
@@ -35,6 +36,8 @@ const ShowStore = ({ refreshKey }: ShowStoreProps) => {
   const [open, setOpen] = useState<boolean>(false)
   const [selectedStoreId, setSelectedStoreId] = useState<string | null>(null)
   const stores = ownerData ?? []
+
+  const navigate = useNavigate();
 
   if (ownerData) {
     console.log('Data aa gaya:', ownerData)
@@ -209,7 +212,7 @@ const ShowStore = ({ refreshKey }: ShowStoreProps) => {
                       className={categoryStyles.AC_actionBtn}
                       onClick={(e) => {
                         e.stopPropagation()
-                        console.log('edit store', store._id)
+                        navigate(`/owner/stores/add/${store._id}`);
                       }}
                     >
                       <EditRoundedIcon />
