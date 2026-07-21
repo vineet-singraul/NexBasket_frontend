@@ -1,0 +1,284 @@
+.Product_Main_Wrapper{
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0px !important;
+}
+
+.Product_Main_Header{
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: row !important;
+  background:linear-gradient(180deg, rgba(232, 147, 0, 0.273),rgb(38, 24, 0)) !important;
+  border-top-left-radius: 10px !important;
+  border-top-right-radius: 10px !important;
+  align-items: center !important;
+  gap: 20px !important;
+  padding: 10px !important;
+  border-bottom: 1px solid rgba(130, 83, 0, 0.586) !important;
+}
+
+.Product_Text_Wrapper{
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.Product_panelIcon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 44px !important;
+  height: 44px !important;
+  flex-shrink: 0 !important;
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, rgba(255, 132, 0, 0.22), rgba(98, 0, 235, 0.22)) !important;
+  border: 1px solid rgba(255, 132, 0, 0.35) !important;
+  color: yellow !important;
+}
+
+.Product_panelIcon svg {
+  font-size: 22px;
+}
+
+
+
+
+
+
+.Product_Container{
+  width: 100% !important;
+  background-color: rgba(0, 0, 0, 0.332) !important;
+  padding: 10px !important;
+}
+
+.Product{
+
+}
+
+/* ---------------- Store picker banner ---------------- */
+
+.Banner {
+  width: 100%;
+}
+
+.Banner_Label {
+  color: rgba(255, 255, 255, 0.55) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  margin-bottom: 10px !important;
+}
+
+.Store_Row {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.Store_Card {
+  position: relative;
+  flex: 1 1 420px;
+  max-width: 520px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #1c1f2e;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.Store_Card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 132, 0, 0.4);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+}
+
+.Store_Card_Selected {
+  border-color: #ff8400;
+  box-shadow: 0 0 0 4px rgba(255, 132, 0, 0.22), 0 16px 32px rgba(0, 0, 0, 0.45);
+}
+
+.Store_Banner_Img {
+  width: 100%;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  background-color: #2a2d3d;
+  position: relative;
+}
+
+.Store_Banner_Img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.6) 100%);
+}
+
+.Store_Logo {
+  position: absolute !important;
+  top: 148px;
+  left: 22px;
+  width: 84px !important;
+  height: 84px !important;
+  border-radius: 18px !important;
+  border: 3px solid #1c1f2e !important;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
+  z-index: 2 !important;
+}
+
+.Store_Body {
+  padding: 44px 22px 24px;
+}
+
+.Store_Name {
+  color: #f2f2f5 !important;
+  font-weight: 700 !important;
+  font-size: 19px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.Store_Meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-size: 13.5px !important;
+  margin-top: 6px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.Store_Meta svg {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.Store_Desc {
+  color: rgba(255, 255, 255, 0.4) !important;
+  font-size: 12.5px !important;
+  margin-top: 10px !important;
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.Store_Stats {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.Store_Sales {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: rgba(255, 255, 255, 0.55) !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+}
+
+.Store_Sales svg {
+  font-size: 15px;
+}
+
+.Store_Details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.Store_Detail_Pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 100%;
+  padding: 5px 11px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.Store_Detail_Pill span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Store_Detail_Pill svg {
+  flex-shrink: 0;
+  font-size: 14px;
+  color: #ff8400;
+}
+
+.Store_Chip {
+  position: absolute !important;
+  top: 14px;
+  right: 14px;
+  height: 26px !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  border-radius: 30px !important;
+}
+
+.Store_Chip_Active {
+  background: rgba(46, 204, 113, 0.85) !important;
+  color: #0d1a12 !important;
+}
+
+.Store_Chip_Inactive {
+  background: rgba(231, 76, 60, 0.85) !important;
+  color: #250b08 !important;
+}
+
+.Store_Empty {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 18px 20px;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.Store_Empty_Text {
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-size: 13.5px !important;
+}
+
+.Start_Btn {
+  background: linear-gradient(135deg, #fc8019 0%, #ff9d45 100%) !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  border-radius: 30px !important;
+  padding: 10px 20px !important;
+  margin-top: 16px !important;
+  box-shadow: 0 10px 20px rgba(252, 128, 25, 0.28) !important;
+}
+
+.Start_Btn:hover {
+  background: linear-gradient(135deg, #e86f0d 0%, #fc8019 100%) !important;
+  box-shadow: 0 12px 24px rgba(252, 128, 25, 0.38) !important;
+}
+
+.Start_Btn:disabled {
+  opacity: 0.5 !important;
+  color: #fff !important;
+}
