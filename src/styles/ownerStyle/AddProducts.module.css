@@ -1,0 +1,314 @@
+/* ==========================================================================
+   AddProducts.module.css
+   NexBasket Owner Panel — add product page (two-step wizard)
+   Panel/header/form/action-bar shell reuses AC_* classes from
+   AddCategury.module.css for visual parity with the other owner forms.
+   ========================================================================== */
+
+.AP_panel {
+  --nb-orange: #fc8019;
+  --nb-orange-2: #ff4d00;
+  --nb-dark: #f2f2f5;
+  --nb-gray: #989ba8;
+  --nb-border: rgba(255, 255, 255, 0.08);
+  --nb-surface: #16161d;
+  --nb-surface-alt: #1c1f2e;
+
+  display: flex;
+  flex-direction: column;
+  width: 100% !important;
+  max-width: 960px;
+  margin: 0 auto;
+  border-radius: 16px !important;
+  background: var(--nb-surface) !important;
+  border: 1px solid var(--nb-border);
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* ---------------- Step indicator ---------------- */
+
+.AP_steps {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 22px 26px 0;
+}
+
+.AP_stepPill {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--nb-gray);
+  transition: color 0.25s ease;
+}
+
+.AP_stepDot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 800;
+  border: 1px solid var(--nb-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--nb-gray);
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.AP_stepLabel {
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .AP_stepLabel {
+    display: none;
+  }
+}
+
+.AP_stepPillActive {
+  color: var(--nb-dark);
+}
+
+.AP_stepPillActive .AP_stepDot {
+  background: linear-gradient(135deg, var(--nb-orange), var(--nb-orange-2));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(252, 128, 25, 0.4);
+}
+
+.AP_stepLine {
+  flex: 1;
+  height: 2px;
+  min-width: 24px;
+  border-radius: 2px;
+  background: var(--nb-border);
+  overflow: hidden;
+}
+
+.AP_stepLine::after {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--nb-orange), var(--nb-orange-2));
+  transition: width 0.35s ease;
+}
+
+.AP_stepLineFilled::after {
+  width: 100%;
+}
+
+/* ---------------- Panel sections (shown / hidden by CSS, never unmounted) ---------------- */
+
+.AP_section {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  animation: AP_fadeIn 0.25s ease;
+}
+
+.AP_sectionHidden {
+  display: none !important;
+}
+
+@keyframes AP_fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.AP_sectionTitle {
+  color: var(--nb-dark) !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.AP_hint {
+  color: var(--nb-gray) !important;
+  font-size: 12px !important;
+  margin-top: -8px !important;
+}
+
+/* ---------------- Field rows ---------------- */
+
+.row {
+  display: flex;
+  gap: 15px;
+}
+
+.row > * {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 560px) {
+  .row {
+    flex-direction: column;
+    gap: 18px;
+  }
+}
+
+.AP_dimensionsRow {
+  display: flex;
+  gap: 15px;
+}
+
+.AP_dimensionsRow > * {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 720px) {
+  .AP_dimensionsRow {
+    flex-wrap: wrap;
+  }
+
+  .AP_dimensionsRow > * {
+    flex: 1 1 calc(50% - 15px);
+  }
+}
+
+@media (max-width: 480px) {
+  .AP_dimensionsRow {
+    flex-direction: column;
+  }
+
+  .AP_dimensionsRow > * {
+    flex: 1 1 100%;
+  }
+}
+
+/* Rows with 3 fields (price/mrp/discount, weight/rating) — ease to 2-up before stacking */
+@media (max-width: 720px) and (min-width: 561px) {
+  .row {
+    flex-wrap: wrap;
+  }
+
+  .row > * {
+    flex: 1 1 calc(50% - 15px);
+  }
+}
+
+/* ---------------- Misc field polish ---------------- */
+
+.AP_panel :global(.MuiFormHelperText-root) {
+  margin-left: 2px !important;
+}
+
+.AP_panel :global(.MuiOutlinedInput-root.Mui-disabled .MuiOutlinedInput-notchedOutline) {
+  border-color: var(--nb-border) !important;
+}
+
+@media (max-width: 600px) {
+  .AP_steps {
+    padding: 18px 20px 0;
+  }
+}
+
+/* ---------------- Tags input ---------------- */
+
+.AP_tagsField {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--nb-border);
+  transition: border-color 0.2s ease;
+}
+
+.AP_tagsField:focus-within {
+  border-color: var(--nb-orange);
+  border-width: 2px;
+}
+
+.AP_tagChip {
+  background: linear-gradient(135deg, rgba(255, 132, 0, 0.22), rgba(98, 0, 235, 0.22)) !important;
+  color: var(--nb-dark) !important;
+  font-weight: 600 !important;
+  border: 1px solid rgba(255, 132, 0, 0.3) !important;
+}
+
+.AP_tagChip :global(.MuiChip-deleteIcon) {
+  color: var(--nb-gray) !important;
+}
+
+.AP_tagChip :global(.MuiChip-deleteIcon:hover) {
+  color: var(--nb-orange) !important;
+}
+
+.AP_tagsInput {
+  flex: 1;
+  min-width: 140px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--nb-dark);
+  font-size: 14px;
+  font-family: inherit;
+  padding: 6px 4px;
+}
+
+.AP_tagsInput::placeholder {
+  color: var(--nb-gray);
+}
+
+/* ---------------- Rating row ---------------- */
+
+.AP_ratingRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 2px;
+}
+
+.AP_ratingValue {
+  color: var(--nb-gray) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* ----------------------------------- */
+/*  */
+/* ----------------------------------- */
+.Aad_Product_Wrapper_Top_Parent{
+  width: 100% !important;
+  background-color: rgba(163, 127, 66, 0.042) !important;
+  border-radius: 10px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+}
+
+
+.Add_Product_Main_Wrapper{
+  width: 100% !important;
+  background-color: #fc8019 !important;
+}

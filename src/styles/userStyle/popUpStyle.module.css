@@ -1,0 +1,129 @@
+/* ===================================================== */
+/* =========== CHNAGE PASSWORD CSS ===================== */
+/* ===================================================== */
+
+
+.wrapper {
+  min-height: 100vh;
+  background: linear-gradient(145deg, #001226, #0a192a);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 620px;
+  border-radius: 22px !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(250, 210, 130, 0.15);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35) !important;
+}
+
+.header {
+  text-align: center;
+}
+
+.icon {
+  font-size: 65px !important;
+  color: #fad282;
+  margin-bottom: 12px;
+}
+
+.title {
+  color: #fad282;
+  font-weight: 700 !important;
+}
+
+.subtitle {
+  color: #d8d8d8;
+  margin-top: 8px !important;
+  font-size: 15px;
+}
+
+/* MUI TextField */
+
+.card :global(.MuiOutlinedInput-root) {
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  color: white;
+}
+
+.card :global(.MuiOutlinedInput-input) {
+  color: white;
+}
+
+.card :global(.MuiInputLabel-root) {
+  color: #cfcfcf;
+}
+
+.card :global(.MuiInputLabel-root.Mui-focused) {
+  color: #fad282;
+}
+
+.card :global(.MuiOutlinedInput-notchedOutline) {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.card :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
+  border-color: #fad282;
+}
+
+.card
+  :global(.MuiOutlinedInput-root.Mui-focused
+      .MuiOutlinedInput-notchedOutline) {
+  border-color: #fad282;
+  border-width: 2px;
+}
+
+.card :global(.MuiSvgIcon-root) {
+  color: #fad282;
+}
+
+/* Progress */
+
+.progress {
+  height: 8px !important;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.progress :global(.MuiLinearProgress-bar) {
+  background: #fad282;
+}
+
+.strength {
+  color: #fad282;
+  margin-top: 8px !important;
+  font-size: 14px;
+}
+
+/* Buttons */
+
+.saveBtn {
+  background: #fad282 !important;
+  color: #001226 !important;
+  font-weight: 700 !important;
+  border-radius: 12px !important;
+  padding: 12px 30px !important;
+  text-transform: none !important;
+}
+
+.saveBtn:hover {
+  background: #ffd765 !important;
+}
+
+.cancelBtn {
+  border: 1px solid #fad282 !important;
+  color: #fad282 !important;
+  border-radius: 12px !important;
+  text-transform: none !important;
+  padding: 12px 30px !important;
+}
+
+.cancelBtn:hover {
+  background: rgba(250, 210, 130, 0.08) !important;
+}
+
