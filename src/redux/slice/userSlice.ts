@@ -39,10 +39,13 @@ const userSlice = createSlice({
         },
         setPinCode: (state, action: PayloadAction<PinCodeInfo>) => {
            state.pinCode=action.payload
+        },
+        clearUserData: (state) => {
+            state.userData = null
         }
     }
 })
 
 
-export const {setUserData,setCity,setPinCode} = userSlice.actions;
+export const {setUserData,setCity,setPinCode,clearUserData} = userSlice.actions;
 export default userSlice.reducer
