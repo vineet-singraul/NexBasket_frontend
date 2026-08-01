@@ -10,6 +10,7 @@ export interface ProductDimensions {
 }
 
 export interface Product {
+  _id?: string
   store: string
   category: string
   name: string
@@ -22,15 +23,22 @@ export interface Product {
   stock: string
   sku: string
   tags: string[]
-  ratings: number
-  returnable: string
+  ratings: {
+    average: number
+    count: number
+  }
+  returnable: boolean
   warrantyPeriod: string
   weight: string
   dimensions: ProductDimensions
-  isActive: string
+  isActive: boolean
+  length: string
+  width :string
+  height :string
 }
 
 export interface ProductErrors {
+  store: string
   category: string
   name: string
   description: string
@@ -46,4 +54,9 @@ export interface ProductErrors {
   length: string
   width: string
   height: string
+  tags: string
 }
+
+
+
+

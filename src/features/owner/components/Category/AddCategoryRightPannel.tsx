@@ -8,7 +8,6 @@ const isActive = (value: CategoryListItem['categoryActive']) =>
   value === true || value === 'true'
 
 const AddCategoryRightPannel = ({ categories, loading }: AddCategoryRightPannelProps) => {
-  console.log("<-------- categories --------->",categories)
   return (
     <Box className={styles.AC_rightWrapper}>
       <Box className={styles.AC_panelHeader}>

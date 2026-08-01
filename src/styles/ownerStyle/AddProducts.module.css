@@ -301,14 +301,896 @@
 /* ----------------------------------- */
 .Aad_Product_Wrapper_Top_Parent{
   width: 100% !important;
-  background-color: rgba(163, 127, 66, 0.042) !important;
   border-radius: 10px !important;
   display: flex !important;
+  align-items: stretch !important;
   justify-content: space-between !important;
+  height: calc(100vh - 120px);
+  min-height: 480px;
+}
+
+@media (max-width: 1100px) {
+  .Aad_Product_Wrapper_Top_Parent {
+    height: auto;
+    min-height: 0;
+  }
+}
+
+.Add_Product_Left_Col{
+  width: 65% !important;
 }
 
 
+.Add_Product_Right_Col{
+  width: 30% !important;
+}
+
+@media (max-width: 1100px) {
+  .Add_Product_Left_Col,
+  .Add_Product_Right_Col {
+    height: 70vh;
+  }
+}
+
 .Add_Product_Main_Wrapper{
+  --nb-orange: #fc8019;
+  --nb-orange-2: #ff4d00;
+  --nb-dark: #f2f2f5;
+  --nb-gray: #989ba8;
+  --nb-border: rgba(255, 132, 0, 0.16);
+
+  height: 100%;
+  border-radius: 16px !important;
+  border: 1px solid var(--nb-border) !important;
+  background: linear-gradient(180deg, #1b1b23, #16161d) !important;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.35);
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden;
+}
+
+.Add_Products_Header{
   width: 100% !important;
-  background-color: #fc8019 !important;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(252, 128, 25, 0.32), rgba(98, 0, 235, 0.08) 55%, transparent) !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 2px 16px !important;
+  padding: 18px 22px !important;
+  border: none !important;
+  border-bottom: 1px solid var(--nb-border) !important;
+}
+
+.Add_Product_HederText{
+   display: grid !important;
+   gap: 2px !important;
+   padding: 4px 0 !important;
+}
+
+
+
+.FormWrapper{
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1;
+  min-height: 0;
+}
+
+.Add_Product_Form_Body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 132, 0, 0.4) transparent;
+}
+
+.Add_Product_Form_Body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.Add_Product_Form_Body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.Add_Product_Form_Body::-webkit-scrollbar-thumb {
+  background: rgba(255, 132, 0, 0.35);
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.Add_Product_Form_Body::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 132, 0, 0.55);
+  background-clip: padding-box;
+}
+
+.Add_Product_Chiled_From_Wrapper{
+   padding: 28px 26px !important;
+   animation: AddProduct_fadeInStep 0.3s ease;
+}
+
+@keyframes AddProduct_fadeInStep {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scoped tweak to the shared .FormHeadding eyebrow tag — kept local so other
+   owner pages that reuse the class are unaffected. */
+.Add_Product_Chiled_From_Wrapper :global(.FormHeadding) {
+  display: inline-flex;
+  margin: 0 0 10px;
+  background: rgba(255, 148, 32, 0.06);
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  letter-spacing: 0.5px;
+}
+
+.Add_Products_Form_Box{
+   display: flex !important;
+   flex-direction: row;
+   padding: 18px 0px !important;
+   gap: 20px !important;
+}
+
+@media (max-width: 960px) {
+  .Add_Products_Form_Box {
+    flex-wrap: wrap;
+  }
+
+  .Add_Products_Form_Box > * {
+    flex: 1 1 220px;
+  }
+}
+
+
+.InputFiled {
+  width: 100%;
+}
+
+/* Input Box */
+.InputFiled :global(.MuiOutlinedInput-root) {
+  border-radius: 8px;
+  background: #00000051;
+  transition: background 0.25s ease, box-shadow 0.25s ease;
+  color: #d1d5db !important;
+}
+
+/* Border Color */
+.InputFiled :global(.MuiOutlinedInput-notchedOutline) {
+  border-color: #f66a00bd;
+  transition: border-color 0.25s ease;
+}
+
+/* Hover */
+.InputFiled :global(.MuiOutlinedInput-root:hover) {
+  background: #0000006b;
+}
+
+.InputFiled :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
+  border-color: #c35500;
+}
+
+/* Focus */
+.InputFiled :global(.MuiOutlinedInput-root.Mui-focused) {
+  box-shadow: 0 0 0 3px rgba(247, 110, 5, 0.16);
+}
+
+.InputFiled :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
+  border-color: #f76e05;
+  border-width: 2px;
+}
+
+/* Input Text */
+.InputFiled :global(.MuiOutlinedInput-input) {
+  padding: 18px 20px;
+  font-size: 15px;
+}
+
+.InputFiled :global(.MuiOutlinedInput-input::placeholder) {
+  color: #6b7280;
+  opacity: 0.7;
+}
+
+/* Label */
+.InputFiled :global(.MuiInputLabel-root) {
+  color: #6b7280;
+  font-size: 14px;
+  transition: color 0.25s ease;
+}
+
+/* Focused Label */
+.InputFiled :global(.MuiInputLabel-root.Mui-focused) {
+  color: #e88f00;
+  font-size: 15px !important;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .InputFiled {
+    margin: 12px 0 !important;
+  }
+
+  .InputFiled :global(.MuiOutlinedInput-input) {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+}
+
+
+/* ==========  [ STPPER CSS HARE ]   ============ */
+.Stepper {
+  margin: 20px 15px !important;
+  flex-shrink: 0;
+}
+
+/* Step Icon */
+.Stepper :global(.MuiStepIcon-root) {
+  color: rgba(255, 255, 255, 0.16);
+  font-size: 32px;
+  transition: color 0.3s ease, filter 0.3s ease;
+}
+
+/* Active Step */
+.Stepper :global(.MuiStepIcon-root.Mui-active) {
+  color: #ff6a00 !important;
+  filter: drop-shadow(0 0 6px rgba(255, 106, 0, 0.5));
+}
+
+/* Step Label */
+.Stepper :global(.MuiStepLabel-label) {
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.42);
+  transition: color 0.3s ease;
+}
+
+/* Active Label */
+.Stepper :global(.MuiStepLabel-label.Mui-active) {
+  color: #ff8400 !important;
+  font-weight: 700;
+}
+
+/* Connector Line */
+.Stepper :global(.MuiStepConnector-line) {
+  border-top: 2px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  transition: border-color 0.3s ease;
+}
+
+/* Active Connector */
+.Stepper :global(.MuiStepConnector-root.Mui-active .MuiStepConnector-line) {
+  border-color: #ff7700;
+}
+
+/* Completed Connector */
+.Stepper :global(.MuiStepConnector-root.Mui-completed .MuiStepConnector-line) {
+  border-color: #f1fff2;
+  color: green !important;
+}
+
+/* Completed Step Icon */
+.Stepper :global(.MuiStepIcon-root.Mui-completed) {
+  color: #22c55e !important; /* Green */
+}
+
+/* Completed Step Tick */
+.Stepper :global(.MuiStepIcon-root.Mui-completed .MuiStepIcon-text) {
+  fill: white !important;
+}
+
+/* Completed Step Label */
+.Stepper :global(.MuiStepLabel-label.Mui-completed) {
+  color: #22c55e !important;
+  font-weight: 700;
+}
+
+/* Completed Connector */
+.Stepper :global(.MuiStepConnector-root.Mui-completed .MuiStepConnector-line) {
+  border-color: #22c55e !important;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .Stepper :global(.MuiStepLabel-label) {
+    font-size: 12px;
+  }
+
+  .Stepper :global(.MuiStepIcon-root) {
+    font-size: 26px;
+  }
+}
+/* ---------------------------------------------- */
+
+
+.IconStyle{
+  color: #c35500c2 !important;
+  transition: color 0.25s ease;
+}
+
+.InputFiled:focus-within .IconStyle {
+  color: #ff8a1f !important;
+}
+
+.SubmitIcon{
+  color: #fff !important;
+}
+
+/* .SubmitBitton{
+  background: linear-gradient(135deg, #1fae59, #0b7a3a) !important;
+  color: #fff !important;
+  border-radius: 50px !important;
+  padding: 9px 26px !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  box-shadow: 0 6px 18px rgba(34, 197, 94, 0.35) !important;
+  transition: box-shadow 0.25s ease, transform 0.25s ease !important;
+}
+
+.SubmitBitton:hover {
+  box-shadow: 0 8px 22px rgba(34, 197, 94, 0.5) !important;
+  transform: translateY(-2px);
+} */
+
+.SubmitBitton {
+  background: linear-gradient(45deg, #ff6b00, #ff9500) !important;
+  color: white !important;
+  border-radius: 50px !important;
+  transition: all 0.3s ease;
+}
+
+/* Disabled State */
+.SubmitBitton:disabled {
+  background: #4b5563 !important;
+  color: #9ca3af !important;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.SubmitBitton.Mui-disabled {
+  background: #4b5563 !important;
+  color: #9ca3af !important;
+  opacity: 0.6;
+}
+
+
+@media (max-width: 600px) {
+
+.Aad_Product_Wrapper_Top_Parent{
+  flex-direction: column !important;
+  gap: 16px;
+}
+
+.Add_Product_Left_Col{
+  width: 100% !important;
+  height: 80vh;
+}
+
+
+.Add_Product_Right_Col{
+  width: 100% !important;
+  height: 80vh;
+}
+
+.Add_Products_Form_Box{
+  flex-direction: column !important;
+  gap: 10px !important;
+  padding: 12px 0px !important;
+}
+
+/* .Add_Products_Form_Box > * gets `flex: 1 1 220px` from the 960px
+   tablet rule above (a 220px *width* basis for row/wrap mode). Once
+   flex-direction flips to column here, that basis is read as a
+   *height* instead, forcing every field to a 220px-tall box with a
+   big empty gap below the input. Reset it back to natural height. */
+.Add_Products_Form_Box > * {
+  flex: 1 1 auto !important;
+}
+
+.Add_Products_Header {
+  padding: 14px 16px !important;
+  gap: 2px 10px !important;
+}
+
+.Add_Product_Chiled_From_Wrapper {
+  padding: 18px 16px !important;
+}
+
+.Add_Product_Button_Box {
+  padding: 12px 16px !important;
+}
+
+}
+
+@media (max-width: 480px) {
+  .Add_Products_Header :global(.MuiSvgIcon-root) {
+    font-size: 20px !important;
+  }
+
+  .Add_Product_HederText :global(.panelTitle) {
+    font-size: 15px !important;
+  }
+
+  .Add_Product_HederText :global(.panelSubtitleAdd) {
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+  }
+
+  .Add_Product_Chiled_From_Wrapper {
+    padding: 16px 14px !important;
+  }
+
+  .Add_Product_Chiled_From_Wrapper :global(.FormHeadding) {
+    font-size: 11px !important;
+    padding: 8px !important;
+  }
+
+  .Add_Product_Button_Box {
+    padding: 10px 14px !important;
+  }
+
+  .BackButton,
+  .NextButton,
+  .SubmitBitton {
+    flex: 1 1 0;
+    justify-content: center;
+  }
+}
+
+.Add_Product_Button_Box{
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-direction: row !important;
+  flex-shrink: 0;
+  margin: 0 !important;
+  padding: 16px 22px !important;
+  border-top: 1px solid var(--nb-border);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+
+.BackButton{
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1.5px solid rgba(255, 102, 0, 0.35) !important;
+  color: #d1d5db !important;
+  border-radius: 50px !important;
+  padding: 9px 22px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease !important;
+}
+
+.BackButton:hover {
+  background: rgba(255, 102, 0, 0.1) !important;
+  border-color: #ff6f00 !important;
+  transform: translateY(-1px);
+}
+
+.NextButton{
+  background: linear-gradient(135deg, #fc8019, #ff4d00) !important;
+  border: none !important;
+  color: #fff !important;
+  border-radius: 50px !important;
+  padding: 9px 24px !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  box-shadow: 0 6px 18px rgba(252, 128, 25, 0.35) !important;
+  transition: box-shadow 0.25s ease, transform 0.25s ease !important;
+}
+
+.NextButton:hover {
+  box-shadow: 0 8px 22px rgba(252, 128, 25, 0.5) !important;
+  transform: translateY(-2px);
+}
+
+
+.LeftArrow {
+  animation: moveLeft 2s ease-in-out infinite;
+  color: #ff8a24 !important;
+}
+
+.RightArrow {
+  animation: moveRight 2s ease-in-out infinite;
+  color: #fff !important;
+
+}
+
+@keyframes moveRight {
+  0% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(8px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveLeft {
+  0% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(-8px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* ==========================================================================
+   RIGHT SIDE — Product list panel (static)
+   Shell mirrors Add_Product_Main_Wrapper; card/list bits reuse the
+   AC_* classes from AddCategury.module.css for parity with Store/Category
+   right panels. Only price/discount/stock bits below are product-specific.
+   ========================================================================== */
+
+.RP_wrapper {
+  --nb-orange: #fc8019;
+  --nb-orange-2: #ff4d00;
+  --nb-dark: #f2f2f5;
+  --nb-gray: #989ba8;
+  --nb-border: rgba(255, 132, 0, 0.16);
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  border-radius: 16px !important;
+  background: linear-gradient(180deg, #1b1b23, #16161d) !important;
+  border: 1px solid var(--nb-border);
+  overflow: hidden;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.35);
+}
+
+.RP_thumb {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 132, 0, 0.3);
+}
+
+.RP_brand {
+  color: var(--nb-gray) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  margin-top: 1px !important;
+}
+
+.RP_priceRow {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.RP_price {
+  color: var(--nb-orange) !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+}
+
+.RP_mrp {
+  color: var(--nb-gray) !important;
+  font-size: 12.5px !important;
+  text-decoration: line-through;
+}
+
+.RP_discountChip {
+  height: 20px !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  border-radius: 20px !important;
+  background: rgba(46, 204, 113, 0.16) !important;
+  color: #2ecc71 !important;
+  border: 1px solid rgba(46, 204, 113, 0.35) !important;
+}
+
+.RP_stockLow {
+  background: rgba(255, 173, 51, 0.18) !important;
+  color: #ffad33 !important;
+  border: 1px solid rgba(255, 173, 51, 0.4) !important;
+}
+
+/* ---------------- Product details dialog ---------------- */
+
+.RP_dialogPaper {
+  --nb-orange: #fc8019;
+  --nb-orange-2: #ff4d00;
+  --nb-dark: #f2f2f5;
+  --nb-gray: #989ba8;
+  --nb-border: rgba(255, 132, 0, 0.16);
+
+  width: 100%;
+  max-width: 440px !important;
+  border-radius: 18px !important;
+  background: linear-gradient(180deg, #1b1b23, #16161d) !important;
+  border: 1px solid var(--nb-border) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5) !important;
+}
+
+.RP_dialogHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 56px 20px 22px !important;
+  background: linear-gradient(135deg, rgba(252, 128, 25, 0.28), rgba(98, 0, 235, 0.08) 60%, transparent);
+  border-bottom: 1px solid var(--nb-border);
+  position: relative;
+}
+
+.RP_dialogIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(255, 132, 0, 0.22), rgba(98, 0, 235, 0.22));
+  border: 1px solid rgba(255, 132, 0, 0.35);
+  color: var(--nb-orange);
+}
+
+.RP_dialogIcon svg {
+  font-size: 20px;
+}
+
+.RP_dialogHeadingWrap {
+  min-width: 0;
+}
+
+.RP_dialogTitle {
+  color: var(--nb-dark) !important;
+  font-weight: 800 !important;
+  font-size: 16.5px !important;
+  line-height: 1.3 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.RP_dialogSubtitle {
+  color: var(--nb-gray) !important;
+  font-size: 12px !important;
+  margin-top: 2px !important;
+}
+
+.RP_dialogClose {
+  position: absolute !important;
+  right: 12px;
+  top: 14px;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 9px !important;
+  color: var(--nb-gray) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--nb-border) !important;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease !important;
+}
+
+.RP_dialogClose:hover {
+  color: var(--nb-orange) !important;
+  border-color: rgba(255, 132, 0, 0.4) !important;
+  background: rgba(255, 132, 0, 0.1) !important;
+}
+
+.RP_dialogContent {
+  padding: 20px 22px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: none !important;
+  max-height: 62vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 132, 0, 0.4) transparent;
+}
+
+.RP_dialogContent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.RP_dialogContent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.RP_dialogContent::-webkit-scrollbar-thumb {
+  background: rgba(255, 132, 0, 0.35);
+  border-radius: 20px;
+}
+
+.RP_dialogGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.RP_dialogPill {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--nb-border);
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.RP_dialogPill:hover {
+  border-color: rgba(255, 132, 0, 0.35);
+  background: rgba(255, 132, 0, 0.05);
+  transform: translateY(-1px);
+}
+
+.RP_dialogPillStacked {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+
+.RP_dialogPillLabel {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  color: var(--nb-gray) !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.RP_dialogPillLabel svg {
+  font-size: 13px;
+  color: var(--nb-orange);
+}
+
+.RP_dialogPillValue {
+  color: var(--nb-dark) !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.RP_dialogSection {
+  padding-top: 14px;
+  border-top: 1px dashed var(--nb-border);
+}
+
+.RP_dialogSectionLabel {
+  color: var(--nb-gray) !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 6px !important;
+  display: block;
+}
+
+.RP_dialogText {
+  color: var(--nb-dark) !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+}
+
+.RP_dialogActions {
+  padding: 14px 22px !important;
+  border-top: 1px solid var(--nb-border);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.RP_dialogCloseBtn {
+  background: linear-gradient(135deg, #fc8019, #ff4d00) !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  border-radius: 30px !important;
+  padding: 8px 24px !important;
+  box-shadow: 0 6px 18px rgba(252, 128, 25, 0.35) !important;
+  transition: box-shadow 0.25s ease, transform 0.25s ease !important;
+}
+
+.RP_dialogCloseBtn:hover {
+  box-shadow: 0 8px 22px rgba(252, 128, 25, 0.5) !important;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 480px) {
+  .RP_dialogGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .RP_dialogPaper {
+    margin: 12px !important;
+    max-width: calc(100% - 24px) !important;
+    max-height: calc(100% - 24px) !important;
+    border-radius: 16px !important;
+  }
+
+  .RP_dialogHeader {
+    gap: 10px;
+    padding: 16px 48px 16px 16px !important;
+  }
+
+  .RP_dialogIcon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .RP_dialogIcon svg {
+    font-size: 18px;
+  }
+
+  .RP_dialogTitle {
+    font-size: 15px !important;
+  }
+
+  .RP_dialogClose {
+    right: 10px;
+    top: 12px;
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  .RP_dialogContent {
+    padding: 16px !important;
+    gap: 14px;
+    max-height: 58vh;
+  }
+
+  .RP_dialogPill {
+    padding: 9px 11px;
+  }
+
+  .RP_dialogActions {
+    padding: 12px 16px !important;
+  }
+
+  .RP_dialogCloseBtn {
+    width: 100%;
+  }
+}
+
+.RP_dialogPillValuePositive {
+  color: #2ecc71 !important;
+}
+
+.RP_dialogPillValueNegative {
+  color: #e74c3c !important;
+}
+
+.RP_dialogTagsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.RP_dialogTagChip {
+  height: 22px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  border-radius: 20px !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: var(--nb-gray) !important;
+  border: 1px solid var(--nb-border) !important;
 }
