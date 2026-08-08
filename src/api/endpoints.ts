@@ -31,3 +31,9 @@ export const PRODUCT_ENDPOINTS = {
   DELETE: (id: string) => `/productRoutes/deleteOwnerProducts/${id}`,
 };
 
+
+export const PRODUCT_IMAGE_ADD = {
+  ADD_IMAGE: (id : string) => `productImageRoutes/addProductImages/${id}`,
+  GET_IMAGE: (id : string) => `productImageRoutes/getProductImageById/${id}`,
+  DELETE_IMAGE: (id : string) => `productImageRoutes/deleteProductById/${id}`
+}

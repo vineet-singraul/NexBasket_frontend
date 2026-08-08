@@ -1,0 +1,927 @@
+/* =========================================================
+   THEME VARIABLES
+   Darkroom / Viewfinder — Orange spotlight on warm black
+   ========================================================= */
+
+:root {
+  --clr-orange: #ff7a1a;
+  --clr-orange-dark: #c65100;
+  --clr-orange-soft: rgba(255, 122, 26, 0.14);
+  --clr-orange-soft-hover: rgba(255, 122, 26, 0.24);
+  --clr-orange-glow: rgba(255, 122, 26, 0.38);
+
+  --clr-ink: #16130f;
+  --clr-panel: #211d18;
+  --clr-card: #2a251e;
+  --clr-card-hover: #322c23;
+  --clr-border: #3d362b;
+
+  --clr-text: #ffffff;
+  --clr-text-muted: rgba(255, 255, 255, 0.62);
+  --clr-text-faint: rgba(255, 255, 255, 0.38);
+}
+
+/* =========================================================
+   DIALOG PAPER
+   ========================================================= */
+
+.RP_dialogPaper {
+  background-color: var(--clr-ink) !important;
+  background-image: radial-gradient(circle at 85% -10%, rgba(255, 122, 26, 0.08), transparent 45%);
+  border-radius: 18px !important;
+  border: 1px solid var(--clr-border);
+  min-width: 780px;
+  max-width: 920px;
+  color: var(--clr-text);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.RP_dialogHeader {
+  display: flex !important;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 24px !important;
+  background: linear-gradient(135deg, var(--clr-panel), var(--clr-ink));
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.RP_dialogIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background-color: var(--clr-orange-soft);
+  color: var(--clr-orange);
+  flex-shrink: 0;
+}
+
+.RP_dialogHeadingWrap {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.RP_dialogTitle {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: var(--clr-text) !important;
+  line-height: 1.3;
+}
+
+.RP_dialogSubtitle {
+  font-size: 12.5px !important;
+  color: var(--clr-text-muted) !important;
+  margin-top: 2px !important;
+}
+
+.RP_dialogClose {
+  color: var(--clr-text-muted) !important;
+  transition: all 0.2s ease;
+}
+
+.RP_dialogClose:hover {
+  color: var(--clr-orange) !important;
+  background-color: var(--clr-orange-soft) !important;
+  transform: rotate(90deg);
+}
+
+/* =========================================================
+   CONTENT WRAPPER
+   ========================================================= */
+
+.AI_dialogContent {
+  background-color: var(--clr-ink) !important;
+  padding: 24px !important;
+}
+
+.AI_mainContainer {
+  display: flex;
+  gap: 20px;
+}
+
+.AI_leftSection {
+  flex: 1.1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.AI_rightSection {
+  flex: 1;
+  display: flex;
+  min-width: 0;
+}
+
+/* =========================================================
+   SECTION HEADER (shared)
+   ========================================================= */
+
+.AI_sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.AI_sectionIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background-color: var(--clr-orange-soft);
+  color: var(--clr-orange);
+  flex-shrink: 0;
+}
+
+.AI_sectionTitle {
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.6px;
+  color: #ff7a1a !important;
+}
+
+.AI_sectionSubTitle {
+  font-size: 12px !important;
+  color: #ff7a1a !important;
+  margin-top: 2px !important;
+}
+
+
+.AI_fileBox {
+  background-color: var(--clr-card);
+  border: 1px solid var(--clr-border);
+  border-radius: 14px;
+  padding: 18px;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.AI_fileBox:hover {
+  border-color: var(--clr-orange);
+}
+
+.AI_fileBoxDragging {
+  border-color: var(--clr-orange);
+  background-color: var(--clr-orange-soft);
+}
+
+.AI_hiddenFileInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.AI_dropzoneLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 28px 16px;
+  border-radius: 12px;
+  border: 1.5px dashed var(--clr-border);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+}
+
+.AI_fileBox:hover .AI_dropzoneLabel,
+.AI_fileBoxDragging .AI_dropzoneLabel {
+  border-color: var(--clr-orange);
+  background-color: rgba(255, 122, 26, 0.08);
+}
+
+.AI_fileBoxDragging .AI_dropzoneLabel {
+  transform: scale(1.015);
+}
+
+.AI_dropzoneIcon {
+  color: var(--clr-orange);
+  font-size: 26px !important;
+}
+
+.AI_dropzoneText {
+  color: var(--clr-text) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+.AI_dropzoneHint {
+  color: var(--clr-text-faint) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.AI_selectedFileRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 8px 12px;
+  background-color: var(--clr-panel);
+  border: 1px solid var(--clr-border);
+  border-radius: 8px;
+}
+
+.AI_selectedFileIcon {
+  color: var(--clr-orange) !important;
+  font-size: 16px !important;
+  flex-shrink: 0;
+}
+
+.AI_selectedFileName {
+  color: var(--clr-text-muted) !important;
+  font-size: 12.5px !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   PREVIEW BOX / VIEWFINDER (RIGHT SIDE)
+   ========================================================= */
+
+.AI_previewBox {
+  background-color: var(--clr-card);
+  border: 1px solid var(--clr-border);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.AI_largePreview {
+  position: relative;
+  flex: 1;
+  min-height: 340px;
+  border-radius: 12px;
+  border: 1px solid var(--clr-border);
+  background-color: var(--clr-panel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.AI_previewGlow {
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle at center, var(--clr-orange-glow), transparent 60%);
+  filter: blur(20px);
+  opacity: 0.55;
+  animation: AI_glowIn 0.4s ease;
+  z-index: 0;
+}
+
+@keyframes AI_glowIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+}
+
+.AI_largePreviewImage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: #0f0d0a;
+  z-index: 1;
+  animation: AI_previewIn 0.25s ease;
+}
+
+@keyframes AI_previewIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Viewfinder corner brackets */
+
+.AI_bracket {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: var(--clr-orange);
+  opacity: 0.55;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.AI_bracketTL {
+  top: 10px;
+  left: 10px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+  border-radius: 4px 0 0 0;
+}
+
+.AI_bracketTR {
+  top: 10px;
+  right: 10px;
+  border-top: 2px solid;
+  border-right: 2px solid;
+  border-radius: 0 4px 0 0;
+}
+
+.AI_bracketBL {
+  bottom: 10px;
+  left: 10px;
+  border-bottom: 2px solid;
+  border-left: 2px solid;
+  border-radius: 0 0 0 4px;
+}
+
+.AI_bracketBR {
+  bottom: 10px;
+  right: 10px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+  border-radius: 0 0 4px 0;
+}
+
+.AI_emptyPreview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--clr-text-faint);
+  text-align: center;
+  padding: 20px;
+  z-index: 1;
+}
+
+.AI_emptyPreview svg {
+  font-size: 40px;
+  color: var(--clr-orange-soft);
+}
+
+.AI_emptyPreview p,
+.AI_emptyPreview span {
+  color: var(--clr-text-muted);
+  font-size: 13px;
+}
+
+/* =========================================================
+   FOOTER / ACTIONS
+   ========================================================= */
+
+.RP_dialogActions {
+  padding: 16px 24px !important;
+  background-color: var(--clr-panel);
+  border-top: 1px solid var(--clr-border);
+}
+
+.RP_dialogCloseBtn {
+  background-color: var(--clr-orange) !important;
+  color: var(--clr-text) !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  padding: 8px 22px !important;
+  border-radius: 10px !important;
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease !important;
+  box-shadow: 0 4px 14px rgba(255, 122, 26, 0.35);
+}
+
+.RP_dialogCloseBtn:hover {
+  background-color: var(--clr-orange-dark) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(255, 122, 26, 0.45);
+}
+
+.RP_dialogCloseBtn:disabled {
+  background-color: var(--clr-card) !important;
+  color: var(--clr-text-faint) !important;
+  box-shadow: none;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 800px) {
+  .RP_dialogPaper {
+    min-width: 92vw;
+  }
+
+  .AI_mainContainer {
+    flex-direction: column;
+  }
+
+  .AI_filmStrip {
+    max-height: 220px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================================================================================================================
+   GALLERY BOX
+================================================================================================================*/
+
+.AI_galleryBox {
+  width: 100%;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--clr-border);
+  border-radius: 14px;
+  background: var(--clr-panel);
+  box-sizing: border-box;
+}
+
+
+
+
+.AI_boxHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+
+.AI_imageCount {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 1px solid var(--clr-orange);
+  background: var(--clr-orange-glow);
+  color: var(--clr-orange);
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+
+
+
+.AI_filmStrip {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+
+
+.AI_galleryScroll {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-wrap: nowrap;
+  padding: 5px 4px 12px;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color:
+    var(--clr-border)
+    transparent;
+}
+
+
+
+.AI_galleryScroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+
+.AI_galleryScroll::-webkit-scrollbar-track {
+  background: transparent;
+
+  border-radius: 20px;
+}
+
+
+.AI_galleryScroll::-webkit-scrollbar-thumb {
+  background: var(--clr-border);
+
+  border-radius: 20px;
+
+  transition: background 0.2s ease;
+}
+
+
+.AI_galleryScroll::-webkit-scrollbar-thumb:hover {
+  background: var(--clr-orange);
+}
+
+
+.AI_frameCard {
+  position: relative;
+  flex: 0 0 150px;
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
+  height: 150px;
+  min-height: 150px;
+  max-height: 150px;
+  aspect-ratio: 1 / 1;
+  box-sizing: border-box;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: var(--clr-panel);
+  border: 2px solid transparent;
+  box-shadow:
+    inset 0 0 0 1px var(--clr-border);
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.15s ease,
+    border-color 0.2s ease;
+}
+
+
+
+.AI_frameCard::before,
+.AI_frameCard::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background-image:
+    radial-gradient(
+      circle,
+      var(--clr-ink) 2px,
+      transparent 2.4px
+    );
+  background-size: 10px 100%;
+  background-repeat: repeat-x;
+  z-index: 3;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+
+.AI_frameCard::before {
+  top: 0;
+}
+
+
+.AI_frameCard::after {
+  bottom: 0;
+}
+
+
+.AI_galleryImage {
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  display: block;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition:
+    transform 0.25s ease;
+}
+
+
+.AI_frameCard:hover {
+  transform: translateY(-3px);
+  border-color: var(--clr-orange);
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.18),
+    inset 0 0 0 1px var(--clr-orange);
+}
+
+
+.AI_frameCard:hover .AI_galleryImage {
+  transform: scale(1.04);
+}
+
+
+
+
+.AI_frameCardActive {
+  border-color: var(--clr-orange);
+
+  box-shadow:
+    0 0 0 3px var(--clr-orange-glow),
+    inset 0 0 0 1px var(--clr-orange);
+}
+
+
+
+.AI_skeletonCard {
+  flex: 0 0 150px;
+
+  width: 150px;
+  min-width: 150px;
+
+  height: 150px;
+  min-height: 150px;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--clr-panel) 25%,
+      var(--clr-border) 50%,
+      var(--clr-panel) 75%
+    );
+
+  background-size: 200% 100%;
+
+  animation: AI_gallerySkeleton 1.4s ease-in-out infinite;
+}
+
+
+/* Skeleton animation */
+
+@keyframes AI_gallerySkeleton {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+
+
+.AI_emptyStrip {
+  min-height: 150px;
+
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  box-sizing: border-box;
+
+  border: 1px dashed var(--clr-border);
+
+  border-radius: 10px;
+
+  color: var(--clr-muted);
+}
+
+
+/* Empty icon */
+
+.AI_emptyStrip svg {
+  font-size: 32px;
+
+  color: var(--clr-muted);
+
+  opacity: 0.7;
+}
+
+
+/* Empty text */
+
+.AI_emptyStrip .MuiTypography-root {
+  font-size: 13px !important;
+
+  color: var(--clr-muted) !important;
+
+  text-align: center;
+}
+
+
+
+@media (max-width: 768px) {
+
+  .AI_galleryBox {
+    padding: 14px;
+  }
+
+
+  .AI_frameCard {
+    flex-basis: 125px;
+
+    width: 125px;
+    min-width: 125px;
+    max-width: 125px;
+
+    height: 125px;
+    min-height: 125px;
+    max-height: 125px;
+  }
+
+
+  .AI_skeletonCard {
+    flex-basis: 125px;
+
+    width: 125px;
+    min-width: 125px;
+
+    height: 125px;
+    min-height: 125px;
+  }
+
+
+  .AI_galleryScroll {
+    gap: 10px;
+  }
+}
+
+
+@media (max-width: 480px) {
+
+  .AI_galleryBox {
+    padding: 12px;
+  }
+
+
+  .AI_boxHeader {
+    margin-bottom: 10px;
+  }
+
+
+  .AI_sectionTitle {
+    font-size: 14px !important;
+  }
+
+
+  .AI_sectionSubTitle {
+    font-size: 11px !important;
+  }
+
+
+  .AI_imageCount {
+    min-width: 28px;
+    height: 28px;
+
+    font-size: 12px;
+  }
+
+
+  .AI_frameCard {
+    flex-basis: 105px;
+
+    width: 105px;
+    min-width: 105px;
+    max-width: 105px;
+
+    height: 105px;
+    min-height: 105px;
+    max-height: 105px;
+
+    border-radius: 8px;
+  }
+
+
+  .AI_skeletonCard {
+    flex-basis: 105px;
+
+    width: 105px;
+    min-width: 105px;
+
+    height: 105px;
+    min-height: 105px;
+  }
+
+
+  .AI_galleryScroll {
+    gap: 8px;
+
+    padding-bottom: 10px;
+  }
+}
+
+
+.AI_frameCard {
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* =========================================
+   DELETE BUTTON
+========================================= */
+
+.AI_removeBtn {
+  position: absolute;
+
+  top: 8px;
+  right: 8px;
+
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 0.65);
+
+  color: #ffffff;
+
+  cursor: pointer;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transform: scale(0.75);
+
+  z-index: 10;
+
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease,
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+
+/* Delete icon */
+
+.AI_removeBtn svg {
+  font-size: 19px;
+}
+
+
+
+.AI_frameCard:hover .AI_removeBtn {
+  opacity: 1;
+  visibility: visible;
+
+  transform: scale(1);
+}
+
+
+.AI_removeBtn:hover {
+  background: var(--clr-orange);
+
+  border-color: var(--clr-orange);
+
+  transform: scale(1.08);
+}
+
+
+.AI_removeBtn:active {
+  transform: scale(0.92);
+}
+
+/* ============================================================================================================ */
+
+
+
+
+
+
+
+
+
+
+
+

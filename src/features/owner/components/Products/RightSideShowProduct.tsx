@@ -1,10 +1,20 @@
-import { Box, Typography, Avatar, Chip, IconButton, Tooltip, CircularProgress } from '@mui/material'
+import {
+  Box,
+  Typography,
+  Avatar,
+  Chip,
+  IconButton,
+  Tooltip,
+  CircularProgress,
+  Button,
+} from '@mui/material'
 import Inventory2RoundedIcon from '@mui/icons-material/Inventory2Rounded'
 import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded'
 import QrCode2RoundedIcon from '@mui/icons-material/QrCode2Rounded'
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded'
 import EditRoundedIcon from '@mui/icons-material/EditRounded'
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
+import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined'
 
 import categoryStyles from '../../../../styles/ownerStyle/AddCategury.module.css'
 import style from '../../../../styles/ownerStyle/AddProducts.module.css'
@@ -14,8 +24,9 @@ import { useState } from 'react'
 import ShowProductDetailsPopUp from '../common/ShowProductDetailsPopUp'
 import { apiDelete } from '../../../../api/userApi'
 import { PRODUCT_ENDPOINTS } from '../../../../api/endpoints'
-import type {NotificationInterfacce} from "../../../../auth/types/auth.types"
+import type { NotificationInterfacce } from '../../../../auth/types/auth.types'
 import Notification from '../../../../utils/Notification'
+import AddImagePopup from '../../common/AddImagePopup'
 
 const PLACEHOLDER_IMAGE = 'https://via.placeholder.com/80'
 
@@ -46,9 +57,14 @@ interface RightSideShowProductProps {
   onProductDeleted: (id: string) => void
 }
 
-const RightSideShowProduct = ({ products, categories, onProductDeleted }: RightSideShowProductProps) => {
-  const [open, setOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+const RightSideShowProduct = ({
+  products,
+  categories,
+  onProductDeleted,
+}: RightSideShowProductProps) => {
+  const [open, setOpen] = useState(false)
+  const [addImageOapen, setAddImageOpen] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [notification, setNotification] = useState<NotificationInterfacce>({
     open: false,
     message: '',
@@ -57,44 +73,54 @@ const RightSideShowProduct = ({ products, categories, onProductDeleted }: RightS
   const [deletingId, setDeletingId] = useState<string | null>(null)
 
   const getCategoryName = (categoryId: string) =>
-    categories.find((c) => c._id === categoryId)?.productCategory ?? categoryId;
+    categories.find((c) => c._id === categoryId)?.productCategory ?? categoryId
 
   const handleClickOpen = (product: Product) => {
-    setSelectedProduct(product);
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-
-  const handleDelete = async (id?: string) => {
-     if (!id) return
-     setDeletingId(id)
-     try {
-       const response = await apiDelete(PRODUCT_ENDPOINTS.DELETE(id))
-       const deleteMessage =
-         typeof response === 'object' && response !== null && 'message' in response
-           ? String((response as { message?: string }).message ?? 'failed')
-           : 'failed'
-
-       onProductDeleted(id)
-       setNotification({
-         open: true,
-         message: deleteMessage,
-         severity: 'success'
-       })
-     } catch (error) {
-      setNotification({
-        open:true,
-        message: error instanceof Error ? error.message : 'Failed to delete product',
-        severity:"error"
-      })
-     }finally{
-      setDeletingId(null)
-     }
+    setSelectedProduct(product)
+    setOpen(true)
   }
 
+  const handleAddIamgeBoxOpen = (product?: Product) => {
+    if (!product) return
+    setAddImageOpen(!addImageOapen)
+    setSelectedProduct(product)
+  }
+
+  const handleCloseImageConatiner = () => {
+    setAddImageOpen(!addImageOapen)
+  }
+
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const handleDelete = async (id?: string) => {
+    if (!id) return
+    setDeletingId(id)
+    try {
+      const response = await apiDelete(PRODUCT_ENDPOINTS.DELETE(id))
+      const deleteMessage =
+        typeof response === 'object' && response !== null && 'message' in response
+          ? String((response as { message?: string }).message ?? 'failed')
+          : 'failed'
+
+      onProductDeleted(id)
+      setNotification({
+        open: true,
+        message: deleteMessage,
+        severity: 'success',
+      })
+    } catch (error) {
+      setNotification({
+        open: true,
+        message: error instanceof Error ? error.message : 'Failed to delete product',
+        severity: 'error',
+      })
+    } finally {
+      setDeletingId(null)
+    }
+  }
 
   return (
     <Box className={style.RP_wrapper}>
@@ -126,12 +152,8 @@ const RightSideShowProduct = ({ products, categories, onProductDeleted }: RightS
             const stockStatus = getStockStatus(product.stock)
             return (
               <Box className={categoryStyles.AC_categoryCard} key={product._id ?? product.sku}>
-                <Avatar src={PLACEHOLDER_IMAGE} variant="rounded" className={style.RP_thumb} />
-
                 <Box className={categoryStyles.AC_categoryInfo}>
-                  <Typography className={categoryStyles.AC_categoryName}>
-                    {product.name}
-                  </Typography>
+                  <Typography className={categoryStyles.AC_categoryName}>{product.name}</Typography>
                   <Typography className={style.RP_brand}>{product.brand}</Typography>
 
                   <Box className={style.RP_priceRow}>
@@ -162,12 +184,19 @@ const RightSideShowProduct = ({ products, categories, onProductDeleted }: RightS
                   />
                   <Box className={categoryStyles.AC_cardActions}>
                     <Tooltip title="View Details">
-                      <IconButton size="small" className={categoryStyles.AC_actionBtn} onClick={() => handleClickOpen(product)}>
+                      <IconButton
+                        size="small"
+                        className={categoryStyles.AC_actionBtn}
+                        onClick={() => handleClickOpen(product)}
+                      >
                         <VisibilityRoundedIcon />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Edit Product">
-                      <IconButton size="small" className={categoryStyles.AC_actionBtn}>
+                        <IconButton
+                          size="small"
+                          className={categoryStyles.AC_actionBtn}
+                        >
                         <EditRoundedIcon />
                       </IconButton>
                     </Tooltip>
@@ -175,7 +204,9 @@ const RightSideShowProduct = ({ products, categories, onProductDeleted }: RightS
                       <IconButton
                         size="small"
                         className={`${categoryStyles.AC_actionBtn} ${categoryStyles.AC_actionBtnDanger}`}
-                        onClick={()=>{handleDelete(product._id)}}
+                        onClick={() => {
+                          handleDelete(product._id)
+                        }}
                         disabled={deletingId === product._id}
                       >
                         {deletingId === product._id ? (
@@ -183,6 +214,13 @@ const RightSideShowProduct = ({ products, categories, onProductDeleted }: RightS
                         ) : (
                           <DeleteRoundedIcon />
                         )}
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Add Image"
+                      onClick={() => handleAddIamgeBoxOpen(product)}
+                    >
+                      <IconButton size="small" className={categoryStyles.AC_actionBtn}>
+                        <AddPhotoAlternateOutlinedIcon />
                       </IconButton>
                     </Tooltip>
                   </Box>
@@ -193,23 +231,32 @@ const RightSideShowProduct = ({ products, categories, onProductDeleted }: RightS
         </Box>
       )}
 
-     {open && (
-       <ShowProductDetailsPopUp
-         open={open}
-         handleClose={handleClose}
-         product={selectedProduct}
-         categoryName={selectedProduct ? getCategoryName(selectedProduct.category) : ''}
-       />
-     )}
+      {open && (
+        <ShowProductDetailsPopUp
+          open={open}
+          handleClose={handleClose}
+          product={selectedProduct}
+          categoryName={selectedProduct ? getCategoryName(selectedProduct.category) : ''}
+        />
+      )}
 
-     {notification && <Notification 
-      open={notification.open}
-      message={notification.message}
-      severity={notification.severity}
-      onClose={() => {
-        setNotification((prev) => ({ ...prev, open: false }))
-      }}
-     />}
+      {addImageOapen && 
+       <AddImagePopup
+        addImageOapen={addImageOapen}
+        handleCloseImageConatiner={handleCloseImageConatiner}
+        selectedProduct={selectedProduct}
+      />}
+
+      {notification && (
+        <Notification
+          open={notification.open}
+          message={notification.message}
+          severity={notification.severity}
+          onClose={() => {
+            setNotification((prev) => ({ ...prev, open: false }))
+          }}
+        />
+      )}
     </Box>
   )
 }

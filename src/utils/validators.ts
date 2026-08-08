@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // const NAME_REGEX = /^[A-Za-z]{2,30}$/
 // const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 // const MOBILE_REGEX = /^[6-9]\d{9}$/
@@ -173,7 +174,7 @@ export const validateField = (name: string, value: string): string => {
     case 'category':
       if (!trimmed) return 'category is required'
       return ''
-    
+
     case 'name':
       if (!trimmed) return ` name is required`
       if (!NAME_REGEX.test(trimmed)) return 'Only letters are allowed (2-30 characters)'
@@ -183,7 +184,7 @@ export const validateField = (name: string, value: string): string => {
       if (!trimmed) return ` brand is required`
       if (!NAME_REGEX.test(trimmed)) return 'Only letters are allowed (2-30 characters)'
       return ''
-    
+
     case 'price':
       if (!trimmed) return ` Price is required`
       return ''
@@ -191,7 +192,7 @@ export const validateField = (name: string, value: string): string => {
     case 'mrp':
       if (!trimmed) return ` MRP is required`
       return ''
-    
+
     case 'weight':
       if (!trimmed) return ` weight is required`
       return ''
@@ -204,11 +205,10 @@ export const validateField = (name: string, value: string): string => {
       if (!trimmed) return ` discount Percent Period is required`
       return ''
 
-    
     case 'stock':
       if (!trimmed) return ` discount Percent Period is required`
       return ''
-    
+
     case 'sku':
       if (!trimmed) return ` sku is required`
       return ''
@@ -239,7 +239,26 @@ export const validateField = (name: string, value: string): string => {
 
 
 
+// Validate the Image
+export const IsImageValidate = (data: any) => {
 
+  if (!data) return false
 
+  const extension = data.name
+    .substring(data.name.lastIndexOf('.'))
+    .toLowerCase()
 
-// api/productRoutes/CreateProducts
+  if (
+    extension !== '.png' &&
+    extension !== '.jpg' &&
+    extension !== '.jpeg'
+  ) {
+    console.log("< invalid image >")
+
+    return "please upload valid image"
+  }
+
+  console.log("< valid image >")
+
+  return extension
+}
