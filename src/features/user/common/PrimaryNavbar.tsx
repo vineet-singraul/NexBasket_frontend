@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { Box, InputBase, Typography, Tooltip, Divider } from '@mui/material'
+import { Box, InputBase, Typography, Tooltip, Divider, Avatar, Stack } from '@mui/material'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
@@ -40,7 +40,9 @@ const PrimaryNavbar = () => {
       {/* Desktop / tablet bar */}
       <Box className={styles.primaryNav} sx={{ display: { xs: 'none', sm: 'flex' } }}>
         <Link to="/" className={styles.logoLink}>
-          <p className={styles.SLogoName}><span className={styles.fLogoName}>Nex</span>Basket</p>
+          <p className={styles.SLogoName}>
+            <span className={styles.fLogoName}>Nex</span>Basket
+          </p>
         </Link>
 
         <div className={`${styles.navBlock} navBlock`}>
@@ -58,28 +60,27 @@ const PrimaryNavbar = () => {
             All
             <KeyboardArrowDownOutlinedIcon className={styles.caret} />
           </div>
-          <input
-            type="text"
-            placeholder="Search NexBasket.in"
-            className={styles.searchInput}
-          />
+          <input type="text" placeholder="Search NexBasket.in" className={styles.searchInput} />
           <button type="button" className={styles.searchButton}>
             <SearchOutlinedIcon className={styles.searchIcon} />
           </button>
         </div>
 
-        
-        <div  className={styles.navBlock}>
+        <div className={styles.navBlock}>
           <Link to="/cart" className={styles.cartLink}>
             <div className={styles.cartIconWrap}>
               <ShoppingCartOutlinedIcon className={styles.cartIcon} />
               <span className={styles.cartBadge}>0</span>
-            </div> 
+            </div>
           </Link>
         </div>
 
-        <div className={styles.navBlock} style={{ cursor: 'pointer' }} onMouseEnter={() => setShowProfile(true)}>
-          <div className={styles.smallLabel} >
+        <div
+          className={styles.navBlock}
+          style={{ cursor: 'pointer' }}
+          onMouseEnter={() => setShowProfile(true)}
+        >
+          <div className={styles.smallLabel}>
             {displayName ? `Hello, ${displayName}` : 'Hello, sign in'}
           </div>
           <div className={styles.boldLabel} onClick={handleAccountClick}>
@@ -87,9 +88,10 @@ const PrimaryNavbar = () => {
             <KeyboardArrowDownOutlinedIcon className={styles.caret} />
           </div>
 
-          {showeProfile && <ProfilePopUp userDetails={session?.user} setShowProfile={setShowProfile}/>}
+          {showeProfile && (
+            <ProfilePopUp userDetails={session?.user} setShowProfile={setShowProfile} />
+          )}
         </div>
-
       </Box>
 
       {/* Mobile search bar */}
@@ -152,6 +154,14 @@ const PrimaryNavbar = () => {
             </Box>
           </Tooltip>
         </Box>
+
+        <Stack sx={{ m: 0.7, cursor: 'pointer' }} onClick={() => setShowProfile(!showeProfile)}>
+          <Avatar sx={{ background: '#001226', border: '0.3px solid #3531ec' }}>V</Avatar>
+        </Stack>
+
+        {showeProfile && (
+          <ProfilePopUp userDetails={session?.user} setShowProfile={setShowProfile} />
+        )}
       </Box>
     </>
   )
