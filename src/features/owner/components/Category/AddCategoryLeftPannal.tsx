@@ -1,5 +1,6 @@
-import { Box, Typography, TextField, Button, MenuItem } from '@mui/material'
+import { Box, Typography, TextField, Button, IconButton, MenuItem } from '@mui/material'
 import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded'
+import FormatListBulletedRoundedIcon from '@mui/icons-material/FormatListBulletedRounded'
 import { useState } from 'react'
 import type { ChangeEvent, FocusEvent, SyntheticEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -12,8 +13,10 @@ import type {
   AddCategoryErrors,
   AddCategoryLeftPannalProps,
 } from '../../types/category.types'
+import { slugify } from '../../../../utils/slugify'
 import Loader from '../../../../utils/Loader'
 import Notification from '../../../../utils/Notification'
+import ShowSingleCategory from './showSingleCategory'
 
 const validateCategoryField = (name: string, value: string): string => {
   const trimmed = value.trim()
@@ -34,20 +37,19 @@ const validateCategoryField = (name: string, value: string): string => {
   }
 }
 
-const AddCategoryLeftPannal = ({ subOwnerId, onCategoryCreated }: AddCategoryLeftPannalProps) => {
+const AddCategoryLeftPannal = ({ subOwnerId }: AddCategoryLeftPannalProps) => {
   const navigate = useNavigate()
 
   const [formData, setFormData] = useState<AddCategoryForm>({
-    productCategory: '',
-    categoryDescription: '',
-    OwnerId: '',
-    categoryActive: '',
+    name: '',
+    slug: '',
+    description: '',
+    image: '',
+    isActive: 'true',
   })
   const [error, setError] = useState<AddCategoryErrors>({
-    productCategory: '',
-    categoryDescription: '',
-    OwnerId: '',
-    categoryActive: '',
+    name: '',
+    description: '',
   })
   const [loading, setLoading] = useState<boolean>(false)
   const [notification, setNotification] = useState<NotificationInterfacce>({
@@ -55,11 +57,7 @@ const AddCategoryLeftPannal = ({ subOwnerId, onCategoryCreated }: AddCategoryLef
     message: '',
     severity: 'success',
   })
-
-  const [MainOwnerName] = useState(() => {
-    const auth = localStorage.getItem('nexbasket_auth')
-    return auth ? JSON.parse(auth)?.user?.fullName || '' : ''
-  })
+  const [open, setOpen] = useState<boolean>(false)
 
   const handleOnBlur = (event: FocusEvent<HTMLInputElement>) => {
     const { name, value } = event.target
@@ -83,10 +81,8 @@ const AddCategoryLeftPannal = ({ subOwnerId, onCategoryCreated }: AddCategoryLef
     event.preventDefault()
 
     const newErrors: AddCategoryErrors = {
-      productCategory: validateCategoryField('productCategory', formData.productCategory),
-      categoryDescription: validateCategoryField('description', formData.categoryDescription),
-      OwnerId: validateCategoryField('subOwner', formData.OwnerId),
-      categoryActive: validateCategoryField('isActive', formData.categoryActive),
+      name: validateCategoryField('name', formData.name),
+      description: validateCategoryField('description', formData.description),
     }
     setError(newErrors)
     if (Object.values(newErrors).some(Boolean)) return
@@ -94,21 +90,21 @@ const AddCategoryLeftPannal = ({ subOwnerId, onCategoryCreated }: AddCategoryLef
     setLoading(true)
     try {
       const payload = {
-        productCategory: formData.productCategory.trim(),
-        categoryDescription: formData.categoryDescription.trim(),
-        OwnerId: subOwnerId,
-        categoryActive: formData.categoryActive,
-        MainOwnerName: MainOwnerName,
+        ownerId: subOwnerId,
+        name: formData.name.trim(),
+        slug: formData.slug.trim() || slugify(formData.name),
+        description: formData.description.trim(),
+        image: formData.image.trim(),
+        isActive: formData.isActive === 'true',
       }
-      
+
       const response = await apiPost<{ message?: string }>(CATEGORY_ENDPOINTS.CREATE, payload)
       setNotification({
         open: true,
         message: response?.message || 'Category created successfully',
         severity: 'success',
       })
-      setFormData({ productCategory: '', categoryDescription: '', OwnerId: '', categoryActive: '' })
-      onCategoryCreated?.()
+      setFormData({ name: '', slug: '', description: '', image: '', isActive: 'true' })
     } catch (err) {
       setNotification({
         open: true,
@@ -122,81 +118,106 @@ const AddCategoryLeftPannal = ({ subOwnerId, onCategoryCreated }: AddCategoryLef
 
   return (
     <Box className={styles.AC_leftWrapper}>
-      <Box className={styles.AC_panelHeader}>
-        <Box className={styles.AC_panelIcon}>
-          <CategoryRoundedIcon />
-        </Box>
-        <Box>
-          <Typography className={styles.AC_panelTitle}>Add Category</Typography>
-          <Typography className={styles.AC_panelSubtitle}>
-            Create a new product category for your store
-          </Typography>
+      <Box>
+        <Box className={styles.AC_panelHeader}>
+          <Box className={styles.AC_panelIcon}>
+            <CategoryRoundedIcon />
+          </Box>
+          <Box>
+            <Typography className={styles.AC_panelTitle}>Add Category</Typography>
+            <Typography className={styles.AC_panelSubtitle}>
+              Create a new product category for your store
+            </Typography>
+          </Box>
+
+          <IconButton type="button" className={styles.AC_actionBtn} sx={{ marginLeft: 'auto' }} onClick={()=>{setOpen(!open)}}>
+            <FormatListBulletedRoundedIcon />
+          </IconButton>
         </Box>
       </Box>
 
-      <Box
-        className={styles.AC_form}
-        component="form"
-        onSubmit={handleAddCategory}
-        noValidate
-      >
+      <Box className={styles.AC_form} component="form" onSubmit={handleAddCategory} noValidate>
         <Box className={styles.AC_formBody}>
-          <Box>
-            <Typography className={styles.AC_fieldLabel}>Owner Id</Typography>
-            <TextField
-              fullWidth
-              placeholder={subOwnerId}
-              name="OwnerId"
-              value={subOwnerId}
-              onBlur={handleOnBlur}
-              onChange={handleOnChange}
-              disabled
-            />
+          <Box className={styles.AC_formRow}>
+            <Box>
+              <Typography className={styles.AC_fieldLabel}>Owner Id</Typography>
+              <TextField
+                fullWidth
+                placeholder={subOwnerId}
+                name="ownerId"
+                value={subOwnerId}
+                disabled
+              />
+            </Box>
+
+            <Box>
+              <Typography className={styles.AC_fieldLabel}>Category Name</Typography>
+              <TextField
+                fullWidth
+                placeholder="e.g. Groceries"
+                name="name"
+                value={formData.name}
+                onBlur={handleOnBlur}
+                onChange={handleOnChange}
+                error={Boolean(error?.name)}
+                helperText={error.name}
+              />
+            </Box>
           </Box>
 
-          <Box>
-            <Typography className={styles.AC_fieldLabel}>Category Name</Typography>
-            <TextField
-              fullWidth
-              placeholder="e.g. Groceries"
-              name="productCategory"
-              value={formData.productCategory}
-              onBlur={handleOnBlur}
-              onChange={handleOnChange}
-              error={Boolean(error?.productCategory)}
-              helperText={error.productCategory}
-            />
+          <Box className={styles.AC_formRow}>
+            <Box>
+              <Typography className={styles.AC_fieldLabel}>Slug</Typography>
+              <TextField
+                fullWidth
+                placeholder={formData.name.trim() ? slugify(formData.name) : 'e.g. groceries'}
+                name="slug"
+                value={formData.slug}
+                onChange={handleOnChange}
+              />
+            </Box>
           </Box>
 
-          <Box>
+          <Box className={styles.AC_formRow}>
+            <Box>
+              <Typography className={styles.AC_fieldLabel}>Image URL</Typography>
+              <TextField
+                fullWidth
+                placeholder="https://example.com/images/category.png"
+                name="image"
+                value={formData.image}
+                onChange={handleOnChange}
+              />
+            </Box>
+
+            <Box>
+              <Typography className={styles.AC_fieldLabel}>Status</Typography>
+              <TextField
+                select
+                fullWidth
+                value={formData.isActive}
+                onChange={handleOnChange}
+                name="isActive"
+              >
+                <MenuItem value="true">Active</MenuItem>
+                <MenuItem value="false">Inactive</MenuItem>
+              </TextField>
+            </Box>
+          </Box>
+
+          <Box className={styles.AC_descriptionGroup}>
             <Typography className={styles.AC_fieldLabel}>Description</Typography>
             <TextField
               fullWidth
               multiline
-              minRows={3}
               placeholder="e.g. Grocery items"
-              name="categoryDescription"
-              value={formData.categoryDescription}
+              name="description"
+              value={formData.description}
               onBlur={handleOnBlur}
               onChange={handleOnChange}
-              error={Boolean(error?.categoryDescription)}
-              helperText={error.categoryDescription}
+              error={Boolean(error?.description)}
+              helperText={error.description}
             />
-          </Box>
-
-          <Box>
-            <Typography className={styles.AC_fieldLabel}>Status</Typography>
-            <TextField
-              select
-              fullWidth
-              value={formData.categoryActive}
-              onBlur={handleOnBlur}
-              onChange={handleOnChange}
-              name="categoryActive"
-            >
-              <MenuItem value="true">Active</MenuItem>
-              <MenuItem value="false">Inactive</MenuItem>
-            </TextField>
           </Box>
         </Box>
 
@@ -210,19 +231,27 @@ const AddCategoryLeftPannal = ({ subOwnerId, onCategoryCreated }: AddCategoryLef
           >
             Cancel
           </Button>
-          <Button type="submit" variant="contained" className={styles.AC_saveBtn} disabled={loading}>
+          <Button
+            type="submit"
+            variant="contained"
+            className={styles.AC_saveBtn}
+            disabled={loading}
+          >
             Create Category
           </Button>
         </Box>
       </Box>
 
       {loading && <Loader />}
+      
       <Notification
         open={notification.open}
         message={notification.message}
         severity={notification.severity}
         onClose={() => setNotification((prev) => ({ ...prev, open: false }))}
       />
+
+      {open && <ShowSingleCategory onClose={() => setOpen(false)} />}
     </Box>
   )
 }

@@ -4,35 +4,29 @@ export interface CategoryOption {
 }
 
 export interface AddCategoryForm {
-  productCategory: string
-  categoryDescription: string
-  OwnerId:string,
-  categoryActive:''
+  name: string
+  slug: string
+  description: string
+  image: string
+  isActive: 'true' | 'false'
 }
 
 export interface AddCategoryErrors {
-  productCategory: string
-  categoryDescription: string
-  OwnerId:string,
-  categoryActive:string
+  name: string
+  description: string
 }
 
 export interface CategoryListItem {
   _id: string
-  productCategory: string
-  categoryDescription?: string
-  categoryActive?: string | boolean
-  OwnerId?: string
-  MainOwnerName?: string
+  ownerId: string
+  name: string
+  slug: string
+  description?: string
+  image?: string
+  isActive?: boolean
   createdAt?: string
 }
 
 export interface AddCategoryLeftPannalProps {
   subOwnerId: string
-  onCategoryCreated?: () => void
-}
-
-export interface AddCategoryRightPannelProps {
-  categories: CategoryListItem[]
-  loading: boolean
 }

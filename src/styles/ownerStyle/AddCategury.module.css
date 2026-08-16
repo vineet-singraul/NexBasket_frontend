@@ -52,6 +52,11 @@
   width: 42%;
 }
 
+/* Pages with only a single panel (e.g. Add Category) let it fill the row */
+.AC_leftWrapper:only-child {
+  width: 100%;
+}
+
 @media (max-width: 1100px) {
   .AC_leftWrapper,
   .AC_rightWrapper {
@@ -126,6 +131,46 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
+}
+
+.AC_formRow {
+  display: flex;
+  gap: 26px;
+}
+
+.AC_formRow > * {
+  flex: 1;
+  min-width: 0;
+}
+
+.AC_descriptionGroup {
+  flex: 1;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+}
+
+.AC_descriptionGroup :global(.MuiFormControl-root) {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.AC_descriptionGroup :global(.MuiOutlinedInput-root) {
+  height: 100%;
+  align-items: flex-start;
+}
+
+.AC_descriptionGroup :global(.MuiInputBase-inputMultiline) {
+  height: 100% !important;
+  overflow-y: auto !important;
+}
+
+@media (max-width: 720px) {
+  .AC_formRow {
+    flex-direction: column;
+    gap: 18px;
+  }
 }
 
 .AC_fieldLabel {
@@ -229,7 +274,7 @@
   opacity: 0.55 !important;
 }
 
-/* ---------------- Right panel: category list ---------------- */
+/* ---------------- Right panel: card list (categories, stores, …) ---------------- */
 
 .AC_listBody {
   flex: 1;
@@ -274,7 +319,6 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-.AC_categoryCard .AC_categoryIcon,
 .AC_categoryCard > :global(.MuiAvatar-root) {
   margin-top: 2px;
 }
@@ -283,23 +327,6 @@
   transform: translateY(-2px);
   border-color: rgba(255, 132, 0, 0.35);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
-}
-
-.AC_categoryIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 46px;
-  height: 46px;
-  flex-shrink: 0;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(255, 132, 0, 0.2), rgba(98, 0, 235, 0.2));
-  border: 1px solid rgba(255, 132, 0, 0.3);
-  color: var(--nb-orange);
-}
-
-.AC_categoryIcon svg {
-  font-size: 22px;
 }
 
 .AC_categoryInfo {
@@ -392,13 +419,13 @@
   font-size: 15px;
 }
 
-.AC_actionBtn:hover {
+.AC_actionBtn {
   color: var(--nb-orange) !important;
   border-color: rgba(255, 132, 0, 0.4) !important;
   background: rgba(255, 132, 0, 0.1) !important;
 }
 
-.AC_actionBtnDanger:hover {
+.AC_actionBtnDanger {
   color: #e74c3c !important;
   border-color: rgba(231, 76, 60, 0.4) !important;
   background: rgba(231, 76, 60, 0.1) !important;

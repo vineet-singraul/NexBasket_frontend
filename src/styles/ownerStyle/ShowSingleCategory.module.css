@@ -1,0 +1,223 @@
+/* ==========================================================================
+   ShowSingleCategory.module.css
+   NexBasket Owner Panel — full-screen single category dialog (design only)
+   ========================================================================== */
+
+.SC_dialog :global(.MuiDialog-paper) {
+  background: #0f0f14;
+}
+
+.SC_appBar {
+  background: linear-gradient(135deg, #1b1b23, #16161d) !important;
+  border-bottom: 1px solid rgba(255, 132, 0, 0.16);
+  box-shadow: none !important;
+}
+
+.SC_toolbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 20px !important;
+}
+
+.SC_closeBtn {
+  color: #f2f2f5 !important;
+}
+
+.SC_panelIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(255, 132, 0, 0.22), rgba(98, 0, 235, 0.22));
+  border: 1px solid rgba(255, 132, 0, 0.35);
+  color: #fc8019;
+}
+
+.SC_panelIcon svg {
+  font-size: 20px;
+}
+
+.SC_headingWrap {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.SC_title {
+  color: #f2f2f5 !important;
+  font-weight: 800 !important;
+  font-size: 17px !important;
+  line-height: 1.3 !important;
+}
+
+.SC_subtitle {
+  color: #989ba8 !important;
+  font-size: 12.5px !important;
+}
+
+.SC_body {
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.SC_cardsList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.SC_heroCard {
+  display: flex;
+  gap: 28px;
+  padding: 28px;
+  background: #16161d;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+}
+
+.SC_heroMedia {
+  position: relative;
+  flex-shrink: 0;
+  width: 320px;
+  aspect-ratio: 4 / 3;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255, 132, 0, 0.16), rgba(98, 0, 235, 0.16));
+  border: 1px solid rgba(255, 132, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.SC_heroMedia svg {
+  font-size: 56px;
+  color: #fc8019;
+}
+
+.SC_heroMediaImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.SC_heroBadge {
+  position: absolute !important;
+  top: 14px;
+  right: 14px;
+  margin-top: 0 !important;
+}
+
+.SC_heroContent {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.SC_heroTitle {
+  color: #f2f2f5 !important;
+  font-weight: 800 !important;
+  font-size: 26px !important;
+  line-height: 1.25 !important;
+}
+
+.SC_heroField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.SC_heroActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.SC_cardLabel {
+  color: #989ba8 !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.SC_cardDesc {
+  color: #989ba8 !important;
+  font-size: 12.5px !important;
+  line-height: 1.5 !important;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.SC_cardBtnOutline {
+  color: #f2f2f5 !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: 30px !important;
+  padding: 6px 16px !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  text-transform: none !important;
+}
+
+.SC_cardBtnOutline:hover {
+  border-color: rgba(255, 255, 255, 0.32) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+.SC_cardBtnFilled {
+  background: linear-gradient(90deg, #fc8019, #ff4d00) !important;
+  color: #fff !important;
+  border-radius: 30px !important;
+  padding: 6px 16px !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  text-transform: none !important;
+  box-shadow: 0 4px 14px rgba(255, 132, 0, 0.35) !important;
+}
+
+.SC_statusChip {
+  margin-top: 2px !important;
+  align-self: flex-start;
+  background: rgba(46, 204, 113, 0.18) !important;
+  color: #2ecc71 !important;
+  border: 1px solid rgba(46, 204, 113, 0.4) !important;
+  font-weight: 700 !important;
+}
+
+@media (max-width: 720px) {
+  .SC_heroCard {
+    flex-direction: column;
+  }
+
+  .SC_heroMedia {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .SC_toolbar {
+    padding: 8px 14px !important;
+  }
+
+  .SC_body {
+    padding: 22px 16px;
+  }
+
+  .SC_heroCard {
+    padding: 18px;
+    gap: 18px;
+  }
+}

@@ -255,7 +255,7 @@ const LeftSideAddProduct = () => {
               <Autocomplete
                 disablePortal
                 options={categories}
-                getOptionLabel={(option) => option.productCategory}
+                getOptionLabel={(option) => option.name}
                 isOptionEqualToValue={(option, value) => option._id === value._id}
                 loading={categoriesLoading}
                 value={categories.find((c) => c._id === formData.category) ?? null}
