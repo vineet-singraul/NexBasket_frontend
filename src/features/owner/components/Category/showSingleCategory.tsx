@@ -197,6 +197,7 @@ const ShowSingleCategory = ({ onClose }: ShowSingleCategoryProps) => {
         />
       )}
     </Dialog>
+    
   )
 }
 

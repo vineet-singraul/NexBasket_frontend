@@ -87,7 +87,7 @@ const LeftSideAddProduct = () => {
     setCategoriesLoading(true)
     try {
       const response = await apiGet<{ data?: CategoryListItem[] } | CategoryListItem[]>(
-        CATEGORY_ENDPOINTS.GETSUBOWNERCATEGORYLIST(id),
+        CATEGORY_ENDPOINTS.GET_OWNER_CATEGORY(id),
       )
       const list = Array.isArray(response) ? response : (response?.data ?? [])
       setCategories(list)
