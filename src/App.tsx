@@ -28,6 +28,7 @@ function App() {
           <Route path="/owner/dashboard" element={<OwnerLayout><OwnerDashboard /></OwnerLayout>} />
           <Route path='/owner/orders' />
           <Route path="/owner/category/add" element={<OwnerLayout><AddCategury /></OwnerLayout>} />
+          <Route path="/owner/category/add/:id" element={<OwnerLayout><AddCategury /></OwnerLayout>} />
           <Route path='/owner/stores/add' element={<OwnerLayout><Stores/></OwnerLayout>}/>
           <Route path='/owner/Products' element={<OwnerLayout><Products/></OwnerLayout>}/>
           <Route path='/owner/stores/add/:id' element={<OwnerLayout><Stores/></OwnerLayout>}/>

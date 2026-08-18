@@ -13,7 +13,10 @@ export const AUTH_ENDPOINTS = {
 
 export const CATEGORY_ENDPOINTS = {
   CREATE: "/category/createCategoryOfProduct",
-  GET_OWNER_CATEGORY: (id: string) => `/category/getSingleOwnerCategory/${id}`
+  GET_OWNER_CATEGORY: (id: string) => `/category/getSingleOwnerCategory/${id}`,
+  DELETE_CATEGORY: (id: string) => `/category/deleteCategoryOfProduct/${id}`,
+  GET_CATEGORY_BY_ID : (id : string) => `/category/getCategoryOfProductById/${id}`,
+  UPDATE_CATEGORY: (id: string) => `/category/updateCategoryOfProduct/${id}`
 };
 
 

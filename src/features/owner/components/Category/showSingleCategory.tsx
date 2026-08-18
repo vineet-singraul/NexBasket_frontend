@@ -15,13 +15,14 @@ import CloseIcon from '@mui/icons-material/Close'
 import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded'
 import ImageRoundedIcon from '@mui/icons-material/ImageRounded'
 import styles from '../../../../styles/ownerStyle/ShowSingleCategory.module.css'
-import { apiGet } from '../../../../api/userApi'
+import { apiDelete, apiGet } from '../../../../api/userApi'
 import { CATEGORY_ENDPOINTS } from '../../../../api/endpoints'
 import type { NotificationInterfacce } from '../../../../auth/types/auth.types'
 import type { CategoryListItem } from '../../types/category.types'
 import Notification from '../../../../utils/Notification'
 import Loader from '../../../../utils/Loader'
-
+import CircularProgress from '@mui/material/CircularProgress'
+import { useNavigate } from 'react-router-dom'
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & { children: React.ReactElement<unknown> },
@@ -41,69 +42,97 @@ const ShowSingleCategory = ({ onClose }: ShowSingleCategoryProps) => {
 
   const authData = localStorage.getItem('nexbasket_auth')
   const ownerId = authData ? JSON.parse(authData)?.user?._id : null
+  const navigate = useNavigate()
 
-  React.useEffect(() => {
+  // Load All Category
+  const fetchOwnerCategory = async () => {
     if (!ownerId) return
 
-    let isActive = true
+    setLoading(true)
+    try {
+      const response = await apiGet(CATEGORY_ENDPOINTS.GET_OWNER_CATEGORY(ownerId))
+      const payload = response as
+        | CategoryListItem[]
+        | { data?: CategoryListItem | CategoryListItem[] | null }
+        | CategoryListItem
+        | null
 
-    const fetchOwnerCategory = async () => {
-      setLoading(true)
-
-      try {
-        const response = await apiGet(CATEGORY_ENDPOINTS.GET_OWNER_CATEGORY(ownerId))
-       
-        if (!isActive) return
-
-        const categoryPayload = response as
-          | CategoryListItem[]
-          | { data?: CategoryListItem | CategoryListItem[] | null }
-          | CategoryListItem
-          | null
-
-        const categoryData = Array.isArray(categoryPayload)
-          ? categoryPayload
-          : categoryPayload && 'data' in categoryPayload
-            ? (Array.isArray(categoryPayload.data)
-                ? categoryPayload.data
-                : categoryPayload.data
-                  ? [categoryPayload.data]
-                  : [])
-            : categoryPayload
-              ? [categoryPayload]
+      const data = Array.isArray(payload)
+        ? payload
+        : payload && 'data' in payload
+          ? Array.isArray(payload.data)
+            ? payload.data
+            : payload.data
+              ? [payload.data]
               : []
+          : payload
+            ? [payload]
+            : []
 
-        console.log(categoryData)
-
-        setCategory(categoryData as CategoryListItem[])
-      } catch (error) {
-        if (!isActive) return
-
-        const errorMessage =
+      setCategory(data as CategoryListItem[])
+    } catch (error) {
+      setNotification({
+        open: true,
+        message:
           error instanceof Error
             ? error.message
             : typeof error === 'string'
               ? error
-              : 'Something went wrong'
-
-        setNotification({
-          open: true,
-          message: errorMessage,
-          severity: 'error',
-        })
-      } finally {
-        if (isActive) {
-          setLoading(false)
-        }
-      }
+              : 'Something went wrong',
+        severity: 'error',
+      })
+    } finally {
+      setLoading(false)
     }
+  }
 
-    void fetchOwnerCategory()
-
+  // Load Effect :
+  React.useEffect(() => {
+    if (!ownerId) return
+    let isActive = true
+    void Promise.resolve().then(() => fetchOwnerCategory())
     return () => {
       isActive = false
     }
   }, [ownerId])
+
+  // Delete the Category :
+  const handleDelete = async (id: string) => {
+    setLoading(true)
+    try {
+      const response = await apiDelete(CATEGORY_ENDPOINTS.DELETE_CATEGORY(id))
+      const responseMessage =
+        typeof response === 'object' && response !== null && 'message' in response
+          ? response.message
+          : ''
+      setLoading(true)
+      setNotification({
+        open: true,
+        message: String(responseMessage ?? ''),
+        severity: 'success',
+      })
+      fetchOwnerCategory()
+    } catch (error) {
+      setNotification({
+        open: true,
+        message:
+          error instanceof Error
+            ? error.message
+            : typeof error === 'string'
+              ? error
+              : 'Something went wrong',
+        severity: 'error',
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Edit the Category :
+  const handleEdit = (id: string) => {
+    navigate(`/owner/category/add/${id}`)
+    onClose?.()
+  }
 
   return (
     <Dialog
@@ -146,7 +175,11 @@ const ShowSingleCategory = ({ onClose }: ShowSingleCategoryProps) => {
                   {!category.image ? (
                     <ImageRoundedIcon />
                   ) : (
-                    <img src={category.image} alt={category.name ?? 'Category image'} />
+                    <img
+                      src={category.image}
+                      alt={category.name ?? 'Category image'}
+                      className={styles.SC_heroMediaImage}
+                    />
                   )}
                   <Chip
                     label={category.isActive ? 'Active' : 'Not Active'}
@@ -169,12 +202,30 @@ const ShowSingleCategory = ({ onClose }: ShowSingleCategoryProps) => {
                   </Box>
 
                   <Box className={styles.SC_heroActions}>
-                    <Button type="button" className={styles.SC_cardBtnOutline}>
+  
+                    <Button
+                      type="button"
+                      className={styles.SC_cardBtnOutline}
+                      onClick={() => handleEdit(category._id)}
+                    >
                       Edit
                     </Button>
-                    <Button type="button" className={styles.SC_cardBtnFilled}>
-                      Delete
-                    </Button>
+
+                    {loading ? (
+                      <Button type="button" className={styles.SC_cardBtnFilled}>
+                        <CircularProgress />
+                      </Button>
+                    ) : (
+                      <Button
+                        type="button"
+                        className={styles.SC_cardBtnFilled}
+                        onClick={() => {
+                          handleDelete(category._id)
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    )}
                   </Box>
                 </Box>
               </Box>
@@ -184,7 +235,6 @@ const ShowSingleCategory = ({ onClose }: ShowSingleCategoryProps) => {
           <Box className={styles.SC_heroCard}>No category found.</Box>
         )}
       </Box>
-
 
       {loading && <Loader />}
 
@@ -197,7 +247,6 @@ const ShowSingleCategory = ({ onClose }: ShowSingleCategoryProps) => {
         />
       )}
     </Dialog>
-    
   )
 }
 
