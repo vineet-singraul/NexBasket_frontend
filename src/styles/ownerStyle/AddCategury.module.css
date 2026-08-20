@@ -500,19 +500,63 @@
 }
 
 @media (max-width: 600px) {
+  .AC_leftWrapper,
+  .AC_rightWrapper {
+    border-radius: 0 !important;
+  }
+
   .AC_panelHeader {
-    padding: 18px 20px;
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .AC_panelIcon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .AC_panelIcon svg {
+    font-size: 18px;
+  }
+
+  .AC_panelTitle {
+    font-size: 14.5px !important;
+  }
+
+  .AC_panelSubtitle {
+    font-size: 11px !important;
   }
 
   .AC_formBody {
-    padding: 20px;
+    padding: 16px 12px;
+    gap: 14px;
   }
 
   .AC_actions {
     padding: 14px 20px;
   }
 
+  .AC_cancelBtn,
+  .AC_saveBtn {
+    font-size: 12.5px !important;
+    padding: 8px 18px !important;
+  }
+
   .AC_listBody {
     padding: 14px;
+  }
+
+  .AC_formBody :global(.MuiOutlinedInput-input):not(:global(.MuiInputBase-inputMultiline)) {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .AC_formBody :global(.MuiSelect-select) {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .AC_descriptionGroup {
+    min-height: 110px;
   }
 }

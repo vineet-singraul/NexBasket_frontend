@@ -5,6 +5,11 @@
 
 .SC_dialog :global(.MuiDialog-paper) {
   background: #0f0f14;
+  overflow-x: hidden;
+}
+
+.SC_dialog * {
+  box-sizing: border-box;
 }
 
 .SC_appBar {

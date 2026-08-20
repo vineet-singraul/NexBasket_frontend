@@ -228,7 +228,7 @@ const AddCategoryLeftPannal = ({ subOwnerId }: AddCategoryLeftPannalProps) => {
             <Box>
               <Typography className={styles.AC_panelTitle}>Add Category</Typography>
               <Typography className={styles.AC_panelSubtitle}>
-                Create a new product category for your store
+                Create a new product category
               </Typography>
             </Box>
           )}

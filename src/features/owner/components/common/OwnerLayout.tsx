@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Box } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import OwnerSidebar from './OwnerSidebar'
@@ -43,7 +44,12 @@ const OwnerLayout: React.FC<OwnerLayoutProps> = ({ children }) => {
       />
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
         <OwnerHeader onMenuClick={() => setSidebarOpen(true)} onLogout={handleLogout} />
-        <main style={{ flex: 1, padding: '24px', overflowY: 'auto' }}>{children}</main>
+        <Box
+          component="main"
+          sx={{ flex: 1, padding: { xs: 0, sm: '24px' }, overflowY: 'auto' }}
+        >
+          {children}
+        </Box>
       </div>
     </div>
   )
