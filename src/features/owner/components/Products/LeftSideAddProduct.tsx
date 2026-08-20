@@ -43,7 +43,7 @@ const LeftSideAddProduct = () => {
     if (!q) return categories
     const findcategory = categories.filter((category) => category.name.toLowerCase().includes(q))
     return findcategory;
-  }, [query])
+  }, [query, categories])
 
   const { idStore } = useParams<{ idStore: string }>()
 
