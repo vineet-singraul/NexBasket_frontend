@@ -49,11 +49,12 @@ const LeftSideAddProduct = () => {
 
   const fatchCatagoryOfOwner = async () => {
     if (!idStore) return
+    setLoading(true)
     try {
       const response = await apiGet<{data : CategoryListItem[]}>(CATEGORY_ENDPOINTS.GET_CATEGORY_BY_OWNER_ID(idStore));
 
       const categories = Array.isArray(response.data) ? response.data : []
-
+       setLoading(true)
       setCategorys(categories)
     } catch (error) {
       setNotification({
@@ -61,6 +62,9 @@ const LeftSideAddProduct = () => {
         message: error instanceof Error ? error.message : 'Something went wrong',
         severity: 'error',
       })
+    }
+    finally{
+      setLoading(false)
     }
   }
 
