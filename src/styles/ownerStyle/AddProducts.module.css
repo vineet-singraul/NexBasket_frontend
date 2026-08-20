@@ -1,13 +1,15 @@
 /* ==========================================================================
    AddProducts.module.css
-   NexBasket Owner Panel — add product page (two-step wizard)
-   Panel/header/form/action-bar shell reuses AC_* classes from
-   AddCategury.module.css for visual parity with the other owner forms.
+   NexBasket Owner Panel — add product page (category picker)
+   Shares the --nb-* tokens and panel-header/card shell used across the
+   owner panel (AddCategury.module.css, ShowSingleCategory.module.css) for
+   visual parity.
    ========================================================================== */
 
-.AP_panel {
+.Aad_Product_Wrapper_Top_Parent {
   --nb-orange: #fc8019;
   --nb-orange-2: #ff4d00;
+  --nb-violet: #6200eb;
   --nb-dark: #f2f2f5;
   --nb-gray: #989ba8;
   --nb-border: rgba(255, 255, 255, 0.08);
@@ -15,804 +17,607 @@
   --nb-surface-alt: #1c1f2e;
 
   display: flex;
+  align-items: stretch;
+  gap: 24px;
+  width: 100%;
+  height: calc(100vh - 120px);
+  min-height: 480px;
+  box-sizing: border-box;
+}
+
+.Add_Product_Left_Col {
+  display: flex;
   flex-direction: column;
-  width: 100% !important;
-  max-width: 960px;
-  margin: 0 auto;
-  border-radius: 16px !important;
-  background: var(--nb-surface) !important;
+  min-height: 0;
+  width: 100%;
+  border-radius: 16px;
+  background: var(--nb-surface);
   border: 1px solid var(--nb-border);
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
-/* ---------------- Step indicator ---------------- */
-
-.AP_steps {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 22px 26px 0;
-}
-
-.AP_stepPill {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  flex-shrink: 0;
-  font-size: 12.5px;
-  font-weight: 700;
-  color: var(--nb-gray);
-  transition: color 0.25s ease;
-}
-
-.AP_stepDot {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  font-size: 12px;
-  font-weight: 800;
-  border: 1px solid var(--nb-border);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--nb-gray);
-  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
-}
-
-.AP_stepLabel {
-  white-space: nowrap;
-}
-
-@media (max-width: 480px) {
-  .AP_stepLabel {
-    display: none;
-  }
-}
-
-.AP_stepPillActive {
-  color: var(--nb-dark);
-}
-
-.AP_stepPillActive .AP_stepDot {
-  background: linear-gradient(135deg, var(--nb-orange), var(--nb-orange-2));
-  border-color: transparent;
-  color: #fff;
-  box-shadow: 0 4px 14px rgba(252, 128, 25, 0.4);
-}
-
-.AP_stepLine {
-  flex: 1;
-  height: 2px;
-  min-width: 24px;
-  border-radius: 2px;
-  background: var(--nb-border);
-  overflow: hidden;
-}
-
-.AP_stepLine::after {
-  content: '';
-  display: block;
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--nb-orange), var(--nb-orange-2));
-  transition: width 0.35s ease;
-}
-
-.AP_stepLineFilled::after {
-  width: 100%;
-}
-
-/* ---------------- Panel sections (shown / hidden by CSS, never unmounted) ---------------- */
-
-.AP_section {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  animation: AP_fadeIn 0.25s ease;
-}
-
-.AP_sectionHidden {
-  display: none !important;
-}
-
-@keyframes AP_fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.AP_sectionTitle {
-  color: var(--nb-dark) !important;
-  font-weight: 700 !important;
-  font-size: 14px !important;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-
-.AP_hint {
-  color: var(--nb-gray) !important;
-  font-size: 12px !important;
-  margin-top: -8px !important;
-}
-
-/* ---------------- Field rows ---------------- */
-
-.row {
-  display: flex;
-  gap: 15px;
-}
-
-.row > * {
-  flex: 1;
-  min-width: 0;
-}
-
-@media (max-width: 560px) {
-  .row {
-    flex-direction: column;
-    gap: 18px;
-  }
-}
-
-.AP_dimensionsRow {
-  display: flex;
-  gap: 15px;
-}
-
-.AP_dimensionsRow > * {
-  flex: 1;
-  min-width: 0;
-}
-
-@media (max-width: 720px) {
-  .AP_dimensionsRow {
-    flex-wrap: wrap;
-  }
-
-  .AP_dimensionsRow > * {
-    flex: 1 1 calc(50% - 15px);
-  }
-}
-
-@media (max-width: 480px) {
-  .AP_dimensionsRow {
-    flex-direction: column;
-  }
-
-  .AP_dimensionsRow > * {
-    flex: 1 1 100%;
-  }
-}
-
-/* Rows with 3 fields (price/mrp/discount, weight/rating) — ease to 2-up before stacking */
-@media (max-width: 720px) and (min-width: 561px) {
-  .row {
-    flex-wrap: wrap;
-  }
-
-  .row > * {
-    flex: 1 1 calc(50% - 15px);
-  }
-}
-
-/* ---------------- Misc field polish ---------------- */
-
-.AP_panel :global(.MuiFormHelperText-root) {
-  margin-left: 2px !important;
-}
-
-.AP_panel :global(.MuiOutlinedInput-root.Mui-disabled .MuiOutlinedInput-notchedOutline) {
-  border-color: var(--nb-border) !important;
-}
-
 @media (max-width: 600px) {
-  .AP_steps {
-    padding: 18px 20px 0;
-  }
-}
-
-/* ---------------- Tags input ---------------- */
-
-.AP_tagsField {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 8px 12px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--nb-border);
-  transition: border-color 0.2s ease;
-}
-
-.AP_tagsField:focus-within {
-  border-color: var(--nb-orange);
-  border-width: 2px;
-}
-
-.AP_tagChip {
-  background: linear-gradient(135deg, rgba(255, 132, 0, 0.22), rgba(98, 0, 235, 0.22)) !important;
-  color: var(--nb-dark) !important;
-  font-weight: 600 !important;
-  border: 1px solid rgba(255, 132, 0, 0.3) !important;
-}
-
-.AP_tagChip :global(.MuiChip-deleteIcon) {
-  color: var(--nb-gray) !important;
-}
-
-.AP_tagChip :global(.MuiChip-deleteIcon:hover) {
-  color: var(--nb-orange) !important;
-}
-
-.AP_tagsInput {
-  flex: 1;
-  min-width: 140px;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: var(--nb-dark);
-  font-size: 14px;
-  font-family: inherit;
-  padding: 6px 4px;
-}
-
-.AP_tagsInput::placeholder {
-  color: var(--nb-gray);
-}
-
-/* ---------------- Rating row ---------------- */
-
-.AP_ratingRow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 4px 2px;
-}
-
-.AP_ratingValue {
-  color: var(--nb-gray) !important;
-  font-size: 13px !important;
-  font-weight: 700 !important;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-/* ----------------------------------- */
-/*  */
-/* ----------------------------------- */
-.Aad_Product_Wrapper_Top_Parent{
-  width: 100% !important;
-  border-radius: 10px !important;
-  display: flex !important;
-  align-items: stretch !important;
-  justify-content: space-between !important;
-  height: calc(100vh - 120px);
-  min-height: 480px;
-}
-
-@media (max-width: 1100px) {
   .Aad_Product_Wrapper_Top_Parent {
     height: auto;
     min-height: 0;
+    margin: -24px;
+    width: calc(100% + 48px);
   }
-}
 
-.Add_Product_Left_Col{
-  width: 100% !important;
-}
-
-@media (max-width: 1100px) {
   .Add_Product_Left_Col {
-    height: 70vh;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
   }
 }
 
-.Add_Product_Main_Wrapper{
-  --nb-orange: #fc8019;
-  --nb-orange-2: #ff4d00;
-  --nb-dark: #f2f2f5;
-  --nb-gray: #989ba8;
-  --nb-border: rgba(255, 132, 0, 0.16);
+/* ---------------- Category showcase shell ---------------- */
 
-  height: 100%;
-  border-radius: 16px !important;
-  border: 1px solid var(--nb-border) !important;
-  background: linear-gradient(180deg, #1b1b23, #16161d) !important;
-  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.35);
-  display: flex !important;
-  flex-direction: column !important;
-  overflow: hidden;
-}
-
-.Add_Products_Header{
-  width: 100% !important;
-  flex-shrink: 0;
-  background: linear-gradient(135deg, rgba(252, 128, 25, 0.32), rgba(98, 0, 235, 0.08) 55%, transparent) !important;
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  gap: 2px 16px !important;
-  padding: 18px 22px !important;
-  border: none !important;
-  border-bottom: 1px solid var(--nb-border) !important;
-}
-
-.Add_Product_HederText{
-   display: grid !important;
-   gap: 2px !important;
-   padding: 4px 0 !important;
-}
-
-
-
-.FormWrapper{
-  display: flex !important;
-  flex-direction: column !important;
+.CategoryShowcase {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   min-height: 0;
 }
 
-.Add_Product_Form_Body {
+.CategoryShowcase_Header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-shrink: 0;
+  padding: 22px 26px;
+  border-bottom: 1px solid var(--nb-border);
+  background: linear-gradient(180deg, rgba(255, 132, 0, 0.1), rgba(98, 0, 235, 0.04));
+}
+
+.CategoryShowcase_HeaderRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.CategoryShowcase_IconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(255, 132, 0, 0.22), rgba(98, 0, 235, 0.22));
+  border: 1px solid rgba(255, 132, 0, 0.35);
+  color: var(--nb-orange);
+}
+
+.CategoryShowcase_IconBox svg {
+  font-size: 22px;
+}
+
+.CategoryShowcase_HeaderText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.CategoryShowcase_Title {
+  color: var(--nb-dark) !important;
+  font-weight: 800 !important;
+  font-size: 14px !important;
+  line-height: 1.3 !important;
+}
+
+.CategoryShowcase_Subtitle {
+  color: var(--nb-gray) !important;
+  font-size: 10px !important;
+  margin-top: 2px !important;
+}
+
+.CategoryShowcase_CountChip {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 6px 12px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--nb-border);
+  color: var(--nb-dark);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.CategoryShowcase_CountChip span {
+  color: var(--nb-gray);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+/* ---------------- Toolbar: search + selected chip ---------------- */
+
+.CategoryShowcase_Toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.CategoryShowcase_Search {
+  flex: 1;
+  min-width: 200px;
+}
+
+.CategoryShowcase_Search :global(.MuiOutlinedInput-root) {
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--nb-dark);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.CategoryShowcase_Search :global(.MuiOutlinedInput-input) {
+  color: var(--nb-dark);
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
+}
+
+.CategoryShowcase_Search :global(.MuiOutlinedInput-notchedOutline) {
+  border-color: var(--nb-border);
+}
+
+.CategoryShowcase_Search :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
+  border-color: rgba(255, 132, 0, 0.4);
+}
+
+.CategoryShowcase_Search :global(.MuiOutlinedInput-root.Mui-focused) {
+  background: rgba(255, 132, 0, 0.06);
+}
+
+.CategoryShowcase_Search :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
+  border-color: var(--nb-orange);
+  border-width: 1.5px;
+}
+
+.CategoryShowcase_SearchIcon {
+  color: var(--nb-gray) !important;
+  font-size: 19px !important;
+}
+
+.CategoryShowcase_SearchClear {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50% !important;
+  color: var(--nb-gray) !important;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.CategoryShowcase_SearchClear:hover {
+  color: var(--nb-dark) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.CategoryShowcase_SelectedChip {
+  display: flex !important;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+  padding: 8px 14px !important;
+  border-radius: 30px !important;
+  background: linear-gradient(90deg, rgba(255, 132, 0, 0.18), rgba(255, 77, 0, 0.1)) !important;
+  border: 1px solid rgba(252, 128, 25, 0.4);
+  color: var(--nb-dark) !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  white-space: nowrap;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.CategoryShowcase_SelectedChip:hover {
+  border-color: var(--nb-orange);
+}
+
+.CategoryShowcase_SelectedChipIcon {
+  font-size: 16px !important;
+  color: var(--nb-orange) !important;
+}
+
+.CategoryShowcase_SelectedChipClear {
+  font-size: 14px !important;
+  color: var(--nb-gray) !important;
+  margin-left: 2px;
+}
+
+/* ---------------- Category grid ---------------- */
+
+.CategoryGrid {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  grid-auto-rows: max-content;
+  align-items: start;
+  align-content: start;
+  gap: 20px;
+  padding: 24px 26px;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 132, 0, 0.4) transparent;
 }
 
-.Add_Product_Form_Body::-webkit-scrollbar {
+.CategoryGrid::-webkit-scrollbar {
   width: 8px;
 }
 
-.Add_Product_Form_Body::-webkit-scrollbar-track {
+.CategoryGrid::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.Add_Product_Form_Body::-webkit-scrollbar-thumb {
+.CategoryGrid::-webkit-scrollbar-thumb {
   background: rgba(255, 132, 0, 0.35);
   border-radius: 20px;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
 
-.Add_Product_Form_Body::-webkit-scrollbar-thumb:hover {
+.CategoryGrid::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 132, 0, 0.55);
   background-clip: padding-box;
 }
 
-.Add_Product_Chiled_From_Wrapper{
-   padding: 28px 26px !important;
-   animation: AddProduct_fadeInStep 0.3s ease;
-}
+/* ---------------- Category card ---------------- */
 
-@keyframes AddProduct_fadeInStep {
+@keyframes CategoryCard_FadeIn {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(12px) scale(0.98);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
 }
 
-/* Scoped tweak to the shared .FormHeadding eyebrow tag — kept local so other
-   owner pages that reuse the class are unaffected. */
-.Add_Product_Chiled_From_Wrapper :global(.FormHeadding) {
-  display: inline-flex;
-  margin: 0 0 10px;
-  background: rgba(255, 148, 32, 0.06);
-  border-color: rgba(255, 255, 255, 0.14) !important;
-  letter-spacing: 0.5px;
-}
-
-.Add_Products_Form_Box{
-   display: flex !important;
-   flex-direction: row;
-   padding: 18px 0px !important;
-   gap: 20px !important;
-}
-
-@media (max-width: 960px) {
-  .Add_Products_Form_Box {
-    flex-wrap: wrap;
+@keyframes CategoryCard_BadgePop {
+  0% {
+    transform: scale(0);
   }
-
-  .Add_Products_Form_Box > * {
-    flex: 1 1 220px;
+  65% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 
-
-.InputFiled {
+.CategoryCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   width: 100%;
+  padding: 0;
+  text-align: left;
+  border-radius: 16px;
+  background-color: var(--nb-surface-alt);
+  border: 1px solid rgba(252, 128, 25, 0.4);
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  animation: CategoryCard_FadeIn 0.45s ease both;
+  animation-delay: var(--nb-card-delay, 0ms);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
-/* Input Box */
-.InputFiled :global(.MuiOutlinedInput-root) {
-  border-radius: 8px;
-  background: #00000051;
-  transition: background 0.25s ease, box-shadow 0.25s ease;
-  color: #d1d5db !important;
+.CategoryCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 15% 20%, rgba(255, 132, 0, 0.16), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
 }
 
-/* Border Color */
-.InputFiled :global(.MuiOutlinedInput-notchedOutline) {
-  border-color: #f66a00bd;
-  transition: border-color 0.25s ease;
+.CategoryCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(252, 128, 25, 0.65);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.38);
 }
 
-/* Hover */
-.InputFiled :global(.MuiOutlinedInput-root:hover) {
-  background: #0000006b;
+.CategoryCard:hover::before {
+  opacity: 1;
 }
 
-.InputFiled :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
-  border-color: #c35500;
-}
-
-/* Focus */
-.InputFiled :global(.MuiOutlinedInput-root.Mui-focused) {
-  box-shadow: 0 0 0 3px rgba(247, 110, 5, 0.16);
-}
-
-.InputFiled :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
-  border-color: #f76e05;
-  border-width: 2px;
-}
-
-/* Input Text */
-.InputFiled :global(.MuiOutlinedInput-input) {
-  padding: 18px 20px;
-  font-size: 15px;
-}
-
-.InputFiled :global(.MuiOutlinedInput-input::placeholder) {
-  color: #6b7280;
-  opacity: 0.7;
-}
-
-/* Label */
-.InputFiled :global(.MuiInputLabel-root) {
-  color: #6b7280;
-  font-size: 14px;
-  transition: color 0.25s ease;
-}
-
-/* Focused Label */
-.InputFiled :global(.MuiInputLabel-root.Mui-focused) {
-  color: #e88f00;
-  font-size: 15px !important;
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-  .InputFiled {
-    margin: 12px 0 !important;
-  }
-
-  .InputFiled :global(.MuiOutlinedInput-input) {
-    padding: 12px 14px;
-    font-size: 14px;
-  }
-}
-
-
-/* ==========  [ STPPER CSS HARE ]   ============ */
-.Stepper {
-  margin: 20px 15px !important;
-  flex-shrink: 0;
-}
-
-/* Step Icon */
-.Stepper :global(.MuiStepIcon-root) {
-  color: rgba(255, 255, 255, 0.16);
-  font-size: 32px;
-  transition: color 0.3s ease, filter 0.3s ease;
-}
-
-/* Active Step */
-.Stepper :global(.MuiStepIcon-root.Mui-active) {
-  color: #ff6a00 !important;
-  filter: drop-shadow(0 0 6px rgba(255, 106, 0, 0.5));
-}
-
-/* Step Label */
-.Stepper :global(.MuiStepLabel-label) {
-  font-size: 15px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.42);
-  transition: color 0.3s ease;
-}
-
-/* Active Label */
-.Stepper :global(.MuiStepLabel-label.Mui-active) {
-  color: #ff8400 !important;
-  font-weight: 700;
-}
-
-/* Connector Line */
-.Stepper :global(.MuiStepConnector-line) {
-  border-top: 2px solid rgba(255, 255, 255, 0.14);
-  border-radius: 10px;
-  transition: border-color 0.3s ease;
-}
-
-/* Active Connector */
-.Stepper :global(.MuiStepConnector-root.Mui-active .MuiStepConnector-line) {
-  border-color: #ff7700;
-}
-
-/* Completed Connector */
-.Stepper :global(.MuiStepConnector-root.Mui-completed .MuiStepConnector-line) {
-  border-color: #f1fff2;
-  color: green !important;
-}
-
-/* Completed Step Icon */
-.Stepper :global(.MuiStepIcon-root.Mui-completed) {
-  color: #22c55e !important; /* Green */
-}
-
-/* Completed Step Tick */
-.Stepper :global(.MuiStepIcon-root.Mui-completed .MuiStepIcon-text) {
-  fill: white !important;
-}
-
-/* Completed Step Label */
-.Stepper :global(.MuiStepLabel-label.Mui-completed) {
-  color: #22c55e !important;
-  font-weight: 700;
-}
-
-/* Completed Connector */
-.Stepper :global(.MuiStepConnector-root.Mui-completed .MuiStepConnector-line) {
-  border-color: #22c55e !important;
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-  .Stepper :global(.MuiStepLabel-label) {
-    font-size: 12px;
-  }
-
-  .Stepper :global(.MuiStepIcon-root) {
-    font-size: 26px;
-  }
-}
-/* ---------------------------------------------- */
-
-
-.IconStyle{
-  color: #c35500c2 !important;
-  transition: color 0.25s ease;
-}
-
-.InputFiled:focus-within .IconStyle {
-  color: #ff8a1f !important;
-}
-
-.SubmitIcon{
-  color: #fff !important;
-}
-
-/* .SubmitBitton{
-  background: linear-gradient(135deg, #1fae59, #0b7a3a) !important;
-  color: #fff !important;
-  border-radius: 50px !important;
-  padding: 9px 26px !important;
-  font-weight: 700 !important;
-  text-transform: none !important;
-  box-shadow: 0 6px 18px rgba(34, 197, 94, 0.35) !important;
-  transition: box-shadow 0.25s ease, transform 0.25s ease !important;
-}
-
-.SubmitBitton:hover {
-  box-shadow: 0 8px 22px rgba(34, 197, 94, 0.5) !important;
-  transform: translateY(-2px);
-} */
-
-.SubmitBitton {
-  background: linear-gradient(45deg, #ff6b00, #ff9500) !important;
-  color: white !important;
-  border-radius: 50px !important;
-  transition: all 0.3s ease;
-}
-
-/* Disabled State */
-.SubmitBitton:disabled {
-  background: #4b5563 !important;
-  color: #9ca3af !important;
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.SubmitBitton.Mui-disabled {
-  background: #4b5563 !important;
-  color: #9ca3af !important;
-  opacity: 0.6;
-}
-
-
-@media (max-width: 600px) {
-
-.Aad_Product_Wrapper_Top_Parent{
-  flex-direction: column !important;
-  gap: 16px;
-}
-
-.Add_Product_Left_Col{
-  width: 100% !important;
-  height: 80vh;
-}
-
-.Add_Products_Form_Box{
-  flex-direction: column !important;
-  gap: 10px !important;
-  padding: 12px 0px !important;
-}
-
-/* .Add_Products_Form_Box > * gets `flex: 1 1 220px` from the 960px
-   tablet rule above (a 220px *width* basis for row/wrap mode). Once
-   flex-direction flips to column here, that basis is read as a
-   *height* instead, forcing every field to a 220px-tall box with a
-   big empty gap below the input. Reset it back to natural height. */
-.Add_Products_Form_Box > * {
-  flex: 1 1 auto !important;
-}
-
-.Add_Products_Header {
-  padding: 14px 16px !important;
-  gap: 2px 10px !important;
-}
-
-.Add_Product_Chiled_From_Wrapper {
-  padding: 18px 16px !important;
-}
-
-.Add_Product_Button_Box {
-  padding: 12px 16px !important;
-}
-
-}
-
-@media (max-width: 480px) {
-  .Add_Products_Header :global(.MuiSvgIcon-root) {
-    font-size: 20px !important;
-  }
-
-  .Add_Product_HederText :global(.panelTitle) {
-    font-size: 15px !important;
-  }
-
-  .Add_Product_HederText :global(.panelSubtitleAdd) {
-    font-size: 11px !important;
-    line-height: 1.4 !important;
-  }
-
-  .Add_Product_Chiled_From_Wrapper {
-    padding: 16px 14px !important;
-  }
-
-  .Add_Product_Chiled_From_Wrapper :global(.FormHeadding) {
-    font-size: 11px !important;
-    padding: 8px !important;
-  }
-
-  .Add_Product_Button_Box {
-    padding: 10px 14px !important;
-  }
-
-  .BackButton,
-  .NextButton,
-  .SubmitBitton {
-    flex: 1 1 0;
-    justify-content: center;
-  }
-}
-
-.Add_Product_Button_Box{
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  flex-direction: row !important;
-  flex-shrink: 0;
-  margin: 0 !important;
-  padding: 16px 22px !important;
-  border-top: 1px solid var(--nb-border);
-  background: rgba(255, 255, 255, 0.015);
-}
-
-
-.BackButton{
-  background: rgba(255, 255, 255, 0.04) !important;
-  border: 1.5px solid rgba(255, 102, 0, 0.35) !important;
-  color: #d1d5db !important;
-  border-radius: 50px !important;
-  padding: 9px 22px !important;
-  font-weight: 600 !important;
-  text-transform: none !important;
-  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease !important;
-}
-
-.BackButton:hover {
-  background: rgba(255, 102, 0, 0.1) !important;
-  border-color: #ff6f00 !important;
+.CategoryCard:active {
   transform: translateY(-1px);
 }
 
-.NextButton{
-  background: linear-gradient(135deg, #fc8019, #ff4d00) !important;
-  border: none !important;
+.CategoryCard:focus-visible {
+  outline: 2px solid var(--nb-orange);
+  outline-offset: 2px;
+}
+
+.CategoryCard_Selected {
+  border-color: var(--nb-orange);
+  background-color: var(--nb-surface-alt);
+  background-image: linear-gradient(160deg, rgba(255, 132, 0, 0.14), transparent 55%);
+  box-shadow:
+    0 0 0 1px rgba(252, 128, 25, 0.4),
+    0 10px 26px rgba(252, 128, 25, 0.18),
+    0 12px 28px rgba(0, 0, 0, 0.38);
+}
+
+.CategoryCard_CheckBadge {
+  position: absolute !important;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  font-size: 22px !important;
   color: #fff !important;
-  border-radius: 50px !important;
-  padding: 9px 24px !important;
+  background: linear-gradient(135deg, var(--nb-orange), var(--nb-orange-2));
+  border-radius: 50%;
+  border: 2px solid var(--nb-surface);
+  box-shadow: 0 4px 10px rgba(252, 128, 25, 0.45);
+  animation: CategoryCard_BadgePop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* ---------------- Media tile (image or icon fallback) ---------------- */
+
+.CategoryCard_Media {
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  background: var(--nb-surface);
+}
+
+.CategoryCard_IconCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 132, 0, 0.22), rgba(98, 0, 235, 0.22));
+  color: var(--nb-orange);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.25s ease;
+}
+
+.CategoryCard_IconCircle svg {
+  font-size: 28px;
+}
+
+.CategoryCard_Image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.CategoryCard:hover .CategoryCard_IconCircle {
+  transform: scale(1.08) rotate(-4deg);
+}
+
+.CategoryCard:hover .CategoryCard_Image {
+  transform: scale(1.08);
+}
+
+.CategoryCard_Selected .CategoryCard_Media {
+  box-shadow: inset 0 -40px 30px -20px rgba(252, 128, 25, 0.25);
+}
+
+.CategoryCard_Selected .CategoryCard_IconCircle {
+  background: linear-gradient(135deg, var(--nb-orange), var(--nb-orange-2));
+  color: #fff;
+}
+
+/* ---------------- Content (title + description + arrow) ---------------- */
+
+.CategoryCard_Content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+  flex-shrink: 0;
+  padding: 14px 14px 16px;
+}
+
+.CategoryCard_Text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+
+.CategoryCard_Name {
+  color: var(--nb-dark) !important;
   font-weight: 700 !important;
-  text-transform: none !important;
-  box-shadow: 0 6px 18px rgba(252, 128, 25, 0.35) !important;
-  transition: box-shadow 0.25s ease, transform 0.25s ease !important;
+  font-size: 14.5px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.NextButton:hover {
-  box-shadow: 0 8px 22px rgba(252, 128, 25, 0.5) !important;
-  transform: translateY(-2px);
+.CategoryCard_Desc {
+  color: var(--nb-gray) !important;
+  font-size: 12.5px !important;
+  line-height: 1.5 !important;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
-
-.LeftArrow {
-  animation: moveLeft 2s ease-in-out infinite;
-  color: #ff8a24 !important;
+.CategoryCard_ArrowBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(98, 0, 235, 0.55), rgba(30, 12, 46, 0.9));
+  border: 1px solid rgba(255, 132, 0, 0.35);
+  color: var(--nb-orange);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
-.RightArrow {
-  animation: moveRight 2s ease-in-out infinite;
-  color: #fff !important;
-
+.CategoryCard_ArrowBtn svg {
+  font-size: 16px;
 }
 
-@keyframes moveRight {
-  0% {
-    transform: translateX(0);
-  }
+.CategoryCard:hover .CategoryCard_ArrowBtn {
+  transform: translate(2px, -2px);
+  border-color: var(--nb-orange);
+}
 
-  50% {
-    transform: translateX(8px);
-  }
+.CategoryCard_Selected .CategoryCard_ArrowBtn {
+  background: linear-gradient(135deg, var(--nb-orange), var(--nb-orange-2));
+  border-color: transparent;
+  color: #fff;
+}
 
-  100% {
-    transform: translateX(0);
+/* ---------------- Empty state (no search matches) ---------------- */
+
+.CategoryEmpty {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 6px;
+  margin: 18px 26px;
+  padding: 40px 24px;
+  border: 1px dashed rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.CategoryEmpty_IconWrap {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-bottom: 6px;
+  background: linear-gradient(135deg, rgba(255, 132, 0, 0.18), rgba(98, 0, 235, 0.18));
+  border: 1px solid rgba(255, 132, 0, 0.35);
+}
+
+.CategoryEmpty_IconWrap svg {
+  font-size: 26px;
+  color: var(--nb-orange);
+}
+
+.CategoryEmpty_Title {
+  color: var(--nb-dark) !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+}
+
+.CategoryEmpty_Desc {
+  color: var(--nb-gray) !important;
+  font-size: 12.5px !important;
+}
+
+/* ---------------- Responsive ---------------- */
+
+@media (max-width: 900px) {
+  .CategoryGrid {
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
   }
 }
 
-@keyframes moveLeft {
-  0% {
-    transform: translateX(0);
+@media (max-width: 600px) {
+  .CategoryShowcase_Header {
+    padding: 18px 20px;
   }
 
-  50% {
-    transform: translateX(-8px);
+  .CategoryShowcase_IconBox {
+    width: 34px;
+    height: 34px;
   }
 
-  100% {
-    transform: translateX(0);
+  .CategoryShowcase_IconBox svg {
+    font-size: 17px;
+  }
+
+  .CategoryShowcase_Title {
+    font-size: 13.5px !important;
+  }
+
+  .CategoryShowcase_Subtitle {
+    font-size: 11px !important;
+  }
+
+  .CategoryShowcase_CountChip {
+    padding: 4px 9px;
+    font-size: 11.5px;
+  }
+
+  .CategoryShowcase_CountChip span {
+    font-size: 10px;
+  }
+
+  .CategoryGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .CategoryCard {
+    flex-direction: row;
+  }
+
+  .CategoryCard_Media {
+    width: 130px;
+    height: auto;
+  }
+
+  .CategoryCard_Content {
+    flex: 1;
+    align-items: flex-end;
+    padding: 12px 12px 14px;
+  }
+
+  .CategoryCard_Name {
+    white-space: normal;
+  }
+
+  .CategoryCard_IconCircle svg {
+    font-size: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .CategoryCard {
+    animation: none;
+    opacity: 1;
+  }
+
+  .CategoryCard_CheckBadge {
+    animation: none;
+  }
+
+  .CategoryCard,
+  .CategoryCard_IconCircle,
+  .CategoryCard_Image {
+    transition: none;
   }
 }

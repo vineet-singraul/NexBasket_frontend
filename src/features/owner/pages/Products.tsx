@@ -50,7 +50,6 @@ const Products = () => {
           STORE_ENDPOINTS.SINGLELIST(ownerId),
         )
         const data = response?.data ?? []
-        console.log("<-------- DATA ------------>",data)
         if (isMounted && Array.isArray(data)) {
           setStores(data)
           setSelectedStoreId((prev) => prev ?? data[0]?._id ?? null)
@@ -72,13 +71,12 @@ const Products = () => {
 
   const handleOpenAddProductDailog = (id : string) => {
     setOpen(true)
-    console.log(id)
     if (!id) {
       setNotification({
         open:true,
         message:"owner id is not found",
         severity:"warning"
-      })
+      })  
     }
     localStorage.setItem("storeId",id)
     navigate(`/owner/products/add/${id}`)
@@ -204,7 +202,7 @@ const Products = () => {
                           fullWidth
                           endIcon={<ArrowForwardRoundedIcon />}
                           className={style.Start_Btn}
-                          onClick={()=>{handleOpenAddProductDailog(store._id)}}
+                          onClick={() => handleOpenAddProductDailog(store.owner ?? '')}
                         >
                           Start Add Products
                         </Button>

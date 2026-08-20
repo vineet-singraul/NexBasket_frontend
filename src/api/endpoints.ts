@@ -16,7 +16,8 @@ export const CATEGORY_ENDPOINTS = {
   GET_OWNER_CATEGORY: (id: string) => `/category/getSingleOwnerCategory/${id}`,
   DELETE_CATEGORY: (id: string) => `/category/deleteCategoryOfProduct/${id}`,
   GET_CATEGORY_BY_ID : (id : string) => `/category/getCategoryOfProductById/${id}`,
-  UPDATE_CATEGORY: (id: string) => `/category/updateCategoryOfProduct/${id}`
+  UPDATE_CATEGORY: (id: string) => `/category/updateCategoryOfProduct/${id}`,
+  GET_CATEGORY_BY_OWNER_ID : (id: string) => `/category/getSingleOwnerCategory/${id}`
 };
 
 

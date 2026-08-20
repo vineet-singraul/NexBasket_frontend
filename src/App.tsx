@@ -24,6 +24,7 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/google-continue" element={<GoogleProviView />} />
         <Route path='/change-password' element={<ChnagePassword/>}/>
+        <Route path='/__preview/add-product' element={<OwnerLayout><AddProducts/></OwnerLayout>}/>
         <Route element={<ProtectedRoute role="owner" />}>
           <Route path="/owner/dashboard" element={<OwnerLayout><OwnerDashboard /></OwnerLayout>} />
           <Route path='/owner/orders' />
