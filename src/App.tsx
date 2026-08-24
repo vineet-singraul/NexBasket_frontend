@@ -13,6 +13,8 @@ import AddCategury from './features/owner/pages/AddCategury'
 import Products from './features/owner/pages/Products'
 import Stores from './features/owner/pages/Stores'
 import AddProducts from './features/owner/components/Products/AddProducts'
+import ProductCommonBase from './features/owner/pages/ProductCommonBase'
+import AddProduct from './features/owner/components/BaseProduct/AddProduct'
 function App() {
     useGetCity()
   return (
@@ -25,6 +27,7 @@ function App() {
         <Route path="/google-continue" element={<GoogleProviView />} />
         <Route path='/change-password' element={<ChnagePassword/>}/>
         <Route path='/__preview/add-product' element={<OwnerLayout><AddProducts/></OwnerLayout>}/>
+        <Route path='/__preview/add-base-product' element={<OwnerLayout><AddProduct/></OwnerLayout>}/>
         <Route element={<ProtectedRoute role="owner" />}>
           <Route path="/owner/dashboard" element={<OwnerLayout><OwnerDashboard /></OwnerLayout>} />
           <Route path='/owner/orders' />
@@ -32,8 +35,9 @@ function App() {
           <Route path="/owner/category/add/:id" element={<OwnerLayout><AddCategury /></OwnerLayout>} />
           <Route path='/owner/stores/add' element={<OwnerLayout><Stores/></OwnerLayout>}/>
           <Route path='/owner/Products' element={<OwnerLayout><Products/></OwnerLayout>}/>
-          <Route path='/owner/stores/add/:id' element={<OwnerLayout><Stores/></OwnerLayout>}/>
-          <Route path='/owner/products/add/:idStore' element={<OwnerLayout><AddProducts/></OwnerLayout>}/>
+          <Route path='/owner/stores/add/:ownerdId/:storeId' element={<OwnerLayout><Stores/></OwnerLayout>}/>
+          <Route path='/owner/products/add/:ownerdId/:idStore' element={<OwnerLayout><AddProducts/></OwnerLayout>}/>
+          <Route path='/owner/product/All/:id/:storeID' element={<OwnerLayout fullBleed><ProductCommonBase/></OwnerLayout>}/>
         </Route>
       </Routes>
     </>

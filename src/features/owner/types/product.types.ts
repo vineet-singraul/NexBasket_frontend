@@ -1,62 +1,75 @@
-export interface ProductCategoryOption {
-  _id: string
-  productCategory: string
-}
+export interface baseProductInterface {
+  // Identity
+  storeId: string
+  categoryId: string
+  title: string
+  slug?: string
+  productCode?: string
+  productType?: string
 
-export interface ProductDimensions {
-  length: string
-  width: string
-  height: string
-}
+  // Content
+  description?: string
+  shortDescription?: string
+  highlights?: string[]
+  features?: string[]
+  whatsIncluded?: string[]
 
-export interface Product {
-  _id?: string
-  store: string
-  category: string
-  name: string
-  description: string
-  description1: string
-  brand: string
-  price: string
-  mrp: string
-  discountPercent: string
-  stock: string
-  sku: string
-  tags: string[]
-  ratings: {
-    average: number
-    count: number
+  // Brand
+  brand?: string
+  manufacturer?: string
+  modelName?: string
+  modelNumber?: string
+  manufacturerPartNumber?: string
+  importerName?: string
+  packerName?: string
+  countryOfOrigin?: string
+
+  // Compliance
+  hsnCode?: string
+  taxCode?: string
+
+  // Warranty
+  warranty?: {
+    duration?: number
+    unit?: 'days' | 'months' | 'years'
+    type?: 'manufacturer' | 'seller' | 'brand' | 'no_warranty'
+    description?: string
   }
-  returnable: boolean
-  warrantyPeriod: string
-  weight: string
-  dimensions: ProductDimensions
-  isActive: boolean
-  length: string
-  width :string
-  height :string
+
+  // SEO
+  metaTitle?: string
+  metaDescription?: string
+  searchKeywords?: string[]
+  tags: string[]
+
+  // Return
+  returnPolicy?: string
+  returnDays?: number
+
+  // Status
+  condition?: 'new' | 'used' | 'refurbished'
+  status: 'draft' | 'active' | 'inactive' | 'blocked' | 'archived'
+  visibility?: 'public' | 'private' | 'hidden'
+  featured: boolean
+  active: boolean
 }
 
-export interface ProductErrors {
-  store: string
-  category: string
-  name: string
-  description: string
-  description1: string
-  brand: string
-  price: string
-  mrp: string
-  discountPercent: string
-  stock: string
-  sku: string
-  warrantyPeriod: string
-  weight: string
-  length: string
-  width: string
-  height: string
-  tags: string
+export interface ProductVariantInterface {
+  productId: string;
+  sku: string;
+  variantName?: string;
+  attributes?: Record<string, string | number | boolean>;
+  gtin?: string;
+  weight?: {
+    value?: number;
+    unit?: "mg" | "g" | "kg" | "oz" | "lb";
+  };
+  dimensions?: {
+    length?: number;
+    width?: number;
+    height?: number;
+    unit?: "mm" | "cm" | "m" | "in" | "ft";
+  };
+  isDefault?: boolean;
+  isActive?: boolean;
 }
-
-
-
-

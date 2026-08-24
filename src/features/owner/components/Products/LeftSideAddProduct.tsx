@@ -16,7 +16,7 @@ import SportsSoccerOutlinedIcon from '@mui/icons-material/SportsSoccerOutlined'
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined'
 import KitchenOutlinedIcon from '@mui/icons-material/KitchenOutlined'
 import style from '../../../../styles/ownerStyle/AddProducts.module.css'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { apiGet } from '../../../../api/userApi'
 import { CATEGORY_ENDPOINTS } from '../../../../api/endpoints'
 import type { NotificationInterfacce } from '../../../../auth/types/auth.types'
@@ -32,29 +32,36 @@ interface StaticCategory {
 }
 
 const LeftSideAddProduct = () => {
+  const { ownerdId, idStore } = useParams<{ ownerdId: string; idStore: string }>()
+
   const [selected, setSelected] = useState<string | null>(null)
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState<boolean | null>(false)
   const [notification, setNotification] = useState<NotificationInterfacce | null>(null)
   const [categories, setCategorys] = useState<CategoryListItem[]>([])
+  const [storeID, setStoreId] = useState<string | null>(idStore ?? null);
+
+
+  const navigate = useNavigate()
 
   const filteredCategories = useMemo(() => {
     const q = query.trim().toLowerCase()
     if (!q) return categories
     const findcategory = categories.filter((category) => category.name.toLowerCase().includes(q))
-    return findcategory;
+    return findcategory
   }, [query, categories])
 
-  const { idStore } = useParams<{ idStore: string }>()
-
+  // Fatch All The Category :
   const fatchCatagoryOfOwner = async () => {
-    if (!idStore) return
+    if (!ownerdId || !idStore) return
     setLoading(true)
     try {
-      const response = await apiGet<{data : CategoryListItem[]}>(CATEGORY_ENDPOINTS.GET_CATEGORY_BY_OWNER_ID(idStore));
+      const response = await apiGet<{ data: CategoryListItem[] }>(
+        CATEGORY_ENDPOINTS.GET_CATEGORY_BY_OWNER_ID(ownerdId),
+      )
 
       const categories = Array.isArray(response.data) ? response.data : []
-       setLoading(true)
+      setLoading(true)
       setCategorys(categories)
     } catch (error) {
       setNotification({
@@ -62,20 +69,23 @@ const LeftSideAddProduct = () => {
         message: error instanceof Error ? error.message : 'Something went wrong',
         severity: 'error',
       })
-    }
-    finally{
+    } finally {
       setLoading(false)
     }
   }
 
+  // Load The Cards :
   useEffect(() => {
-    if (!idStore) return
-    let isActive = true
+    if (!ownerdId || !idStore) return
+
     void Promise.resolve().then(() => fatchCatagoryOfOwner())
-    return () => {
-      isActive = false
-    }
-  }, [idStore])
+  }, [ownerdId, idStore])
+
+  // Send To Add Product Page :
+  const SendToProductPage = (id: string) => {
+    if(!storeID) return;
+    navigate(`/owner/product/All/${id}/${storeID}`)
+  }
 
   return (
     <Box className={style.CategoryShowcase}>
@@ -94,7 +104,7 @@ const LeftSideAddProduct = () => {
             {categories.length}
             <span>/{categories.length}</span>
           </Box>
-        </Box>  
+        </Box>
 
         <Box className={style.CategoryShowcase_Toolbar}>
           <TextField
@@ -173,7 +183,12 @@ const LeftSideAddProduct = () => {
                       {category.description}
                     </Typography>
                   </Box>
-                  <Box className={style.CategoryCard_ArrowBtn}>
+                  <Box
+                    className={style.CategoryCard_ArrowBtn}
+                    onClick={() => {
+                      SendToProductPage(category._id)
+                    }}
+                  >
                     <ArrowForwardRoundedIcon />
                   </Box>
                 </Box>

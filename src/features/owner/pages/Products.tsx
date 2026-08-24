@@ -69,17 +69,18 @@ const Products = () => {
     }
   }, [ownerId])
 
-  const handleOpenAddProductDailog = (id : string) => {
+  const handleOpenAddProductDailog = (ownerdId : string, storeId : string) => {
     setOpen(true)
-    if (!id) {
+    if (!ownerdId) {
       setNotification({
         open:true,
         message:"owner id is not found",
         severity:"warning"
       })  
     }
-    localStorage.setItem("storeId",id)
-    navigate(`/owner/products/add/${id}`)
+    localStorage.setItem("storeId",storeId)
+    navigate(`/owner/products/add/${ownerdId}/${storeId}`)
+    // navigate(`/owner/products/add/${id}`)
   }
 
   return (
@@ -202,7 +203,7 @@ const Products = () => {
                           fullWidth
                           endIcon={<ArrowForwardRoundedIcon />}
                           className={style.Start_Btn}
-                          onClick={() => handleOpenAddProductDailog(store.owner ?? '')}
+                          onClick={() => handleOpenAddProductDailog(store.owner ?? '', store._id ?? '')}
                         >
                           Start Add Products
                         </Button>

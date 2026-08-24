@@ -1,0 +1,956 @@
+/* ==========================================================================
+   AddBaseProduct.module.css
+   NexBasket Owner Panel — 5-phase Add Product stepper
+   (Base Product / Variant / Inventory / Specification / Images)
+   Shares the --nb-* tokens used across the owner panel
+   (AddProducts.module.css, AddCategury.module.css) for visual parity.
+   Design only — no functional/control styling assumptions baked in.
+   ========================================================================== */
+
+.ABP_Wrapper {
+  --nb-orange: #fc8019;
+  --nb-orange-2: #ff4d00;
+  --nb-violet: #6200eb;
+  --nb-dark: #f2f2f5;
+  --nb-gray: #989ba8;
+  --nb-border: rgba(255, 255, 255, 0.08);
+  --nb-surface: #16161d;
+  --nb-surface-alt: #1c1f2e;
+  --nb-surface-raise: #22232f;
+  --nb-danger: #ff5c5c;
+  --nb-success: #35c98f;
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  height: 100%;
+  max-height: 100%;
+  border-radius: 16px;
+  background: var(--nb-surface);
+  border: 1px solid var(--nb-border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Full-bleed breakout: cancels whatever horizontal padding OwnerLayout's
+   <main> applies (0 below 600px, 24px from 600px up), without needing to
+   know or match that value — the left:50%/margin:-50vw pair always lands
+   back on the true viewport edges. Scoped to <900px, where OwnerSidebar
+   goes off-canvas (position: fixed) so main truly spans the viewport. */
+@media (max-width: 899px) {
+  .ABP_Wrapper {
+    position: relative;
+    left: 50%;
+    right: 50%;
+    width: 100vw;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    border-radius: 0;
+  }
+}
+
+/* Vertical padding only switches on at the same 600px point (0 below it),
+   so this one has to target that specific value. */
+@media (min-width: 600px) and (max-width: 899px) {
+  .ABP_Wrapper {
+    margin-top: -24px;
+    margin-bottom: -24px;
+    height: calc(100% + 48px);
+    max-height: calc(100% + 48px);
+  }
+}
+
+/* ---------------- Header ---------------- */
+
+.ABP_Header {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex-shrink: 0;
+  padding: 12px 20px 10px;
+  border-bottom: 1px solid var(--nb-border);
+  background: linear-gradient(180deg, rgba(255, 132, 0, 0.1), rgba(98, 0, 235, 0.04));
+}
+
+.ABP_HeaderRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ABP_IconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(255, 132, 0, 0.22), rgba(98, 0, 235, 0.22));
+  border: 1px solid rgba(255, 132, 0, 0.35);
+  color: var(--nb-orange);
+}
+
+.ABP_IconBox svg {
+  font-size: 14px;
+}
+
+.ABP_HeaderText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ABP_Title {
+  color: var(--nb-dark) !important;
+  font-weight: 800 !important;
+  font-size: 12.5px !important;
+  line-height: 1.2 !important;
+}
+
+.ABP_Subtitle {
+  color: var(--nb-gray) !important;
+  font-size: 9px !important;
+  margin-top: 0 !important;
+}
+
+/* ---------------- Stepper bar ---------------- */
+
+.ABP_StepperBar {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  width: 100%;
+}
+
+.ABP_Step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+}
+
+.ABP_Step:hover:not(.ABP_Step_Active) .ABP_StepCircle {
+  border-color: rgba(255, 132, 0, 0.5);
+  color: var(--nb-dark);
+  transform: translateY(-1px);
+}
+
+.ABP_Step:hover:not(.ABP_Step_Active) .ABP_StepLabel {
+  color: var(--nb-dark) !important;
+}
+
+.ABP_StepTrack {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.ABP_StepConnector {
+  flex: 1;
+  height: 2px;
+  background: var(--nb-border);
+  transition: background 0.25s ease;
+}
+
+.ABP_StepConnector_Done {
+  background: linear-gradient(90deg, var(--nb-orange), var(--nb-orange-2));
+}
+
+.ABP_StepCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--nb-surface-alt);
+  border: 1.5px solid var(--nb-border);
+  color: var(--nb-gray);
+  font-size: 10px;
+  font-weight: 800;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.ABP_StepCircle svg {
+  font-size: 12px;
+}
+
+.ABP_Step_Active .ABP_StepCircle {
+  background: linear-gradient(135deg, var(--nb-orange), var(--nb-orange-2));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 0 0 4px rgba(252, 128, 25, 0.18);
+}
+
+.ABP_Step_Completed .ABP_StepCircle {
+  background: rgba(53, 201, 143, 0.16);
+  border-color: rgba(53, 201, 143, 0.5);
+  color: var(--nb-success);
+}
+
+.ABP_StepLabel {
+  color: var(--nb-gray) !important;
+  font-size: 8.5px !important;
+  font-weight: 600 !important;
+  text-align: center;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.ABP_Step_Active .ABP_StepLabel {
+  color: var(--nb-dark) !important;
+  font-weight: 800 !important;
+}
+
+.ABP_Step_Completed .ABP_StepLabel {
+  color: var(--nb-dark) !important;
+}
+
+/* ---------------- Body / step panel ---------------- */
+
+.ABP_Body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 10px 20px 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 132, 0, 0.4) transparent;
+  display: flex;
+  flex-direction: column;
+  /* Centers short steps in the available height instead of leaving a dead
+     gap above the footer; falls back to top-aligned scrolling for steps
+     tall enough to overflow (safe center avoids clipping the top). */
+  justify-content: center;
+  justify-content: safe center;
+}
+
+.ABP_Body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ABP_Body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ABP_Body::-webkit-scrollbar-thumb {
+  background: rgba(255, 132, 0, 0.35);
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.ABP_StepPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 10px;
+  animation: abpStepIn 0.35s ease;
+}
+
+@keyframes abpStepIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ABP_Section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.015));
+  border: 1px solid var(--nb-border);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.ABP_Section:hover {
+  border-color: rgba(255, 132, 0, 0.28);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+.ABP_SectionHead {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding-left: 11px;
+  position: relative;
+}
+
+.ABP_SectionHead::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 1px;
+  bottom: 1px;
+  width: 3px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--nb-orange), var(--nb-violet));
+}
+
+.ABP_SectionTitle {
+  color: var(--nb-dark) !important;
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.ABP_SectionHint {
+  color: var(--nb-gray) !important;
+  font-size: 9px !important;
+}
+
+.ABP_Divider {
+  height: 1px;
+  background: var(--nb-border);
+  border: none;
+  margin: 0;
+}
+
+/* ---------------- Field grid ---------------- */
+
+.ABP_Grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 18px;
+}
+
+.ABP_Grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px 16px;
+}
+
+.ABP_Grid4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px 14px;
+}
+
+.ABP_FieldFull {
+  grid-column: 1 / -1;
+}
+
+.ABP_Field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ABP_FieldLabel {
+  color: var(--nb-gray) !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.2px;
+}
+
+.ABP_FieldLabel_Required::after {
+  content: ' *';
+  color: var(--nb-orange);
+}
+
+/* ---------------- MUI input overrides (dark, pill/rounded) ---------------- */
+
+.ABP_Input :global(.MuiOutlinedInput-root) {
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--nb-dark);
+  font-size: 12.5px;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ABP_Input :global(.MuiOutlinedInput-input),
+.ABP_Input :global(.MuiSelect-select) {
+  color: var(--nb-dark) !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.ABP_Input :global(textarea.MuiOutlinedInput-input) {
+  padding: 0 !important;
+}
+
+.ABP_Input :global(.MuiOutlinedInput-input::placeholder) {
+  color: var(--nb-gray) !important;
+  opacity: 0.8;
+}
+
+.ABP_Input :global(.MuiOutlinedInput-notchedOutline) {
+  border-color: var(--nb-border);
+}
+
+.ABP_Input :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
+  border-color: rgba(255, 132, 0, 0.4);
+}
+
+.ABP_Input :global(.MuiOutlinedInput-root.Mui-focused) {
+  background: rgba(255, 132, 0, 0.06);
+}
+
+.ABP_Input :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
+  border-color: var(--nb-orange);
+  border-width: 1.5px;
+}
+
+.ABP_Input :global(.MuiOutlinedInput-root.Mui-disabled) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.ABP_Input :global(.MuiOutlinedInput-root.Mui-disabled .MuiOutlinedInput-notchedOutline) {
+  border-color: var(--nb-border);
+}
+
+.ABP_Input :global(.MuiOutlinedInput-input.Mui-disabled),
+.ABP_Input :global(.MuiSelect-select.Mui-disabled) {
+  -webkit-text-fill-color: var(--nb-gray) !important;
+}
+
+.ABP_Input :global(.MuiFormHelperText-root) {
+  color: var(--nb-gray) !important;
+  font-size: 9px !important;
+  margin: 2px 0 0 2px !important;
+  line-height: 1.3 !important;
+}
+
+.ABP_Input :global(.MuiSvgIcon-root) {
+  color: var(--nb-gray);
+}
+
+.ABP_SelectMenuPaper {
+  background: var(--nb-surface-alt) !important;
+  border: 1px solid var(--nb-border) !important;
+  color: var(--nb-dark) !important;
+}
+
+/* ---------------- Switch cards (isActive / isFeatured / isDefault ...) ---------------- */
+
+.ABP_SwitchRow {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.ABP_SwitchCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  background: var(--nb-surface-alt);
+  border: 1px solid var(--nb-border);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.ABP_SwitchCard:hover {
+  border-color: rgba(255, 132, 0, 0.35);
+}
+
+.ABP_SwitchText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ABP_SwitchTitle {
+  color: var(--nb-dark) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+}
+
+.ABP_SwitchDesc {
+  color: var(--nb-gray) !important;
+  font-size: 9px !important;
+}
+
+.ABP_Switch :global(.MuiSwitch-switchBase.Mui-checked) {
+  color: var(--nb-orange) !important;
+}
+
+.ABP_Switch :global(.MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track) {
+  background-color: var(--nb-orange) !important;
+  opacity: 0.55 !important;
+}
+
+.ABP_Switch :global(.MuiSwitch-track) {
+  background-color: var(--nb-gray);
+  opacity: 0.4;
+}
+
+/* ---------------- Tags input ---------------- */
+
+.ABP_TagsBox {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--nb-border);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.ABP_TagsBox:focus-within {
+  border-color: var(--nb-orange);
+  background: rgba(255, 132, 0, 0.06);
+}
+
+.ABP_Tag {
+  display: flex !important;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 4px 3px 10px !important;
+  height: auto !important;
+  border-radius: 30px !important;
+  background: linear-gradient(90deg, rgba(255, 132, 0, 0.18), rgba(255, 77, 0, 0.1)) !important;
+  border: 1px solid rgba(252, 128, 25, 0.4);
+  color: var(--nb-dark) !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+}
+
+.ABP_TagRemoveBtn {
+  padding: 2px !important;
+  width: 18px;
+  height: 18px;
+  color: var(--nb-orange) !important;
+}
+
+.ABP_TagRemoveBtn:hover {
+  background: rgba(255, 132, 0, 0.18) !important;
+}
+
+.ABP_TagRemoveIcon {
+  font-size: 14px !important;
+  color: var(--nb-orange) !important;
+}
+
+.ABP_TagsInput {
+  flex: 1;
+  min-width: 90px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--nb-dark);
+  font-size: 11.5px;
+  font-family: inherit;
+}
+
+.ABP_TagsInput::placeholder {
+  color: var(--nb-gray);
+}
+
+/* ---------------- Repeatable rows (attributes / specifications) ---------------- */
+
+.ABP_RepeatList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ABP_RepeatRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  align-items: center;
+  gap: 6px;
+}
+
+.ABP_RepeatRemoveBtn {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 10px !important;
+  background: rgba(255, 92, 92, 0.1) !important;
+  border: 1px solid rgba(255, 92, 92, 0.3);
+  color: var(--nb-danger) !important;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.ABP_RepeatRemoveBtn:hover {
+  background: rgba(255, 92, 92, 0.18) !important;
+  border-color: var(--nb-danger);
+}
+
+.ABP_AddRowBtn {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px !important;
+  padding: 7px 14px !important;
+  border-radius: 9px !important;
+  border: 1.5px dashed rgba(255, 132, 0, 0.4) !important;
+  background: rgba(255, 132, 0, 0.04) !important;
+  color: var(--nb-orange) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  align-self: flex-start;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.ABP_AddRowBtn:hover {
+  background: rgba(255, 132, 0, 0.1) !important;
+  border-color: var(--nb-orange) !important;
+}
+
+/* ---------------- Variant / repeatable entity card ---------------- */
+
+.ABP_EntityCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px 12px;
+  border-radius: 12px;
+  background: var(--nb-surface-alt);
+  border: 1px solid rgba(252, 128, 25, 0.25);
+}
+
+.ABP_EntityCardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ABP_EntityBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-radius: 30px;
+  background: linear-gradient(90deg, rgba(255, 132, 0, 0.2), rgba(98, 0, 235, 0.14));
+  border: 1px solid rgba(252, 128, 25, 0.4);
+  color: var(--nb-dark);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.ABP_EntityBadge svg {
+  font-size: 15px;
+  color: var(--nb-orange);
+}
+
+.ABP_EntityRemoveBtn {
+  color: var(--nb-gray) !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  gap: 6px !important;
+}
+
+.ABP_EntityRemoveBtn svg {
+  font-size: 16px !important;
+  color: var(--nb-danger);
+}
+
+/* ---------------- Image upload (Phase 5) ---------------- */
+
+.ABP_Dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 1.5px dashed rgba(255, 132, 0, 0.4);
+  background: linear-gradient(180deg, rgba(255, 132, 0, 0.06), rgba(98, 0, 235, 0.03));
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.ABP_Dropzone:hover {
+  border-color: var(--nb-orange);
+  background: linear-gradient(180deg, rgba(255, 132, 0, 0.1), rgba(98, 0, 235, 0.05));
+}
+
+.ABP_DropzoneIconWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 132, 0, 0.22), rgba(98, 0, 235, 0.22));
+  border: 1px solid rgba(255, 132, 0, 0.35);
+  color: var(--nb-orange);
+}
+
+.ABP_DropzoneIconWrap svg {
+  font-size: 18px;
+}
+
+.ABP_DropzoneTitle {
+  color: var(--nb-dark) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.ABP_DropzoneTitle span {
+  color: var(--nb-orange);
+  text-decoration: underline;
+}
+
+.ABP_DropzoneHint {
+  color: var(--nb-gray) !important;
+  font-size: 9.5px !important;
+}
+
+.ABP_ImageGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.ABP_ImageCard {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 84px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--nb-surface-alt);
+  border: 1px solid var(--nb-border);
+}
+
+.ABP_ImageCard_Filled {
+  border-color: rgba(252, 128, 25, 0.35);
+}
+
+.ABP_ImagePlaceholderIcon {
+  color: var(--nb-gray) !important;
+  font-size: 26px !important;
+}
+
+.ABP_ImagePrimaryBadge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 7px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, var(--nb-orange), var(--nb-orange-2));
+  color: #fff;
+  font-size: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.ABP_ImagePrimaryBadge svg {
+  font-size: 11px;
+}
+
+.ABP_ImageRemoveBtn {
+  position: absolute !important;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50% !important;
+  background: rgba(0, 0, 0, 0.55) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.ABP_ImageRemoveBtn svg {
+  font-size: 14px !important;
+}
+
+.ABP_ImageOrderChip {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.55);
+  color: var(--nb-dark);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.ABP_ImageAddTile {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 84px;
+  border-radius: 10px !important;
+  border: 1.5px dashed rgba(255, 132, 0, 0.4) !important;
+  background: rgba(255, 132, 0, 0.04) !important;
+  color: var(--nb-orange) !important;
+}
+
+.ABP_ImageAddTile span {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--nb-gray);
+}
+
+/* ---------------- Footer navigation ---------------- */
+
+.ABP_Footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-shrink: 0;
+  padding: 6px 20px;
+  border-top: 1px solid var(--nb-border);
+  background: var(--nb-surface);
+}
+
+.ABP_FooterProgress {
+  color: var(--nb-gray) !important;
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+}
+
+.ABP_FooterProgress b {
+  color: var(--nb-dark);
+}
+
+.ABP_FooterActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ABP_BtnGhost {
+  padding: 6px 16px !important;
+  border-radius: 30px !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--nb-border) !important;
+  color: var(--nb-dark) !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+}
+
+.ABP_BtnGhost:hover {
+  border-color: rgba(255, 132, 0, 0.4) !important;
+}
+
+.ABP_BtnGhost:disabled {
+  opacity: 0.4;
+}
+
+.ABP_BtnPrimary {
+  padding: 6px 20px !important;
+  border-radius: 30px !important;
+  background: linear-gradient(90deg, var(--nb-orange), var(--nb-orange-2)) !important;
+  border: none !important;
+  color: #fff !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+  text-transform: none !important;
+  box-shadow: 0 8px 20px rgba(252, 128, 25, 0.3);
+}
+
+.ABP_BtnPrimary:hover {
+  filter: brightness(1.05);
+}
+
+/* ---------------- Responsive ---------------- */
+
+@media (max-width: 900px) {
+  .ABP_Grid4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .ABP_Grid,
+  .ABP_Grid3,
+  .ABP_Grid4,
+  .ABP_SwitchRow {
+    grid-template-columns: 1fr;
+  }
+
+  .ABP_RepeatRow {
+    grid-template-columns: 1fr 1fr auto;
+  }
+
+  .ABP_ImageGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .ABP_Header {
+    padding: 8px 16px 8px;
+    gap: 12px;
+  }
+
+  .ABP_StepLabel {
+    display: none;
+  }
+
+  .ABP_Body {
+    padding: 10px 16px 8px;
+  }
+
+  .ABP_Footer {
+    padding: 14px 16px;
+  }
+
+  .ABP_RepeatRow {
+    grid-template-columns: 1fr;
+  }
+
+  .ABP_RepeatRemoveBtn {
+    justify-self: flex-end;
+  }
+
+  .ABP_ImageGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .ABP_EntityCard {
+    padding: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ABP_StepCircle,
+  .ABP_StepConnector,
+  .ABP_Dropzone,
+  .ABP_SwitchCard,
+  .ABP_Section {
+    transition: none;
+  }
+
+  .ABP_StepPanel {
+    animation: none;
+  }
+}

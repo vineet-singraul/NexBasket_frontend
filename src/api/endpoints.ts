@@ -42,3 +42,8 @@ export const PRODUCT_IMAGE_ADD = {
   GET_IMAGE: (id : string) => `productImageRoutes/getProductImageById/${id}`,
   DELETE_IMAGE: (id : string) => `productImageRoutes/deleteProductById/${id}`
 }
+
+
+export const BASE_PRODUCT = {
+  ADD_BASE_PRODUCT : '/product/createBaseProduct'
+}

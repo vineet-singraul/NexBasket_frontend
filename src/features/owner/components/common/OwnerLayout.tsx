@@ -11,6 +11,8 @@ import { clearUserData } from '../../../../redux/slice/userSlice'
 
 interface OwnerLayoutProps {
   children: React.ReactNode
+  /** When true, uses a slimmer content padding instead of the default 24px. */
+  fullBleed?: boolean
 }
 
 /**
@@ -18,7 +20,7 @@ interface OwnerLayoutProps {
  * Wraps the sidebar + header shell around any Owner page content,
  * e.g. <OwnerLayout><OwnerDashboard /></OwnerLayout>
  */
-const OwnerLayout: React.FC<OwnerLayoutProps> = ({ children }) => {
+const OwnerLayout: React.FC<OwnerLayoutProps> = ({ children, fullBleed = false }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -46,7 +48,7 @@ const OwnerLayout: React.FC<OwnerLayoutProps> = ({ children }) => {
         <OwnerHeader onMenuClick={() => setSidebarOpen(true)} onLogout={handleLogout} />
         <Box
           component="main"
-          sx={{ flex: 1, padding: { xs: 0, sm: '24px' }, overflowY: 'auto' }}
+          sx={{ flex: 1, padding: fullBleed ? '12px' : { xs: 0, sm: '24px' }, overflowY: 'auto' }}
         >
           {children}
         </Box>
