@@ -73,3 +73,16 @@ export interface ProductVariantInterface {
   isDefault?: boolean;
   isActive?: boolean;
 }
+
+
+
+export interface BaseProductInterface {
+  store: string,
+  category: string,
+  title: string,
+  slug: string,
+  productCode: string,
+  productType: string,
+  condition: string,
+  discription: string
+}

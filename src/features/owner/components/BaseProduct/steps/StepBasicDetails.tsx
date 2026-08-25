@@ -3,11 +3,7 @@ import LockRoundedIcon from '@mui/icons-material/LockRounded'
 import { useParams } from 'react-router-dom'
 import style from '../../../../../styles/ownerStyle/AddBaseProduct.module.css'
 
-/**
- * Phase 1 — Basic Product Details
- * Fields: storeId, title, slug, productCode, productType, categoryId, condition
- * Design-only: static markup, no value/onChange wiring.
- */
+
 const StepBasicDetails = () => {
   const { id: categoryId, storeID: storeId } = useParams<{ id: string; storeID: string }>()
 
