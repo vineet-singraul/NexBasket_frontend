@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 import { Box, Typography, Button } from '@mui/material'
 import Inventory2RoundedIcon from '@mui/icons-material/Inventory2Rounded'
 import ArticleRoundedIcon from '@mui/icons-material/ArticleRounded'
@@ -18,6 +19,15 @@ import StepVariant from './steps/StepVariant'
 import StepSpecifications from './steps/StepSpecifications'
 import StepPricingInventory from './steps/StepPricingInventory'
 import StepSeoManagement from './steps/StepSeoManagement'
+import type {
+  BaseProductInterFace,
+  ProductInformationInterface,
+  ProductCompilanceWarrenty,
+  ProductVarientInterface,
+  ProductSpecificationInterface,
+  ProductPricingInventoryInterface,
+  ProductSeoManagementInterface,
+} from '../../types/product.types'
 
 const PHASES = [
   { label: 'Basic Details', icon: <Inventory2RoundedIcon /> },
@@ -29,14 +39,27 @@ const PHASES = [
   { label: 'SEO & Product Management', icon: <ManageSearchRoundedIcon /> },
 ]
 
-/**
- * AddProduct — 7-phase Base Product stepper (design only).
- * Phase order: Basic Details -> Product Information -> Compliance & Warranty ->
- * Variant -> Specifications -> Pricing & Inventory -> SEO & Product Management.
- * activeStep only drives which phase is shown; no field state/validation is wired.
- */
 const AddProduct = () => {
   const [activeStep, setActiveStep] = useState(0)
+  const [basicDetails, setBasicDetails] = useState<BaseProductInterFace>({} as BaseProductInterFace)
+
+  const [productInformation, setProductInformation] = useState<ProductInformationInterface>({} as ProductInformationInterface)
+
+  const [complianceWarranty, setComplianceWarranty] = useState<ProductCompilanceWarrenty>({} as ProductCompilanceWarrenty)
+
+  const [productVarient, setProductVarient] = useState<ProductVarientInterface>({} as ProductVarientInterface)
+
+  const [productSpecification, setProductSpecification] = useState<ProductSpecificationInterface>(
+    {} as ProductSpecificationInterface,
+  )
+
+  const [productPricingInventory, setProductPricingInventory] = useState<ProductPricingInventoryInterface>(
+    {} as ProductPricingInventoryInterface,
+  )
+
+  const [productSeoManagement, setProductSeoManagement] = useState<ProductSeoManagementInterface>(
+    {} as ProductSeoManagementInterface,
+  )
 
   const isFirstStep = activeStep === 0
   const isLastStep = activeStep === PHASES.length - 1
@@ -47,19 +70,56 @@ const AddProduct = () => {
   const renderStep = () => {
     switch (activeStep) {
       case 0:
-        return <StepBasicDetails />
+        return (
+          <StepBasicDetails
+            data={basicDetails as BaseProductInterFace}
+            setFormsData={setBasicDetails}
+          />
+        )
       case 1:
-        return <StepProductInformation />
+        return (
+          <StepProductInformation 
+            data={productInformation as ProductInformationInterface}
+            setFormsData={setProductInformation}
+          />
+        )
       case 2:
-        return <StepComplianceWarranty />
+        return (
+          <StepComplianceWarranty
+            data={complianceWarranty}
+            setFormData={setComplianceWarranty}
+          />
+        )
       case 3:
-        return <StepVariant />
+        return (
+          <StepVariant 
+           data={productVarient as ProductVarientInterface}
+           setFormData={
+             setProductVarient as unknown as Dispatch<SetStateAction<ProductCompilanceWarrenty>>
+           }
+          />
+        )
       case 4:
-        return <StepSpecifications />
+        return (
+          <StepSpecifications
+            data={productSpecification}
+            setFormData={setProductSpecification}
+          />
+        )
       case 5:
-        return <StepPricingInventory />
+        return (
+          <StepPricingInventory
+            data={productPricingInventory}
+            setFormData={setProductPricingInventory}
+          />
+        )
       case 6:
-        return <StepSeoManagement />
+        return (
+          <StepSeoManagement
+            data={productSeoManagement}
+            setFormData={setProductSeoManagement}
+          />
+        )
       default:
         return null
     }
@@ -75,8 +135,8 @@ const AddProduct = () => {
           <Box className={style.ABP_HeaderText}>
             <Typography className={style.ABP_Title}>Add Product</Typography>
             <Typography className={style.ABP_Subtitle}>
-              Basic Details, Product Information, Compliance &amp; Warranty, Variant, Specifications,
-              Pricing &amp; Inventory, SEO &amp; Product Management
+              Basic Details, Product Information, Compliance &amp; Warranty, Variant,
+              Specifications, Pricing &amp; Inventory, SEO &amp; Product Management
             </Typography>
           </Box>
         </Box>
@@ -140,7 +200,11 @@ const AddProduct = () => {
           {isLastStep ? (
             <Button className={style.ABP_BtnPrimary}>Submit Product</Button>
           ) : (
-            <Button className={style.ABP_BtnPrimary} endIcon={<ArrowForwardRoundedIcon />} onClick={goNext}>
+            <Button
+              className={style.ABP_BtnPrimary}
+              endIcon={<ArrowForwardRoundedIcon />}
+              onClick={goNext}
+            >
               Next
             </Button>
           )}

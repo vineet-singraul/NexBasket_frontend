@@ -256,7 +256,7 @@ export const IsImageValidate = (data: any) => {
     console.log("< invalid image >")
 
     return "please upload valid image"
-  }
+  } 
 
   console.log("< valid image >")
 

@@ -44,6 +44,28 @@ export const PRODUCT_IMAGE_ADD = {
 }
 
 
-export const BASE_PRODUCT = {
-  ADD_BASE_PRODUCT : '/product/createBaseProduct'
-}
+// export const BASE_PRODUCT = {
+//   ADD_BASE_PRODUCT : '/product/createBaseProduct'
+// }
+
+
+
+
+
+  // sku: string,
+  // variantName?: string,
+  // gtin?: string,
+  //   weight?: {
+  //   value?: number
+  //   unit?: 'mg' | 'g' | 'kg' | 'oz' | 'lb'
+  // },
+  //   dimensions?: {
+  //   length?: number
+  //   width?: number
+  //   height?: number
+  //   unit?: 'mm' | 'cm' | 'm' | 'in' | 'ft'
+  // },
+  // attribute?: {
+  //     name: string
+  // value: string
+  // }

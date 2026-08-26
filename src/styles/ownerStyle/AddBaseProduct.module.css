@@ -443,6 +443,19 @@
 
 /* ---------------- Switch cards (isActive / isFeatured / isDefault ...) ---------------- */
 
+.ABP_Swich2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+  padding: 9px 14px;
+  border-radius: 10px;
+  background: var(--nb-surface-alt);
+  border: 1px solid var(--nb-border);
+  align-self: flex-end;
+}
+
 .ABP_SwitchRow {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
