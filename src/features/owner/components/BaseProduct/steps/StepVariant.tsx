@@ -13,7 +13,6 @@ import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded'
 import style from '../../../../../styles/ownerStyle/AddBaseProduct.module.css'
 import type {
   StepProductVarient,
-  ProductVarientInterface,
   Attribute,
 } from '../../../types/product.types'
 import React, { useState } from 'react'

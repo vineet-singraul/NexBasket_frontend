@@ -1,7 +1,7 @@
 import { Box, Typography, TextField, FormControl, Select, MenuItem, Switch } from '@mui/material'
 import type { SelectChangeEvent } from '@mui/material/Select'
 import style from '../../../../../styles/ownerStyle/AddBaseProduct.module.css'
-import type {ProductCompilanceWarrenty , stepProductCompilanceWarrenty} from "../../../types/product.types"
+import type {stepProductCompilanceWarrenty} from "../../../types/product.types"
 import type React from 'react'
 
 

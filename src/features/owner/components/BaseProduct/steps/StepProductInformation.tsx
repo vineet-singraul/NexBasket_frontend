@@ -1,7 +1,6 @@
 import { Box, Typography, TextField } from '@mui/material'
 import style from '../../../../../styles/ownerStyle/AddBaseProduct.module.css'
 import type {
-  ProductInformationInterface,
   StepProductInformationProps,
 } from '../../../types/product.types'
 import type React from 'react'
