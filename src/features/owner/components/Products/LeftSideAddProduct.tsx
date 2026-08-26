@@ -33,13 +33,13 @@ interface StaticCategory {
 
 const LeftSideAddProduct = () => {
   const { ownerdId, idStore } = useParams<{ ownerdId: string; idStore: string }>()
-
+  
   const [selected, setSelected] = useState<string | null>(null)
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState<boolean | null>(false)
   const [notification, setNotification] = useState<NotificationInterfacce | null>(null)
   const [categories, setCategorys] = useState<CategoryListItem[]>([])
-  const [storeID, setStoreId] = useState<string | null>(idStore ?? null);
+  const [storeId, setStoreId] = useState<string | null>(idStore ?? null);
 
 
   const navigate = useNavigate()
@@ -83,8 +83,8 @@ const LeftSideAddProduct = () => {
 
   // Send To Add Product Page :
   const SendToProductPage = (id: string) => {
-    if(!storeID) return;
-    navigate(`/owner/product/All/${id}/${storeID}`)
+    if(!storeId) return;
+    navigate(`/owner/product/All/${id}/${storeId}`)
   }
 
   return (

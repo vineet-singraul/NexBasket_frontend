@@ -28,6 +28,11 @@ import type {
   ProductPricingInventoryInterface,
   ProductSeoManagementInterface,
 } from '../../types/product.types'
+import type {NotificationInterfacce} from "../../../../auth/types/auth.types"
+import { apiPost } from '../../../../api/userApi'
+import { BASE_PRODUCT } from '../../../../api/endpoints'
+import Loader from '../../../../utils/Loader'
+import Notification from '../../../../utils/Notification'
 
 const PHASES = [
   { label: 'Basic Details', icon: <Inventory2RoundedIcon /> },
@@ -61,11 +66,138 @@ const AddProduct = () => {
     {} as ProductSeoManagementInterface,
   )
 
+  const [notification, setNofication] = useState<NotificationInterfacce | null>(null)
+  const [loading, setLoading] = useState<boolean | null>(null)
   const isFirstStep = activeStep === 0
   const isLastStep = activeStep === PHASES.length - 1
 
   const goBack = () => setActiveStep((step) => Math.max(0, step - 1))
   const goNext = () => setActiveStep((step) => Math.min(PHASES.length - 1, step + 1))
+
+  const resetForm = () => {
+    setBasicDetails({} as BaseProductInterFace)
+    setProductInformation({} as ProductInformationInterface)
+    setComplianceWarranty({} as ProductCompilanceWarrenty)
+    setProductVarient({} as ProductVarientInterface)
+    setProductSpecification({} as ProductSpecificationInterface)
+    setProductPricingInventory({} as ProductPricingInventoryInterface)
+    setProductSeoManagement({} as ProductSeoManagementInterface)
+    setActiveStep(0)
+  }
+
+  const splitToList = (value?: string, separator: RegExp = /\r?\n/) =>
+    (value ?? '')
+      .split(separator)
+      .map((item) => item.trim())
+      .filter(Boolean)
+
+  const prepareProductPayload = () => {
+    const payload = {
+      // Basic Details
+      storeId: basicDetails.storeID,
+      categoryId: basicDetails.categoryId,
+      title: basicDetails.title,
+      slug: basicDetails.slug,
+      productCode: basicDetails.productCode,
+      productType: basicDetails.productType,
+      condition: basicDetails.condition,
+      shortDescription: basicDetails.shortDiscription,
+
+      // Product Information
+      description: productInformation.description,
+      highlights: splitToList(productInformation.highlights as unknown as string),
+      features: splitToList(productInformation.features as unknown as string),
+      whatsIncluded: splitToList(productInformation.whatsIncluded as unknown as string),
+      brand: productInformation.brand,
+      manufacturer: productInformation.manufacturer,
+      modelName: productInformation.modelName,
+      modelNumber: productInformation.modelNumber,
+      manufacturerPartNumber: productInformation.manufacturerPartNumber,
+
+      // Compliance & Warranty
+      importerName: complianceWarranty.importerName,
+      packerName: complianceWarranty.packerName,
+      countryOfOrigin: complianceWarranty.countryOfOrigin,
+      hsnCode: complianceWarranty.hsnCode,
+      taxCode: complianceWarranty.taxCode,
+      warranty: complianceWarranty.warranty,
+      returnPolicy: complianceWarranty.returnPolicy,
+      returnDays: complianceWarranty.returnDays,
+
+      // Variant
+      sku: productVarient.sku,
+      variantName: productVarient.variantName,
+      gtin: productVarient.gtin,
+      weight: productVarient.weight,
+      dimensions: productVarient.dimensions,
+      attributes: productVarient.attribute
+        ? { [productVarient.attribute.name]: productVarient.attribute.value }
+        : undefined,
+      isDefault: productVarient.defaltVarient,
+
+      // Specifications
+      specifications: productSpecification.specifications,
+
+      // Pricing & Inventory
+      mrp: productPricingInventory.mrp,
+      sellingPrice: productPricingInventory.sellingPrice,
+      costPrice: productPricingInventory.costPrice,
+      discountPercent: productPricingInventory.discountPercent,
+      taxPercent: productPricingInventory.taxPercent,
+      currency: productPricingInventory.currency,
+      quantity: productPricingInventory.quantity,
+      reservedQuantity: productPricingInventory.reservedQuantity,
+      lowStockThreshold: productPricingInventory.lowStockThreshold,
+      allowBackorder: productPricingInventory.allowBackorder,
+      stockStatus: productPricingInventory.stockStatus,
+
+      // SEO & Product Management
+      metaTitle: productSeoManagement.metaTitle,
+      metaDescription: productSeoManagement.metaDescription,
+      searchKeywords: splitToList(productSeoManagement.searchKeywords, /,/),
+      tags: productSeoManagement.tags,
+      status: productSeoManagement.status,
+      visibility: productSeoManagement.visibility,
+      isFeatured: productSeoManagement.isFeatured,
+      isActive: productSeoManagement.isActive,
+    }
+
+    return payload
+  }
+
+  const handleSubmitProduct = async () => {
+    const payload = prepareProductPayload()
+
+    if (!payload.title) {
+      setNofication({
+        open: true,
+        message: 'please fill the all details of product',
+        severity:"warning",
+      })
+      return
+    }
+
+    setLoading(true)
+
+    try {
+      const response = await apiPost<{message? : string}>(BASE_PRODUCT.ADD_BASE_PRODUCT, payload)
+      setLoading(true)
+      setNofication({
+        open:true,
+        message:response.message || "added product sucessfully",
+        severity:"success"
+      })
+      resetForm()
+    } catch (error) {
+      setNofication({
+        open: true,
+        message: error instanceof Error ? error.message : 'some thing went wrong',
+        severity: 'error',
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const renderStep = () => {
     switch (activeStep) {
@@ -198,7 +330,7 @@ const AddProduct = () => {
           </Button>
 
           {isLastStep ? (
-            <Button className={style.ABP_BtnPrimary}>Submit Product</Button>
+            <Button className={style.ABP_BtnPrimary}   onClick={handleSubmitProduct}>Submit Product</Button>
           ) : (
             <Button
               className={style.ABP_BtnPrimary}
@@ -210,6 +342,19 @@ const AddProduct = () => {
           )}
         </Box>
       </Box>
+
+
+   {loading && <Loader/>}
+   {notification &&  
+    <Notification 
+      open={notification.open}
+      message={notification.message}
+      severity={notification.severity}
+      onClose={() => setNofication(null)}
+    />
+   }
+
+
     </Box>
   )
 }

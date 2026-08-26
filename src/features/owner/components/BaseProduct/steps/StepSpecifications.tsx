@@ -21,7 +21,7 @@ const StepSpecifications = ({ data, setFormData }: StepProductSpecificationProps
     }))
   }
 
-  const handleSpecChange = (index: number, field: 'name' | 'value', value: string) => {
+  const handleSpecChange = (index: number, field: 'name' | 'value' | 'unit', value: string) => {
     setFormData((prev) => {
       const nextSpecifications = [...(prev.specifications ?? [])]
       nextSpecifications[index] = { ...nextSpecifications[index], [field]: value }
@@ -50,9 +50,16 @@ const StepSpecifications = ({ data, setFormData }: StepProductSpecificationProps
               <TextField
                 className={style.ABP_Input}
                 size="small"
-                placeholder="Value (unit optional, e.g. 500 g)"
+                placeholder="Value, e.g. 500"
                 value={spec.value}
                 onChange={(event) => handleSpecChange(index, 'value', event.target.value)}
+              />
+              <TextField
+                className={style.ABP_Input}
+                size="small"
+                placeholder="Unit, e.g. g"
+                value={spec.unit ?? ''}
+                onChange={(event) => handleSpecChange(index, 'unit', event.target.value)}
               />
               <IconButton className={style.ABP_RepeatRemoveBtn} onClick={() => handleRemoveSpecRow(index)}>
                 <DeleteOutlineRoundedIcon fontSize="small" />

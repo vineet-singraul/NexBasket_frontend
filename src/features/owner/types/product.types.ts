@@ -167,6 +167,7 @@ export interface StepProductVarient {
 export interface SpecificationItem {
   name: string
   value: string
+  unit?: string
 }
 
 export interface ProductSpecificationInterface {

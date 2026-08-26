@@ -14,11 +14,11 @@ import type {StepBasicDetailsProps } from '../../../types/product.types'
 
 
 const StepBasicDetails = ({ data, setFormsData }: StepBasicDetailsProps) => {
-  const { id: categoryId, storeID: storeId } = useParams<{ id: string; storeID: string }>()
+  const { id: categoryId, storeID } = useParams<{ id: string; storeID: string }>()
 
   const handleChangeDetails = (event: { target: { name: string; value: string } }) => {
     const { name, value } = event.target
-    setFormsData((prev) => ({...prev , [name]:value}))
+    setFormsData((prev) => ({ ...prev, storeID: storeID || '', categoryId: categoryId || '', [name]: value }))
   }
 
   return (
@@ -36,9 +36,9 @@ const StepBasicDetails = ({ data, setFormsData }: StepBasicDetailsProps) => {
               className={style.ABP_Input}
               size="small"
               disabled
-              name='storeID'
+              name='storeId'
               onChange={handleChangeDetails}
-              value={storeId || ''}
+              value={storeID || ''}
               slotProps={{
                 input: {
                   startAdornment: (
