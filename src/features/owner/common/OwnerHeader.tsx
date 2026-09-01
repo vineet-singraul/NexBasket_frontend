@@ -8,7 +8,7 @@ import { Badge, Avatar, Menu, MenuItem, Divider, ListItemIcon } from '@mui/mater
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded'
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded'
-import styles from '../../../../styles/ownerStyle/Header.module.css'
+import styles from '../../../styles/ownerStyle/Header.module.css'
 
 interface OwnerHeaderProps {
   ownerName?: string
@@ -21,7 +21,7 @@ interface OwnerHeaderProps {
   onMenuClick?: () => void
 }
 
-/**
+/**x
  * OwnerHeader
  * Swiggy-admin inspired top bar for the NexBasket Owner panel.
  * Search on the left, quick actions (notifications, messages) and the

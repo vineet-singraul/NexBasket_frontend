@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import OwnerSidebar from './OwnerSidebar'
 import OwnerHeader from './OwnerHeader'
-import { apiPost } from '../../../../api/userApi'
-import { AUTH_ENDPOINTS } from '../../../../api/endpoints'
-import { clearAuthSession } from '../../../../utils/authStorage'
-import { clearUserData } from '../../../../redux/slice/userSlice'
+import { apiPost } from '../../../api/userApi'
+import { AUTH_ENDPOINTS } from '../../../api/endpoints'
+import { clearAuthSession } from '../../../utils/authStorage'
+import { clearUserData } from '../../../redux/slice/userSlice'
 
 interface OwnerLayoutProps {
   children: React.ReactNode
