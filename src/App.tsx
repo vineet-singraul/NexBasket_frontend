@@ -8,7 +8,6 @@ import UserHome from './features/user/pages/UserHome'
 import useGetCity from './hooks/useGetCity'
 import ChnagePassword from './features/user/components/ChnagePassword'
 import OwnerLayout from './features/owner/common/OwnerLayout'
-import OwnerDashboard from './features/owner/components/OwnerDashbord/OwnerdashboardCards'
 import AddCategury from './features/owner/pages/AddCategury'
 import Products from './features/owner/pages/Products'
 import Stores from './features/owner/pages/Stores'
@@ -16,8 +15,6 @@ import AddProducts from './features/owner/components/Products/AddProducts'
 import ProductCommonBase from './features/owner/pages/ProductCommonBase'
 import AddProduct from './features/owner/components/BaseProduct/AddProduct'
 import MainOwnerDashbord from './features/owner/pages/MainOwnerDashbord'
-import OwnerListedProduct from './features/owner/components/OwnerDashbord/OwnerListedProduct'
-import OwnerListedStore from './features/owner/components/OwnerDashbord/OwnerListedStore'
 function App() {
   useGetCity()
   return (
@@ -115,13 +112,7 @@ function App() {
             path="/owner/ownerdashboard/ListedProducts"
             element={
               <OwnerLayout>
-                <OwnerDashboard
-                  productListingDetails={[]}
-                  listedStoreDetails={[]}
-                  counts={{} as never}
-                >
-                <OwnerListedProduct />
-                </OwnerDashboard>
+                <MainOwnerDashbord />
               </OwnerLayout>
             }
           />
@@ -129,14 +120,7 @@ function App() {
             path="/owner/ownerdashboard/ListedStore"
             element={
               <OwnerLayout>
-                <OwnerDashboard
-                  productListingDetails={[]}
-                  listedStoreDetails={[]}
-                  counts={{} as never}
-                >
-                <OwnerListedStore />
-
-                </OwnerDashboard>
+                <MainOwnerDashbord />
               </OwnerLayout>
             }
           />

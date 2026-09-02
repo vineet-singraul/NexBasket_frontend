@@ -107,6 +107,7 @@ const statusMeta: Record<StockStatus, { label: string; badgeClass: string }> = {
 }
 
 const OwnerListedProduct = ({ productListingDetails }: OwnerListedProductProps) => {
+  console.log("<--------productListingDetails------234324------>",productListingDetails)
   const inStockCount = products.filter((p) => p.status === 'in').length
   const lowStockCount = products.filter((p) => p.status === 'low').length
   const outOfStockCount = products.filter((p) => p.status === 'out').length
