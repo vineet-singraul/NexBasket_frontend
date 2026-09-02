@@ -146,3 +146,7 @@ const OwnerListedProduct = ({ productListingDetails }: OwnerListedProductProps) 
 }
 
 export default OwnerListedProduct
+
+
+
+
