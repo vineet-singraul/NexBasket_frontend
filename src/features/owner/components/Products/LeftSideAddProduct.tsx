@@ -78,13 +78,14 @@ const LeftSideAddProduct = () => {
   useEffect(() => {
     if (!ownerdId || !idStore) return
 
-    void Promise.resolve().then(() => fatchCatagoryOfOwner())
+    void Promise.resolve().then(() => fatchCatagoryOfOwner()) 
+    localStorage.setItem("ownerdId",ownerdId)
   }, [ownerdId, idStore])
 
   // Send To Add Product Page :
   const SendToProductPage = (id: string) => {
     if(!storeId) return;
-    navigate(`/owner/product/All/${id}/${storeId}`)
+    navigate(`/owner/product/All/${id}/${storeId}/${ownerdId}`)
   }
 
   return (

@@ -48,3 +48,8 @@ export const BASE_PRODUCT = {
   ADD_BASE_PRODUCT : '/product/createBaseProduct'
 }
 
+
+
+export const OWNER_DASHBOARD_API = {
+  GET_ALL_DETAILS_OWNER_DASHBOARD : (storeId : string, ownerId : string) => `/ownerDashboard/${storeId}/${ownerId}`
+}

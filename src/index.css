@@ -231,7 +231,6 @@ body::-webkit-scrollbar {
   transform: translateX(3px);
 }
 
-
 /* ================ */
 /* ===== Add Products (Step Form) ===== */
 
@@ -362,7 +361,6 @@ body::-webkit-scrollbar {
 /* ================ */
 /* ===== Sub Owner Dashboard layout ===== */
 
-
 .panelTitle {
   color: var(--nb-dark) !important;
   font-weight: 800 !important;
@@ -382,8 +380,7 @@ body::-webkit-scrollbar {
   margin-top: -5px !important;
 }
 
-
-.FormHeadding{
+.FormHeadding {
   font-weight: 900 !important;
   padding-bottom: 6px !important;
   font-size: 12px !important;
@@ -395,7 +392,7 @@ body::-webkit-scrollbar {
 }
 
 /* ========================== */
-    /* COMMON DELETE POP  */
+/* COMMON DELETE POP  */
 /* ========================== */
 
 /* ---------- Delete Confirm Dialog ---------- */
