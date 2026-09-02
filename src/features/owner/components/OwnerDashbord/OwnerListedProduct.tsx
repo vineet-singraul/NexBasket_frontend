@@ -7,7 +7,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded'
 import styles from '../../../../styles/ownerStyle/Dashboard.module.css'
-import type { ListedProduct, OwnerListedProductProps } from '../../types/dashboard.types.js'
+import type { OwnerListedProductProps } from '../../types/dashboard.types.js'
 
 type StockStatus = 'in' | 'low' | 'out'
 

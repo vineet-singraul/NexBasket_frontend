@@ -14,7 +14,6 @@ interface componentsProps extends OwnerdashboardCardsProps {
 }
 
 const OwnerdashboardCards: React.FC<componentsProps> = ({
-  children,
   productListingDetails,
   listedStoreDetails,
   counts,
