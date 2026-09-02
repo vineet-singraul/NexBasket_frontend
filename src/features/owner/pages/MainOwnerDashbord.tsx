@@ -14,9 +14,10 @@ import type {
   StoreAddress,
   OwnerDashboardResponse,
 } from '../types/dashboard.types.js'
-import { OWNER_DASHBOARD_API } from '../../../api/endpoints'
+import { OWNER_DASHBOARD_API, STORE_ENDPOINTS } from '../../../api/endpoints'
 import { apiGet } from '../../../api/userApi'
 import type { ComponentType } from 'react'
+import type { StoreListItem } from '../types/store.types'
 
 type OwnerdashboardCardsProps = {
   productListingDetails: ListedProduct[] | null
@@ -35,8 +36,11 @@ const MainOwnerDashbord = () => {
   const [listedStoreDetails, setListedStoreDetails] = useState<ListedStore[] | null>(null)
   const [counts, setCounts] = useState({ productCount: 0, storeCount: 0 })
 
-  const ownerId = localStorage.getItem('ownerdId')
-  const storeId = localStorage.getItem('storeId')
+  const [ownerId] = useState<string>(() => {
+    const storedUser = localStorage.getItem('nexbasket_auth')
+    const userData = storedUser ? JSON.parse(storedUser) : null
+    return userData?.user?._id || ''
+  })
 
   const fatchOwnerDashboardDetails = async (storeId: string, ownerId: string) => {
     if (!storeId || !ownerId) {
@@ -83,13 +87,35 @@ const MainOwnerDashbord = () => {
 
   // Load Effect :
   useEffect(() => {
-    if (!ownerId || !storeId) return
+    if (!ownerId) return
     let isActive = true
-    void Promise.resolve().then(() => fatchOwnerDashboardDetails(storeId, ownerId))
+
+    const loadDashboard = async () => {
+      try {
+        const storesResponse = await apiGet<{ data?: StoreListItem[] }>(
+          STORE_ENDPOINTS.SINGLELIST(ownerId),
+        )
+        const storeId = storesResponse?.data?.[0]?._id
+        if (!isActive || !storeId) return
+        await fatchOwnerDashboardDetails(storeId, ownerId)
+      } catch (error) {
+        if (!isActive) return
+        setNotification({
+          open: true,
+          message:
+            error instanceof Error
+              ? error.message
+              : 'can not load owner stores !! please try again ... ',
+          severity: 'error',
+        })
+      }
+    }
+
+    void loadDashboard()
     return () => {
       isActive = false
     }
-  }, [ownerId, storeId])
+  }, [ownerId])
 
   return (
     <>
