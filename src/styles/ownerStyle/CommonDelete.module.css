@@ -13,7 +13,6 @@
   animation: CD_fadeIn 0.2s ease-out;
 }
 
-
 @keyframes CD_fadeIn {
   from {
     opacity: 0;
@@ -38,9 +37,9 @@
   transform: translateX(-50%);
   z-index: 1200;
 
-    display: grid !important;
-    align-items: center;
-    justify-content: center !important;
+  display: grid !important;
+  align-items: center;
+  justify-content: center !important;
   gap: 16px;
   /* padding: 22px 26px 22px 22px; */
   border-radius: 14px;
@@ -49,7 +48,7 @@
   box-shadow:
     0 12px 32px rgba(0, 0, 0, 0.4),
     0 0 0 1px rgba(239, 110, 4, 0.9);
-    padding: 10px 80px !important;
+  padding: 10px 80px !important;
 }
 
 .CD_countWrap {
@@ -64,7 +63,6 @@
   font-weight: 600 !important;
   white-space: nowrap;
 }
-
 
 .CD_clearBtn {
   display: flex !important;
@@ -98,19 +96,19 @@
   background: #ff3b3b !important;
 }
 
-  .CD_actions{
-    width: 100% !important;
-    display: flex !important;
-    justify-content:space-evenly !important;
-    align-items: center !important;
-  }
+.CD_actions {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: space-evenly !important;
+  align-items: center !important;
+}
 
 @media (max-width: 600px) {
   .CD_bar {
     left: 0px;
-    right: 0px;
-    bottom: 0px;
-    top: 650px !important;
+    right: -3px;
+    bottom: -12px;
+    top: 533px !important;
     transform: none;
     width: auto;
     border-top-left-radius: 40px;
