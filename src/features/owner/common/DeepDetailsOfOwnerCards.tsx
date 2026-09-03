@@ -1,36 +1,67 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Card, Typography, CircularProgress } from '@mui/material'
 import TrendingUpRoundedIcon from '@mui/icons-material/TrendingUpRounded'
 import styles from '../../../styles/ownerStyle/Dashboard.module.css'
+import {
+  type OwnerDeepDetailsOfOwnerCardsProps,
+  DeepDetailsOfCardsList,
+} from '../types/dashboard.types.ts'
+import type { cardsData } from '../types/dashboard.types.ts'
 
-interface BreakdownItem {
-  label: string
-  value: string
-  percent: number
-  color: string
+const breakdownItems = (id: number, data: cardsData) => {
+  const total =
+    (data?.inStockCount ?? 0) + (data?.lowStockCount ?? 0) + (data?.outOfStockCount ?? 0)
+  const getPercentage = (value: number) => {
+    if (total === 0) return 0
+    return Math.round((value / total) * 100)
+  }
+
+  if (id == 1) {
+    return [
+      {
+        label: 'In Stock Product',
+        value: data.inStockCount,
+        percent: getPercentage(data?.inStockCount ?? 0),
+        color: '#1ca354',
+      },
+      {
+        label: 'Low stock',
+        value: String(data?.lowStockCount ?? 0),
+        percent: getPercentage(data?.lowStockCount ?? 0),
+        color: '#fc8019',
+      },
+      {
+        label: 'Out of stock',
+        value: String(data?.outOfStockCount ?? 0),
+        percent: getPercentage(data?.outOfStockCount ?? 0),
+        color: '#e5484d',
+      },
+    ]
+  }
 }
 
-const breakdownItems: BreakdownItem[] = [
-  { label: 'Listing complete', value: '1,942', percent: 78, color: '#1ca354' },
-  { label: 'Low stock', value: '387', percent: 16, color: '#fc8019' },
-  { label: 'Out of stock', value: '157', percent: 6, color: '#e5484d' },
-]
+const DeepDetailsOfOwnerCards = (cardData: OwnerDeepDetailsOfOwnerCardsProps) => {
+  const cardId = cardData.cardData.id ?? -1
+  const cardsdetails = Object.values(DeepDetailsOfCardsList).find((item) => item.id === cardId)
 
-const DeepDetailsOfOwnerCards = () => {
+  const breakdown = breakdownItems(cardId, cardData.cardData) ?? []
+
+  useEffect(() => {
+    breakdownItems(cardId, cardData.cardData)
+  }, [cardId])
+
   return (
     <Card elevation={0} className={styles.deepCard}>
       {/* Left summary panel */}
       <div className={styles.deepLeft}>
-        <Typography className={styles.deepLabel}>Listed products</Typography>
-        <Typography className={styles.deepValue}>2,486</Typography>
+        <Typography className={styles.deepLabel}>{cardsdetails?.title}</Typography>
+        <Typography className={styles.deepValue}>{cardData.cardData.ListedProductCount}</Typography>
 
         <span className={`${styles.statTrend} ${styles.statTrendLight}`}>
-          <TrendingUpRoundedIcon fontSize="inherit" /> +18% from last month
+          <TrendingUpRoundedIcon fontSize="inherit" /> +18% {cardsdetails?.marginProfitOrLoss}
         </span>
 
-        <Typography className={styles.deepDesc}>
-          How your catalog breaks down by fulfillment readiness.
-        </Typography>
+        <Typography className={styles.deepDesc}>{cardsdetails?.detail}</Typography>
       </div>
 
       {/* Vertical divider between summary and breakdown */}
@@ -38,7 +69,7 @@ const DeepDetailsOfOwnerCards = () => {
 
       {/* Right breakdown list */}
       <div className={styles.deepRight}>
-        {breakdownItems.map((item) => (
+        {breakdown.map((item) => (
           <div key={item.label} className={styles.deepRow}>
             <div className={styles.deepRowLeft}>
               {/* Ring track + colored progress overlay */}

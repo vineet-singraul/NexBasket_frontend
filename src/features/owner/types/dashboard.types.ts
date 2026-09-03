@@ -190,3 +190,48 @@ export type OwnerListedProductProps = {
 export type OwnerListedStoreProps = {
   listedStoreDetails?: ListedStore[] | null
 } 
+
+
+
+
+// Deep deatls of Owner cards : 
+export type OwnerDeepDetailsOfOwnerCardsProps = {
+  cardData: {
+    inStockCount: number | null;
+    lowStockCount: number | null;
+    outOfStockCount: number | null;
+    id: number | null;
+    ListedProductCount: number | null;
+  };
+};
+
+export interface cardsData {
+    inStockCount: number | null;
+    lowStockCount: number | null;
+    outOfStockCount: number | null;
+    id: number | null;
+    ListedProductCount: number | null;
+  };
+
+
+
+export const DeepDetailsOfCardsList = {
+  ListedProduct : {
+    id:1,
+    title : "Listed products",
+    marginProfitOrLoss : "from last month",
+    detail : " How your catalog breaks down by fulfillment readiness."
+  },
+    ListedStore : {
+    id:2,
+    title : "Listed Store",
+    marginProfitOrLoss : "from last month",
+    detail : " How your Store breaks down by fulfillment Store."
+  },
+   Orders : {
+    id:3,
+    title : "All Order",
+    marginProfitOrLoss : "from last month",
+    detail : " How your Orders breaks down by fulfillment Orders."
+  }
+}

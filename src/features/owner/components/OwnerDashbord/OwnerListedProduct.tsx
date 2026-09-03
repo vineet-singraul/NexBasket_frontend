@@ -33,9 +33,19 @@ const OwnerListedProduct = ({ productListingDetails }: OwnerListedProductProps) 
     (p) => p.inventory.stockStatus === 'out_of_stock',
   ).length
 
+  const cardData = {
+    inStockCount,
+    lowStockCount,
+    outOfStockCount,
+    id: 1,
+    ListedProductCount: productDetails.length,
+  }
+
+  ;<DeepDetailsOfOwnerCards cardData={cardData} />
+
   return (
     <>
-      <DeepDetailsOfOwnerCards />
+      <DeepDetailsOfOwnerCards cardData={cardData}/>
 
       <div className={styles.lpWrap}>
         {/* Toolbar: search + filter chips */}
@@ -110,8 +120,6 @@ const OwnerListedProduct = ({ productListingDetails }: OwnerListedProductProps) 
                   </div>
 
                   <div className={styles.lpActions}>
-  
-
                     <button type="button" className={styles.lpBtnIcon} aria-label="Delete">
                       <VisibilityOutlinedIcon fontSize="small" />
                     </button>
@@ -146,7 +154,3 @@ const OwnerListedProduct = ({ productListingDetails }: OwnerListedProductProps) 
 }
 
 export default OwnerListedProduct
-
-
-
-
