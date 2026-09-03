@@ -45,7 +45,8 @@ export const PRODUCT_IMAGE_ADD = {
 
 
 export const BASE_PRODUCT = {
-  ADD_BASE_PRODUCT : '/product/createBaseProduct'
+  ADD_BASE_PRODUCT : '/product/createBaseProduct',
+  DELETE_BASE_PRODUCT : (productId : string) => `/product/deleteBaseProduct/${productId}`
 }
 
 

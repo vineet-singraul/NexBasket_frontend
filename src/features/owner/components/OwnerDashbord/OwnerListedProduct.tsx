@@ -13,6 +13,10 @@ import type { NotificationInterfacce } from '../../../../auth/types/auth.types.j
 import type { ListedProduct } from '../../types/dashboard.types.js'
 import Notification from '../../../../utils/Notification.js'
 import Loader from '../../../../utils/Loader.js'
+import { apiDelete } from '../../../../api/userApi.js'
+import { BASE_PRODUCT } from '../../../../api/endpoints.js'
+import CommonDelete from '../../common/CommonDelete.js'
+import { useNavigate } from 'react-router-dom'
 
 type StockStatus = 'in' | 'low' | 'out'
 
@@ -26,7 +30,10 @@ const OwnerListedProduct = ({ productListingDetails }: OwnerListedProductProps) 
   const [notification, setNotification] = useState<NotificationInterfacce | null>(null)
   const [loading, setLoading] = useState<boolean | null>(false)
   const productDetails: ListedProduct[] = productListingDetails ?? []
+const [isOpenDeletePopUp, setIsOpenDeletePopUp] = useState(false)
+const [selectedProductId, setSelectedProductId] = useState<string | null>(null)
 
+  const navigate = useNavigate()
   const inStockCount = productDetails.filter((p) => p.inventory.stockStatus === 'in_stock').length
   const lowStockCount = productDetails.filter((p) => p.inventory.stockStatus === 'low_stock').length
   const outOfStockCount = productDetails.filter(
@@ -40,12 +47,59 @@ const OwnerListedProduct = ({ productListingDetails }: OwnerListedProductProps) 
     id: 1,
     ListedProductCount: productDetails.length,
   }
+  //  <DeepDetailsOfOwnerCards cardData={cardData} />
 
-  ;<DeepDetailsOfOwnerCards cardData={cardData} />
+  const handleClose = () => {
+    setIsOpenDeletePopUp(false)
+  }
+
+  const handleDeleteProduct = async (selectedProductId: string) => {
+    if (!selectedProductId) {
+      setNotification({
+        open: true,
+        message: 'product not found',
+        severity: 'info',
+      })
+      return
+    }
+    setLoading(true)
+    try {
+      const response = await apiDelete(BASE_PRODUCT.DELETE_BASE_PRODUCT(selectedProductId))
+      setNotification({
+        open: true,
+        message: 'Product deleted successfully ...',
+        severity: 'success',
+      })
+
+      // navigate('/owner/dashboard')
+       window.location.reload()
+     
+    } catch (error) {
+      setLoading(true)
+      setNotification({
+        open: true,
+        message:
+          error instanceof Error
+            ? error.message
+            : 'Product is not deleted !! please try again ... ',
+        severity: 'error',
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleDeleteSelected = () => {
+    if (selectedProductId) {
+      void handleDeleteProduct(selectedProductId)
+      setIsOpenDeletePopUp(false)
+
+    }
+  }
 
   return (
     <>
-      <DeepDetailsOfOwnerCards cardData={cardData}/>
+      <DeepDetailsOfOwnerCards cardData={cardData} />
 
       <div className={styles.lpWrap}>
         {/* Toolbar: search + filter chips */}
@@ -123,7 +177,15 @@ const OwnerListedProduct = ({ productListingDetails }: OwnerListedProductProps) 
                     <button type="button" className={styles.lpBtnIcon} aria-label="Delete">
                       <VisibilityOutlinedIcon fontSize="small" />
                     </button>
-                    <button type="button" className={styles.lpBtnIcon} aria-label="Delete">
+                    <button
+                      type="button"
+                      className={styles.lpBtnIcon}
+                      aria-label="Delete"
+                      onClick={() => {
+                        setSelectedProductId(product._id)
+                        setIsOpenDeletePopUp(true)
+                      }}
+                    >
                       <DeleteOutlineRoundedIcon fontSize="small" />
                     </button>
                     <button type="button" className={styles.lpBtnIcon} aria-label="Delete">
@@ -149,6 +211,9 @@ const OwnerListedProduct = ({ productListingDetails }: OwnerListedProductProps) 
       )}
 
       {loading && <Loader />}
+
+      {isOpenDeletePopUp && <CommonDelete onClose={handleClose} onDelete={handleDeleteSelected} />}
+  
     </>
   )
 }

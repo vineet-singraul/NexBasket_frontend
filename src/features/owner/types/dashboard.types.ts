@@ -1,180 +1,171 @@
 export interface ListedProduct {
-  _id: string;
-  id: string;
+  _id: string
+  id: string
 
-  storeId: string;
-  title: string;
-  slug: string;
-  productCode: string;
-  productType: string;
+  storeId: string
+  title: string
+  slug: string
+  productCode: string
+  productType: string
 
-  categoryId: string;
+  categoryId: string
 
-  description: string;
-  shortDescription: string;
+  description: string
+  shortDescription: string
 
-  highlights: string[];
-  features: string[];
-  whatsIncluded: string[];
+  highlights: string[]
+  features: string[]
+  whatsIncluded: string[]
 
-  brand: string;
-  manufacturer: string;
-  modelName: string;
-  modelNumber: string;
-  manufacturerPartNumber: string;
+  brand: string
+  manufacturer: string
+  modelName: string
+  modelNumber: string
+  manufacturerPartNumber: string
 
-  importerName: string;
-  packerName: string;
-  countryOfOrigin: string;
+  importerName: string
+  packerName: string
+  countryOfOrigin: string
 
-  hsnCode: string;
-  taxCode: string;
+  hsnCode: string
+  taxCode: string
 
-  metaTitle: string;
-  metaDescription: string;
+  metaTitle: string
+  metaDescription: string
 
-  searchKeywords: string[];
-  tags: string[];
+  searchKeywords: string[]
+  tags: string[]
 
-  returnPolicy: string;
-  returnDays: number;
+  returnPolicy: string
+  returnDays: number
 
-  condition: string;
-  status: string;
-  visibility: string;
+  condition: string
+  status: string
+  visibility: string
 
-  isFeatured: boolean;
-  isActive: boolean;
+  isFeatured: boolean
+  isActive: boolean
 
-  sku: string;
-  variantName: string;
+  sku: string
+  variantName: string
 
   attributes: {
-    color: string;
-    size: string;
-  };
+    color: string
+    size: string
+  }
 
-  gtin: string;
-  isDefault: boolean;
+  gtin: string
+  isDefault: boolean
 
-  isProductListtingComplete: boolean;
+  isProductListtingComplete: boolean
 
-  warranty: Warranty;
-  weight: Weight;
-  dimensions: Dimensions;
-  pricing: Pricing;
-  inventory: Inventory;
+  warranty: Warranty
+  weight: Weight
+  dimensions: Dimensions
+  pricing: Pricing
+  inventory: Inventory
 
-  specifications: Specification[];
+  specifications: Specification[]
 
-  availableQuantity: number;
+  availableQuantity: number
 
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string
+  updatedAt: string
 }
 
 export interface Warranty {
-  duration: number;
-  unit: string;
-  type: string;
-  description: string;
+  duration: number
+  unit: string
+  type: string
+  description: string
 }
 
 export interface Weight {
-  value: number;
-  unit: string;
+  value: number
+  unit: string
 }
 
 export interface Dimensions {
-  length: number;
-  width: number;
-  height: number;
-  unit: string;
+  length: number
+  width: number
+  height: number
+  unit: string
 }
 
 export interface Pricing {
-  mrp: number;
-  sellingPrice: number;
-  discountPercent: number;
-  costPrice: number;
-  taxPercent: number;
-  currency: string;
+  mrp: number
+  sellingPrice: number
+  discountPercent: number
+  costPrice: number
+  taxPercent: number
+  currency: string
 }
 
 export interface Inventory {
-  quantity: number;
-  reservedQuantity: number;
-  lowStockThreshold: number;
-  allowBackorder: boolean;
-  stockStatus: string;
+  quantity: number
+  reservedQuantity: number
+  lowStockThreshold: number
+  allowBackorder: boolean
+  stockStatus: string
 }
 
 export interface Specification {
-  name: string;
-  value: string;
-  unit: string | null;
-  _id: string;
-  id: string;
+  name: string
+  value: string
+  unit: string | null
+  _id: string
+  id: string
 }
-
-
-
-
-
 
 // +++++++++++ < Store types > ++++++++++++
 export interface ListedStore {
-  _id: string;
-  owner: string;
+  _id: string
+  owner: string
 
-  storeName: string;
-  password: string;
-  description: string;
+  storeName: string
+  password: string
+  description: string
 
-  email: string;
-  phone: string;
-  gstNumber: string;
+  email: string
+  phone: string
+  gstNumber: string
 
-  logo: string;
-  banner: string;
+  logo: string
+  banner: string
 
-  rating: number;
-  totalSales: number;
+  rating: number
+  totalSales: number
 
-  active: boolean;
+  active: boolean
 
-  address: StoreAddress;
+  address: StoreAddress
 
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string
+  updatedAt: string
 
-  __v: number;
+  __v: number
 }
-
 
 export interface StoreAddress {
-  street: string;
-  city: string;
-  state: string;
-  country: string;
-  pincode: string;
+  street: string
+  city: string
+  state: string
+  country: string
+  pincode: string
 }
 
-
-
-
 export interface OwnerDashboardResponse {
-  success: boolean;
-  message: string;
-  productCount: number;
-  storeCount: number;
-  ListedProduct: ListedProduct[];
-  listedStore: ListedStore[];
+  success: boolean
+  message: string
+  productCount: number
+  storeCount: number
+  ListedProduct: ListedProduct[]
+  listedStore: ListedStore[]
 }
 
 export interface counts {
-      productCount: number;
-    storeCount: number;
+  productCount: number
+  storeCount: number
 }
 
 export type OwnerdashboardCardsProps = {
@@ -189,49 +180,50 @@ export type OwnerListedProductProps = {
 
 export type OwnerListedStoreProps = {
   listedStoreDetails?: ListedStore[] | null
-} 
+}
 
-
-
-
-// Deep deatls of Owner cards : 
+// Deep deatls of Owner cards :
 export type OwnerDeepDetailsOfOwnerCardsProps = {
   cardData: {
-    inStockCount: number | null;
-    lowStockCount: number | null;
-    outOfStockCount: number | null;
-    id: number | null;
-    ListedProductCount: number | null;
-  };
-};
+    inStockCount: number | null
+    lowStockCount: number | null
+    outOfStockCount: number | null
+    id: number | null
+    ListedProductCount: number | null
+  }
+}
 
 export interface cardsData {
-    inStockCount: number | null;
-    lowStockCount: number | null;
-    outOfStockCount: number | null;
-    id: number | null;
-    ListedProductCount: number | null;
-  };
-
-
+  inStockCount: number | null
+  lowStockCount: number | null
+  outOfStockCount: number | null
+  id: number | null
+  ListedProductCount: number | null
+}
 
 export const DeepDetailsOfCardsList = {
-  ListedProduct : {
-    id:1,
-    title : "Listed products",
-    marginProfitOrLoss : "from last month",
-    detail : " How your catalog breaks down by fulfillment readiness."
+  ListedProduct: {
+    id: 1,
+    title: 'Listed products',
+    marginProfitOrLoss: 'from last month',
+    detail: ' How your catalog breaks down by fulfillment readiness.',
   },
-    ListedStore : {
-    id:2,
-    title : "Listed Store",
-    marginProfitOrLoss : "from last month",
-    detail : " How your Store breaks down by fulfillment Store."
+  ListedStore: {
+    id: 2,
+    title: 'Listed Store',
+    marginProfitOrLoss: 'from last month',
+    detail: ' How your Store breaks down by fulfillment Store.',
   },
-   Orders : {
-    id:3,
-    title : "All Order",
-    marginProfitOrLoss : "from last month",
-    detail : " How your Orders breaks down by fulfillment Orders."
-  }
+  Orders: {
+    id: 3,
+    title: 'All Order',
+    marginProfitOrLoss: 'from last month',
+    detail: ' How your Orders breaks down by fulfillment Orders.',
+  },
+}
+
+// Common DeleteBar
+export type CommonDeleteProps = {
+  onClose: () => void
+  onDelete: () => void
 }
