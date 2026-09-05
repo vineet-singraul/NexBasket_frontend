@@ -90,6 +90,8 @@ const mapListedProductToForm = (product: ListedProduct): EditBaseProductForm => 
   lowStockThreshold: product.inventory?.lowStockThreshold != null ? String(product.inventory.lowStockThreshold) : '',
   allowBackorder: product.inventory?.allowBackorder ?? false,
   stockStatus: product.inventory?.stockStatus ?? '',
+  isUploadedActualProduct: '',
+  specifications: ''
 })
 
 const splitLines = (value: string) =>
@@ -250,6 +252,8 @@ const defaultEditBaseProductForm: EditBaseProductForm = {
   lowStockThreshold: '',
   allowBackorder: false,
   stockStatus: '',
+  isUploadedActualProduct: '',
+  specifications: ''
 }
 
 const EditBaseProduct_ODB = ({ open, onClose, id, onUpdated }: EditBaseProductProps) => {

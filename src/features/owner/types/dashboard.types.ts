@@ -317,6 +317,9 @@ export type EditBaseProductForm = {
   lowStockThreshold: string
   allowBackorder: boolean
   stockStatus: string
+
+  isUploadedActualProduct: string
+  specifications:string
 }
 
 

@@ -27,13 +27,23 @@ const statusMeta: Record<StockStatus, { label: string; badgeClass: string }> = {
   out: { label: 'Out of stock', badgeClass: styles.lpBadgeOut },
 }
 
-const OwnerListedProduct = ({ productListingDetails, onProductUpdated }: OwnerListedProductProps) => {
+const limitWords = (text: string | undefined, limit: number) => {
+  if (!text) return ''
+  const words = text.trim().split(/\s+/)
+  if (words.length <= limit) return text
+  return `${words.slice(0, limit).join(' ')}...`
+}
+
+const OwnerListedProduct = ({
+  productListingDetails,
+  onProductUpdated,
+}: OwnerListedProductProps) => {
   const [notification, setNotification] = useState<NotificationInterfacce | null>(null)
   const [loading, setLoading] = useState<boolean | null>(false)
   const productDetails: ListedProduct[] = productListingDetails ?? []
-const [isOpenDeletePopUp, setIsOpenDeletePopUp] = useState(false)
-const [selectedProductId, setSelectedProductId] = useState<string | null>(null)
-const [isOpenEditPopUp, setIsOpenEditPopUp] = useState(false)
+  const [isOpenDeletePopUp, setIsOpenDeletePopUp] = useState(false)
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(null)
+  const [isOpenEditPopUp, setIsOpenEditPopUp] = useState(false)
 
   const navigate = useNavigate()
   const inStockCount = productDetails.filter((p) => p.inventory.stockStatus === 'in_stock').length
@@ -74,8 +84,7 @@ const [isOpenEditPopUp, setIsOpenEditPopUp] = useState(false)
       })
 
       // navigate('/owner/dashboard')
-       window.location.reload()
-     
+      window.location.reload()
     } catch (error) {
       setLoading(true)
       setNotification({
@@ -95,11 +104,10 @@ const [isOpenEditPopUp, setIsOpenEditPopUp] = useState(false)
     if (selectedProductId) {
       void handleDeleteProduct(selectedProductId)
       setIsOpenDeletePopUp(false)
-
     }
   }
 
-  const handleOpenEditSection = (id : string) => {
+  const handleOpenEditSection = (id: string) => {
     setSelectedProductId(id)
     setIsOpenEditPopUp(!isOpenEditPopUp)
   }
@@ -140,6 +148,10 @@ const [isOpenEditPopUp, setIsOpenEditPopUp] = useState(false)
                   className={`${styles.lpImageWrap} ${product.status === 'out' ? styles.lpImageDim : ''}`}
                 >
                   <span className={`${styles.lpBadge}`}>{product?.title}</span>
+                  <div className={styles.lpImagePending}>
+                    <PhotoLibraryOutlinedIcon fontSize="medium" />
+                    <span>Image upload pending</span>
+                  </div>
                   <span className={styles.lpImgCount}>
                     <PhotoLibraryOutlinedIcon fontSize="inherit" />
                   </span>
@@ -147,9 +159,9 @@ const [isOpenEditPopUp, setIsOpenEditPopUp] = useState(false)
 
                 <div className={styles.lpBody}>
                   <Typography className={styles.lpBreadcrumb}>
-                    {product?.shortDescription}
+                    {limitWords(product?.shortDescription, 5)}
                   </Typography>
-                  <Typography className={styles.lpTitle}>{product.title}</Typography>
+                  <Typography className={styles.lpTitle}>{limitWords(product.title, 5)}</Typography>
                   <Typography className={styles.lpSku}>
                     {product.sku} ·{/* {product.pid} */}
                   </Typography>
@@ -181,6 +193,18 @@ const [isOpenEditPopUp, setIsOpenEditPopUp] = useState(false)
                   </div>
 
                   <div className={styles.lpActions}>
+
+                    {'isUploadedActualProduct' in product && !product.isUploadedActualProduct ?
+                      <button type="button" className={styles.lpListingPendingBtn}>
+                       Product Pending
+                      </button>
+                      :
+                      
+                      <button type="button" className={styles.lpListingCompletedBtn}>
+                        Product Completed
+                      </button>
+                    }
+
                     <button type="button" className={styles.lpBtnIcon} aria-label="Delete">
                       <VisibilityOutlinedIcon fontSize="small" />
                     </button>
@@ -195,11 +219,14 @@ const [isOpenEditPopUp, setIsOpenEditPopUp] = useState(false)
                     >
                       <DeleteOutlineRoundedIcon fontSize="small" />
                     </button>
-                    <button type="button" className={styles.lpBtnIcon} aria-label="Delete" 
-                         onClick={()=>{
-                            handleOpenEditSection(product._id)
-
-                          }}>
+                    <button
+                      type="button"
+                      className={styles.lpBtnIcon}
+                      aria-label="Delete"
+                      onClick={() => {
+                        handleOpenEditSection(product._id)
+                      }}
+                    >
                       <EditOutlinedIcon fontSize="small" />
                     </button>
                   </div>
@@ -225,7 +252,7 @@ const [isOpenEditPopUp, setIsOpenEditPopUp] = useState(false)
 
       {isOpenDeletePopUp && <CommonDelete onClose={handleClose} onDelete={handleDeleteSelected} />}
 
-            {isOpenEditPopUp && (
+      {isOpenEditPopUp && (
         <EditBaseProduct_ODB
           open={isOpenEditPopUp}
           onClose={() => setIsOpenEditPopUp(false)}
@@ -233,7 +260,6 @@ const [isOpenEditPopUp, setIsOpenEditPopUp] = useState(false)
           onUpdated={onProductUpdated}
         />
       )}
-  
     </>
   )
 }
