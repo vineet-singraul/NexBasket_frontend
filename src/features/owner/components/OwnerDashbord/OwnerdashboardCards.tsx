@@ -17,6 +17,7 @@ const OwnerdashboardCards: React.FC<componentsProps> = ({
   productListingDetails,
   listedStoreDetails,
   counts,
+  onProductUpdated,
 }) => {
   const [activeCard, setActiveCard] = useState<number | null>(0)
 
@@ -103,7 +104,12 @@ const OwnerdashboardCards: React.FC<componentsProps> = ({
 
       {/* <Box   sx={{p: {xs: 1,sm: 0},}}>{children}</Box> */}
       <Box sx={{ p: { xs: 1, sm: 0 } }}>
-        {activeCard === 0 && <OwnerListedProduct productListingDetails={productListingDetails} />}
+        {activeCard === 0 && (
+          <OwnerListedProduct
+            productListingDetails={productListingDetails}
+            onProductUpdated={onProductUpdated}
+          />
+        )}
         {activeCard === 2 && <OwnerListedStore listedStoreDetails={listedStoreDetails} />}
       </Box>
     </Box>

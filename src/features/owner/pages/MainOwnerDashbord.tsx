@@ -85,6 +85,12 @@ const MainOwnerDashbord = () => {
     }
   }
 
+  const handleProductUpdated = (updatedProduct: ListedProduct) => {
+    setProductListingDetails((prev) =>
+      prev ? prev.map((product) => (product._id === updatedProduct._id ? updatedProduct : product)) : prev
+    )
+  }
+
   // Load Effect :
   useEffect(() => {
     if (!ownerId) return
@@ -124,6 +130,7 @@ const MainOwnerDashbord = () => {
         productListingDetails={productListingDetails}
         listedStoreDetails={listedStoreDetails}
         counts={counts}
+        onProductUpdated={handleProductUpdated}
       />
 
       {notification && (

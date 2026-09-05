@@ -17,6 +17,7 @@ import { apiDelete } from '../../../../api/userApi.js'
 import { BASE_PRODUCT } from '../../../../api/endpoints.js'
 import CommonDelete from '../../common/CommonDelete.js'
 import { useNavigate } from 'react-router-dom'
+import EditBaseProduct_ODB from './EditBaseProduct_ODB.js'
 
 type StockStatus = 'in' | 'low' | 'out'
 
@@ -26,12 +27,13 @@ const statusMeta: Record<StockStatus, { label: string; badgeClass: string }> = {
   out: { label: 'Out of stock', badgeClass: styles.lpBadgeOut },
 }
 
-const OwnerListedProduct = ({ productListingDetails }: OwnerListedProductProps) => {
+const OwnerListedProduct = ({ productListingDetails, onProductUpdated }: OwnerListedProductProps) => {
   const [notification, setNotification] = useState<NotificationInterfacce | null>(null)
   const [loading, setLoading] = useState<boolean | null>(false)
   const productDetails: ListedProduct[] = productListingDetails ?? []
 const [isOpenDeletePopUp, setIsOpenDeletePopUp] = useState(false)
 const [selectedProductId, setSelectedProductId] = useState<string | null>(null)
+const [isOpenEditPopUp, setIsOpenEditPopUp] = useState(false)
 
   const navigate = useNavigate()
   const inStockCount = productDetails.filter((p) => p.inventory.stockStatus === 'in_stock').length
@@ -95,6 +97,11 @@ const [selectedProductId, setSelectedProductId] = useState<string | null>(null)
       setIsOpenDeletePopUp(false)
 
     }
+  }
+
+  const handleOpenEditSection = (id : string) => {
+    setSelectedProductId(id)
+    setIsOpenEditPopUp(!isOpenEditPopUp)
   }
 
   return (
@@ -188,7 +195,11 @@ const [selectedProductId, setSelectedProductId] = useState<string | null>(null)
                     >
                       <DeleteOutlineRoundedIcon fontSize="small" />
                     </button>
-                    <button type="button" className={styles.lpBtnIcon} aria-label="Delete">
+                    <button type="button" className={styles.lpBtnIcon} aria-label="Delete" 
+                         onClick={()=>{
+                            handleOpenEditSection(product._id)
+
+                          }}>
                       <EditOutlinedIcon fontSize="small" />
                     </button>
                   </div>
@@ -213,6 +224,15 @@ const [selectedProductId, setSelectedProductId] = useState<string | null>(null)
       {loading && <Loader />}
 
       {isOpenDeletePopUp && <CommonDelete onClose={handleClose} onDelete={handleDeleteSelected} />}
+
+            {isOpenEditPopUp && (
+        <EditBaseProduct_ODB
+          open={isOpenEditPopUp}
+          onClose={() => setIsOpenEditPopUp(false)}
+          id={selectedProductId ?? ''}
+          onUpdated={onProductUpdated}
+        />
+      )}
   
     </>
   )

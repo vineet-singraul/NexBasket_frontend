@@ -1,0 +1,475 @@
+/* ==========================================================================
+   EditBaseProduct.module.css
+   NexBasket Owner Panel — Edit Base Product side drawer
+   Shares the --nb-* tokens used across AddBaseProduct.module.css /
+   Dashboard.module.css for visual parity. Design only.
+   ========================================================================== */
+
+.EBP_Paper {
+  --nb-orange: #fc8019;
+  --nb-orange-2: #ff4d00;
+  --nb-violet: #6200eb;
+  --nb-dark: #f2f2f5;
+  --nb-gray: #989ba8;
+  --nb-border: rgba(255, 255, 255, 0.08);
+  --nb-surface: #16161d;
+  --nb-surface-alt: #1c1f2e;
+  --nb-danger: #ff5c5c;
+  --nb-success: #35c98f;
+
+  width: 100vw !important;
+  background: var(--nb-surface) !important;
+  border-left: 1px solid var(--nb-border) !important;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.35) !important;
+}
+
+@media (min-width: 640px) {
+  .EBP_Paper {
+    width: 560px !important;
+  }
+}
+
+@media (min-width: 960px) {
+  .EBP_Paper {
+    width: 720px !important;
+  }
+}
+
+.EBP_Wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100%;
+}
+
+/* ---------------- Header ---------------- */
+
+.EBP_Header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-shrink: 0;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--nb-border);
+  background: linear-gradient(180deg, rgba(255, 132, 0, 0.1), rgba(98, 0, 235, 0.04));
+}
+
+.EBP_HeaderRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.EBP_IconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(255, 132, 0, 0.22), rgba(98, 0, 235, 0.22));
+  border: 1px solid rgba(255, 132, 0, 0.35);
+  color: var(--nb-orange);
+}
+
+.EBP_IconBox svg {
+  font-size: 18px;
+}
+
+.EBP_HeaderText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.EBP_Title {
+  color: var(--nb-dark) !important;
+  font-weight: 800 !important;
+  font-size: 15px !important;
+  line-height: 1.3 !important;
+}
+
+.EBP_Subtitle {
+  color: var(--nb-gray) !important;
+  font-size: 11.5px !important;
+  margin-top: 1px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.EBP_CloseBtn {
+  color: var(--nb-gray) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--nb-border) !important;
+  flex-shrink: 0;
+}
+
+.EBP_CloseBtn:hover {
+  color: var(--nb-dark) !important;
+  border-color: rgba(255, 132, 0, 0.4) !important;
+}
+
+/* ---------------- Body ---------------- */
+
+.EBP_Body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 18px 22px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 132, 0, 0.4) transparent;
+}
+
+.EBP_Body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.EBP_Body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.EBP_Body::-webkit-scrollbar-thumb {
+  background: rgba(255, 132, 0, 0.35);
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.EBP_Section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.015));
+  border: 1px solid var(--nb-border);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.EBP_Section:hover {
+  border-color: rgba(255, 132, 0, 0.28);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+.EBP_SectionHead {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding-left: 11px;
+  position: relative;
+}
+
+.EBP_SectionHead::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 1px;
+  bottom: 1px;
+  width: 3px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--nb-orange), var(--nb-violet));
+}
+
+.EBP_SectionTitle {
+  color: var(--nb-dark) !important;
+  font-weight: 700 !important;
+  font-size: 11.5px !important;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.EBP_SectionHint {
+  color: var(--nb-gray) !important;
+  font-size: 9.5px !important;
+}
+
+/* ---------------- Field grid ---------------- */
+
+.EBP_Grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px 16px;
+}
+
+.EBP_Grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px 14px;
+}
+
+.EBP_FieldFull {
+  grid-column: 1 / -1;
+}
+
+.EBP_Field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.EBP_FieldLabel {
+  color: var(--nb-gray) !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.2px;
+}
+
+.EBP_FieldLabel_Required::after {
+  content: ' *';
+  color: var(--nb-orange);
+}
+
+/* ---------------- MUI input overrides (dark, rounded) ---------------- */
+
+.EBP_Input :global(.MuiOutlinedInput-root) {
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--nb-dark);
+  font-size: 12.5px;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.EBP_Input :global(.MuiOutlinedInput-input),
+.EBP_Input :global(.MuiSelect-select) {
+  color: var(--nb-dark) !important;
+  padding-top: 8.5px !important;
+  padding-bottom: 8.5px !important;
+}
+
+.EBP_Input :global(textarea.MuiOutlinedInput-input) {
+  padding: 0 !important;
+}
+
+.EBP_Input :global(.MuiOutlinedInput-input::placeholder) {
+  color: var(--nb-gray) !important;
+  opacity: 0.8;
+}
+
+.EBP_Input :global(.MuiOutlinedInput-notchedOutline) {
+  border-color: var(--nb-border);
+}
+
+.EBP_Input :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
+  border-color: rgba(255, 132, 0, 0.4);
+}
+
+.EBP_Input :global(.MuiOutlinedInput-root.Mui-focused) {
+  background: rgba(255, 132, 0, 0.06);
+}
+
+.EBP_Input :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
+  border-color: var(--nb-orange);
+  border-width: 1.5px;
+}
+
+.EBP_Input :global(.MuiFormHelperText-root) {
+  color: var(--nb-gray) !important;
+  font-size: 9px !important;
+  margin: 2px 0 0 2px !important;
+  line-height: 1.3 !important;
+}
+
+.EBP_Input :global(.MuiSvgIcon-root) {
+  color: var(--nb-gray);
+}
+
+.EBP_SelectMenuPaper {
+  background: var(--nb-surface-alt) !important;
+  border: 1px solid var(--nb-border) !important;
+  color: var(--nb-dark) !important;
+}
+
+/* ---------------- Switch cards ---------------- */
+
+.EBP_SwitchRow {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.EBP_SwitchCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  background: var(--nb-surface-alt);
+  border: 1px solid var(--nb-border);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.EBP_SwitchCard:hover {
+  border-color: rgba(255, 132, 0, 0.35);
+}
+
+.EBP_SwitchText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.EBP_SwitchTitle {
+  color: var(--nb-dark) !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+}
+
+.EBP_SwitchDesc {
+  color: var(--nb-gray) !important;
+  font-size: 9.5px !important;
+}
+
+.EBP_Switch :global(.MuiSwitch-switchBase.Mui-checked) {
+  color: var(--nb-orange) !important;
+}
+
+.EBP_Switch :global(.MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track) {
+  background-color: var(--nb-orange) !important;
+  opacity: 0.55 !important;
+}
+
+.EBP_Switch :global(.MuiSwitch-track) {
+  background-color: var(--nb-gray);
+  opacity: 0.4;
+}
+
+/* ---------------- Tags / keywords input ---------------- */
+
+.EBP_TagsBox {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--nb-border);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.EBP_TagsBox:focus-within {
+  border-color: var(--nb-orange);
+  background: rgba(255, 132, 0, 0.06);
+}
+
+.EBP_Tag {
+  display: flex !important;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 4px 3px 10px !important;
+  height: auto !important;
+  border-radius: 30px !important;
+  background: linear-gradient(90deg, rgba(255, 132, 0, 0.18), rgba(255, 77, 0, 0.1)) !important;
+  border: 1px solid rgba(252, 128, 25, 0.4);
+  color: var(--nb-dark) !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+}
+
+.EBP_TagRemoveBtn {
+  padding: 2px !important;
+  width: 18px;
+  height: 18px;
+  color: var(--nb-orange) !important;
+}
+
+.EBP_TagRemoveBtn:hover {
+  background: rgba(255, 132, 0, 0.18) !important;
+}
+
+.EBP_TagRemoveIcon {
+  font-size: 14px !important;
+  color: var(--nb-orange) !important;
+}
+
+.EBP_TagsInput {
+  flex: 1;
+  min-width: 100px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--nb-dark);
+  font-size: 11.5px;
+  font-family: inherit;
+  padding: 4px 2px;
+}
+
+.EBP_TagsInput::placeholder {
+  color: var(--nb-gray);
+}
+
+/* ---------------- Footer ---------------- */
+
+.EBP_Footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+  padding: 14px 22px;
+  border-top: 1px solid var(--nb-border);
+  background: var(--nb-surface);
+}
+
+.EBP_BtnGhost {
+  padding: 8px 18px !important;
+  border-radius: 30px !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--nb-border) !important;
+  color: var(--nb-dark) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+}
+
+.EBP_BtnGhost:hover {
+  border-color: rgba(255, 132, 0, 0.4) !important;
+}
+
+.EBP_BtnPrimary {
+  padding: 8px 22px !important;
+  border-radius: 30px !important;
+  background: linear-gradient(90deg, var(--nb-orange), var(--nb-orange-2)) !important;
+  border: none !important;
+  color: #fff !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  text-transform: none !important;
+  box-shadow: 0 8px 20px rgba(252, 128, 25, 0.3);
+}
+
+.EBP_BtnPrimary:hover {
+  filter: brightness(1.05);
+}
+
+/* ---------------- Responsive ---------------- */
+
+@media (max-width: 560px) {
+  .EBP_Grid,
+  .EBP_Grid3,
+  .EBP_SwitchRow {
+    grid-template-columns: 1fr;
+  }
+
+  .EBP_Header {
+    padding: 14px 16px;
+  }
+
+  .EBP_Body {
+    padding: 14px 16px 8px;
+  }
+
+  .EBP_Footer {
+    padding: 12px 16px;
+  }
+}

@@ -73,6 +73,7 @@ export interface ListedProduct {
   updatedAt: string
 }
 
+
 export interface Warranty {
   duration: number
   unit: string
@@ -172,10 +173,12 @@ export type OwnerdashboardCardsProps = {
   productListingDetails: ListedProduct[] | null
   listedStoreDetails: ListedStore[] | null
   counts: counts | null
+  onProductUpdated?: (product: ListedProduct) => void
 }
 
 export type OwnerListedProductProps = {
   productListingDetails?: ListedProduct[] | null
+  onProductUpdated?: (product: ListedProduct) => void
 }
 
 export type OwnerListedStoreProps = {
@@ -226,4 +229,101 @@ export const DeepDetailsOfCardsList = {
 export type CommonDeleteProps = {
   onClose: () => void
   onDelete: () => void
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// +++++++++++ EDIT BASE PRODUCT TYPES ++++++++++++
+export type EditBaseProductForm = {
+  title: string
+  description: string
+  shortDescription: string
+  fullDescription: string
+  highlights: string
+  features: string
+  whatsIncluded: string
+
+  brand: string
+  manufacturer: string
+  modelName: string
+  modelNumber: string
+  manufacturerPartNumber: string
+
+  importerName: string
+  packerName: string
+  countryOfOrigin: string
+
+  hsnCode: string
+  taxCode: string
+
+  warrantyDuration: string
+  warrantyUnit: string
+  warrantyType: string
+  warrantyDescription: string
+
+  metaTitle: string
+  metaDescription: string
+  searchKeywords: string
+  tags: string[]
+
+  returnPolicy: string
+  returnDays: string
+
+  productType: string
+  condition: string
+  status: string
+  visibility: string
+  isFeatured: boolean
+  isActive: boolean
+
+  sku: string
+  variantName: string
+  attributeColor: string
+  attributeSize: string
+  gtin: string
+
+  weight: string
+  weightUnit: string
+  Length: string
+  Width: string
+  Height: string
+  dimensionUnit: string
+  DefaultVariant: boolean
+
+  mrp: string
+  sellingPrice: string
+  discount: string
+  costPrice: string
+  taxPercent: string
+  currency: string
+
+  quantity: string
+  reservedQuantity: string
+  lowStockThreshold: string
+  allowBackorder: boolean
+  stockStatus: string
+}
+
+
+
+export type EditBaseProductProps = {
+  open: boolean
+  onClose: () => void
+  id: string
+  onUpdated?: (product: ListedProduct) => void
 }
