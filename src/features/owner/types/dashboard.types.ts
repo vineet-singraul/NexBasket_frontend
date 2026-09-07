@@ -71,6 +71,23 @@ export interface ListedProduct {
 
   createdAt: string
   updatedAt: string
+
+  images: Image[]
+  count: number
+}
+
+export interface Image {
+  _id: string;
+  productId: string;
+  imageUrl: string;
+  publicId: string;
+  altText: string;
+  imageType: "product" | "thumbnail" | "gallery" | "detail";
+  sortOrder: number;
+  isPrimary: boolean;
+  __v: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 

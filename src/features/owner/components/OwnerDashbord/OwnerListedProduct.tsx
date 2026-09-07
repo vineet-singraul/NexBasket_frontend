@@ -149,11 +149,23 @@ const OwnerListedProduct = ({
                 >
                   <span className={`${styles.lpBadge}`}>{product?.title}</span>
                   <div className={styles.lpImagePending}>
-                    <PhotoLibraryOutlinedIcon fontSize="medium" />
-                    <span>Image upload pending</span>
+                    {product.images && product.images.length === 0 ? (
+                      <>
+                        {' '}
+                        <PhotoLibraryOutlinedIcon fontSize="medium" />
+                        <span>Image upload pending</span>
+                      </>
+                    ) : (
+                      <>
+                        {product.images.map((imagess, idx) => (
+                          <img key={imagess.imageUrl ?? idx} src={imagess.imageUrl} alt="" />
+                        ))}
+                      </>
+                    )}
                   </div>
                   <span className={styles.lpImgCount}>
                     <PhotoLibraryOutlinedIcon fontSize="inherit" />
+                    {product.count}
                   </span>
                 </div>
 
@@ -163,7 +175,7 @@ const OwnerListedProduct = ({
                   </Typography>
                   <Typography className={styles.lpTitle}>{limitWords(product.title, 5)}</Typography>
                   <Typography className={styles.lpSku}>
-                    {product.sku} ·{/* {product.pid} */}
+                    {product.sku} {/* {product.pid} */}
                   </Typography>
 
                   <div className={styles.lpPriceRow}>
@@ -193,17 +205,15 @@ const OwnerListedProduct = ({
                   </div>
 
                   <div className={styles.lpActions}>
-
-                    {'isUploadedActualProduct' in product && !product.isUploadedActualProduct ?
+                    {'isUploadedActualProduct' in product && !product.isUploadedActualProduct ? (
                       <button type="button" className={styles.lpListingPendingBtn}>
-                       Product Pending
+                        Product Pending
                       </button>
-                      :
-                      
+                    ) : (
                       <button type="button" className={styles.lpListingCompletedBtn}>
                         Product Completed
                       </button>
-                    }
+                    )}
 
                     <button type="button" className={styles.lpBtnIcon} aria-label="Delete">
                       <VisibilityOutlinedIcon fontSize="small" />
