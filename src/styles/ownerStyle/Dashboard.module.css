@@ -498,6 +498,13 @@
   font-weight: 700;
 }
 
+.lpImagePending img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .lpImgCount {
   position: absolute;
   right: 12px;

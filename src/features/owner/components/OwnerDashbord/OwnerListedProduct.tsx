@@ -19,6 +19,8 @@ import CommonDelete from '../../common/CommonDelete.js'
 import { useNavigate } from 'react-router-dom'
 import EditBaseProduct_ODB from './EditBaseProduct_ODB.js'
 import UploadProductImage from './UploadProductImage.js'
+import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
+import Tooltip from '@mui/material/Tooltip'
 
 type StockStatus = 'in' | 'low' | 'out'
 
@@ -165,17 +167,17 @@ const OwnerListedProduct = ({
                   <span className={`${styles.lpBadge}`}>{product?.title}</span>
                   <div className={styles.lpImagePending}>
                     {product.images && product.images.length === 0 ? (
-                      <>
+                      <p
+                        onClick={() => {
+                          handleClickToUploadTheImage(product._id)
+                        }}
+                      >
                         {' '}
                         <PhotoLibraryOutlinedIcon fontSize="medium" />
                         <span>Image upload pending</span>
-                      </>
+                      </p>
                     ) : (
-                      <>
-                        {product.images.map((imagess, idx) => (
-                          <img key={imagess.imageUrl ?? idx} src={imagess.imageUrl} alt="" />
-                        ))}
-                      </>
+                      <img src={product.images[0].imageUrl} alt={product.title} />
                     )}
                   </div>
                   <span className={styles.lpImgCount}>
@@ -222,38 +224,52 @@ const OwnerListedProduct = ({
                   <div className={styles.lpActions}>
                     {'isUploadedActualProduct' in product && !product.isUploadedActualProduct ? (
                       <button type="button" className={styles.lpListingPendingBtn}>
-                        Product Pending
+                        Pending
                       </button>
                     ) : (
                       <button type="button" className={styles.lpListingCompletedBtn}>
-                        Product Completed
+                        Completed
                       </button>
                     )}
 
-                    <button type="button" className={styles.lpBtnIcon} aria-label="Delete">
-                      <VisibilityOutlinedIcon fontSize="small" />
-                    </button>
-                    <button
-                      type="button"
-                      className={styles.lpBtnIcon}
-                      aria-label="Delete"
-                      onClick={() => {
-                        setSelectedProductId(product._id)
-                        setIsOpenDeletePopUp(true)
-                      }}
-                    >
-                      <DeleteOutlineRoundedIcon fontSize="small" />
-                    </button>
-                    <button
-                      type="button"
-                      className={styles.lpBtnIcon}
-                      aria-label="Delete"
-                      onClick={() => {
-                        handleOpenEditSection(product._id)
-                      }}
-                    >
-                      <EditOutlinedIcon fontSize="small" />
-                    </button>
+                    <Tooltip title="Add image">
+                      <button type="button" className={styles.lpBtnIcon} aria-label="Delete" onClick={() => {handleClickToUploadTheImage(product._id)}}>
+                        <AddToPhotosIcon fontSize="small" />
+                      </button>
+                    </Tooltip>
+
+                    <Tooltip title="Show delete">
+                      <button type="button" className={styles.lpBtnIcon} aria-label="Delete">
+                        <VisibilityOutlinedIcon fontSize="small" />
+                      </button>
+                    </Tooltip>
+
+                    <Tooltip title="Delete product">
+                      <button
+                        type="button"
+                        className={styles.lpBtnIcon}
+                        aria-label="Delete"
+                        onClick={() => {
+                          setSelectedProductId(product._id)
+                          setIsOpenDeletePopUp(true)
+                        }}
+                      >
+                        <DeleteOutlineRoundedIcon fontSize="small" />
+                      </button>
+                    </Tooltip>
+
+                    <Tooltip title="Edit product details">
+                      <button
+                        type="button"
+                        className={styles.lpBtnIcon}
+                        aria-label="Delete"
+                        onClick={() => {
+                          handleOpenEditSection(product._id)
+                        }}
+                      >
+                        <EditOutlinedIcon fontSize="small" />
+                      </button>
+                    </Tooltip>
                   </div>
                 </div>
               </Card>
