@@ -18,6 +18,7 @@ import { BASE_PRODUCT } from '../../../../api/endpoints.js'
 import CommonDelete from '../../common/CommonDelete.js'
 import { useNavigate } from 'react-router-dom'
 import EditBaseProduct_ODB from './EditBaseProduct_ODB.js'
+import UploadProductImage from './UploadProductImage.js'
 
 type StockStatus = 'in' | 'low' | 'out'
 
@@ -44,6 +45,7 @@ const OwnerListedProduct = ({
   const [isOpenDeletePopUp, setIsOpenDeletePopUp] = useState(false)
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null)
   const [isOpenEditPopUp, setIsOpenEditPopUp] = useState(false)
+  const [isOpenPopUpToUploadImage, setIsOpenPopupToUploadImage] = useState(false)
 
   const navigate = useNavigate()
   const inStockCount = productDetails.filter((p) => p.inventory.stockStatus === 'in_stock').length
@@ -59,7 +61,6 @@ const OwnerListedProduct = ({
     id: 1,
     ListedProductCount: productDetails.length,
   }
-  //  <DeepDetailsOfOwnerCards cardData={cardData} />
 
   const handleClose = () => {
     setIsOpenDeletePopUp(false)
@@ -112,6 +113,15 @@ const OwnerListedProduct = ({
     setIsOpenEditPopUp(!isOpenEditPopUp)
   }
 
+  const handleClickToUploadTheImage = (id: string) => {
+    setSelectedProductId(id)
+    setIsOpenPopupToUploadImage(true)
+  }
+
+  const onCloseFunUploadImage = () => {
+    setIsOpenPopupToUploadImage(false)
+  }
+
   return (
     <>
       <DeepDetailsOfOwnerCards cardData={cardData} />
@@ -143,14 +153,24 @@ const OwnerListedProduct = ({
           {productDetails.map((product) => {
             const meta = statusMeta[product.status as StockStatus]
             return (
-              <Card key={product.id} elevation={0} className={styles.lpCard}>
+              <Card
+                key={product.id}
+                elevation={0}
+                className={styles.lpCard}
+                sx={{ cursor: 'pointer' }}
+              >
                 <div
                   className={`${styles.lpImageWrap} ${product.status === 'out' ? styles.lpImageDim : ''}`}
                 >
                   <span className={`${styles.lpBadge}`}>{product?.title}</span>
-                  <div className={styles.lpImagePending}>
+                  <div
+                    className={styles.lpImagePending}
+                    onClick={() => {
+                      handleClickToUploadTheImage(product._id)
+                    }}
+                  >
                     <PhotoLibraryOutlinedIcon fontSize="medium" />
-                    <span>Image upload pending</span>
+                    <span>Click to Image upload pending</span>
                   </div>
                   <span className={styles.lpImgCount}>
                     <PhotoLibraryOutlinedIcon fontSize="inherit" />
@@ -193,17 +213,15 @@ const OwnerListedProduct = ({
                   </div>
 
                   <div className={styles.lpActions}>
-
-                    {'isUploadedActualProduct' in product && !product.isUploadedActualProduct ?
+                    {'isUploadedActualProduct' in product && !product.isUploadedActualProduct ? (
                       <button type="button" className={styles.lpListingPendingBtn}>
-                       Product Pending
+                        Product Pending
                       </button>
-                      :
-                      
+                    ) : (
                       <button type="button" className={styles.lpListingCompletedBtn}>
                         Product Completed
                       </button>
-                    }
+                    )}
 
                     <button type="button" className={styles.lpBtnIcon} aria-label="Delete">
                       <VisibilityOutlinedIcon fontSize="small" />
@@ -258,6 +276,14 @@ const OwnerListedProduct = ({
           onClose={() => setIsOpenEditPopUp(false)}
           id={selectedProductId ?? ''}
           onUpdated={onProductUpdated}
+        />
+      )}
+
+      {isOpenPopUpToUploadImage && (
+        <UploadProductImage
+          open={isOpenPopUpToUploadImage}
+          onCloseFunUploadImage={onCloseFunUploadImage}
+          productId={selectedProductId ?? ''}
         />
       )}
     </>

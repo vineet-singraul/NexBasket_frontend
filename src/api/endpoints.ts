@@ -51,6 +51,10 @@ export const BASE_PRODUCT = {
   EDIT_BASE_PRODUCT : (productId : string) => `/product/editBaseProduct/${productId}`
 }
 
+export const Add_PRODUCT_IMAGE = {
+  ADD_PRODUCT_IMAGE : (productId : string) => `/product/${productId}/images`
+}
+
 
 
 export const OWNER_DASHBOARD_API = {
