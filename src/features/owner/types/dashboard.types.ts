@@ -347,3 +347,15 @@ export type EditBaseProductProps = {
   id: string
   onUpdated?: (product: ListedProduct) => void
 }
+
+
+
+
+
+// // +++++++++++ SHOW BASE PRODUCT TYPES ++++++++++++
+
+export type ShowAllProductProps = {
+  open: boolean
+  onClose: () => void
+  onShowDetails: ListedProduct
+}

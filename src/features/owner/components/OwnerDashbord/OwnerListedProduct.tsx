@@ -21,6 +21,7 @@ import EditBaseProduct_ODB from './EditBaseProduct_ODB.js'
 import UploadProductImage from './UploadProductImage.js'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
 import Tooltip from '@mui/material/Tooltip'
+import ShowProductImageInODB from './ShowProductImageInODB.js'
 
 type StockStatus = 'in' | 'low' | 'out'
 
@@ -48,6 +49,11 @@ const OwnerListedProduct = ({
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null)
   const [isOpenEditPopUp, setIsOpenEditPopUp] = useState(false)
   const [isOpenPopUpToUploadImage, setIsOpenPopupToUploadImage] = useState(false)
+  const [isOpenPopUpShowDetails, setIsOpenPopUpShoeDetails] = useState<boolean | null>(null)
+  const [selectedProductDetails, setSelectedProductDetails] = useState<ListedProduct | null>(null)
+
+  console.log('Pop Open Hua', isOpenPopUpShowDetails)
+  console.log('Pop Ki Details hai ye : ', selectedProductDetails)
 
   const navigate = useNavigate()
   const inStockCount = productDetails.filter((p) => p.inventory.stockStatus === 'in_stock').length
@@ -122,6 +128,10 @@ const OwnerListedProduct = ({
 
   const onCloseFunUploadImage = () => {
     setIsOpenPopupToUploadImage(false)
+  }
+
+  const onCloseShowDetails = () => {
+    setIsOpenPopUpShoeDetails(false)
   }
 
   return (
@@ -233,13 +243,28 @@ const OwnerListedProduct = ({
                     )}
 
                     <Tooltip title="Add image">
-                      <button type="button" className={styles.lpBtnIcon} aria-label="Delete" onClick={() => {handleClickToUploadTheImage(product._id)}}>
+                      <button
+                        type="button"
+                        className={styles.lpBtnIcon}
+                        aria-label="Delete"
+                        onClick={() => {
+                          handleClickToUploadTheImage(product._id)
+                        }}
+                      >
                         <AddToPhotosIcon fontSize="small" />
                       </button>
                     </Tooltip>
 
                     <Tooltip title="Show delete">
-                      <button type="button" className={styles.lpBtnIcon} aria-label="Delete">
+                      <button
+                        type="button"
+                        className={styles.lpBtnIcon}
+                        aria-label="Delete"
+                        onClick={() => {
+                          setIsOpenPopUpShoeDetails(true)
+                          setSelectedProductDetails({ ...product })
+                        }}
+                      >
                         <VisibilityOutlinedIcon fontSize="small" />
                       </button>
                     </Tooltip>
@@ -307,6 +332,14 @@ const OwnerListedProduct = ({
           open={isOpenPopUpToUploadImage}
           onCloseFunUploadImage={onCloseFunUploadImage}
           productId={selectedProductId ?? ''}
+        />
+      )}
+
+      {isOpenPopUpShowDetails && selectedProductDetails && (
+        <ShowProductImageInODB
+          open={isOpenPopUpShowDetails}
+          onClose={onCloseShowDetails}
+          onShowDetails={selectedProductDetails}
         />
       )}
     </>

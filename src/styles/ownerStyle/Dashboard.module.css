@@ -715,3 +715,350 @@
     justify-content: flex-start;
   }
 }
+
+
+/* ==========================================================================
+   Show Product Details (popup)
+   Read-only product detail view — static design, MUI dialog + fields
+   ========================================================================== */
+
+.spdPaper {
+  --nb-orange: #d86100;
+  --nb-gray: #989ba8;
+  --nb-border: rgba(255, 255, 255, 0.08);
+  --nb-surface: #16161d;
+  --nb-bg: #0b0b10;
+  background: var(--nb-bg) !important;
+  color: #fff !important;
+  border-radius: 20px !important;
+  border: 1px solid var(--nb-border) !important;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+}
+
+/* ---------------- Header ---------------- */
+.spdHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 18px 26px;
+  border-bottom: 1px solid var(--nb-border);
+  background: var(--nb-surface);
+  flex: 0 0 auto;
+}
+
+.spdHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+
+.spdDot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--nb-border);
+  flex: 0 0 auto;
+}
+
+.spdTitle {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #fff !important;
+  max-width: 380px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.spdProductId {
+  font-family: 'SFMono-Regular', Consolas, monospace;
+  font-size: 12px;
+  color: var(--nb-gray);
+  white-space: nowrap;
+}
+
+.spdStatusPill {
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: #1ca354;
+  background: rgba(0, 212, 88, 0.12);
+  white-space: nowrap;
+}
+
+.spdHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.spdCloseBtn {
+  color: #fff !important;
+  border: 1px solid var(--nb-border) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* ---------------- Body layout ---------------- */
+.spdBody {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 22px 26px 30px;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 18px;
+  background: var(--nb-bg);
+}
+
+.spdMain,
+.spdSide {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+/* ---------------- Card ---------------- */
+.spdCard {
+  background: var(--nb-surface);
+  border: 1px solid var(--nb-border);
+  border-radius: 16px;
+  padding: 18px 20px;
+}
+
+.spdCardTitle {
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--nb-gray);
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+
+.spdSubLabel {
+  font-size: 11.5px;
+  color: var(--nb-gray);
+  margin-bottom: 8px;
+}
+
+/* ---------------- Metrics ---------------- */
+.spdMetrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--nb-border);
+  border: 1px solid var(--nb-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.spdMetric {
+  background: var(--nb-surface);
+  padding: 14px 16px;
+}
+
+.spdMetricLabel {
+  font-size: 11.5px;
+  color: var(--nb-gray);
+  margin-bottom: 6px;
+}
+
+.spdMetricValue {
+  font-family: 'SFMono-Regular', Consolas, monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.spdMetricValueGood {
+  color: var(--nb-orange);
+}
+
+.spdMetricSub {
+  font-size: 11px;
+  color: var(--nb-gray);
+  margin-top: 4px;
+}
+
+/* ---------------- Media gallery ---------------- */
+.spdThumbStrip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.spdThumbCell {
+  flex: 0 0 auto;
+  width: 76px;
+}
+
+.spdThumbImg {
+  width: 76px;
+  height: 94px;
+  object-fit: cover;
+  border: 1px solid var(--nb-border);
+  border-radius: 8px;
+  display: block;
+}
+
+.spdThumbCellPrimary .spdThumbImg {
+  border: 2px solid var(--nb-orange);
+}
+
+.spdThumbTag {
+  font-size: 10px;
+  color: var(--nb-gray);
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* ---------------- Field grid (MUI TextField layout) ---------------- */
+.spdFieldGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px 18px;
+}
+
+.spdField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.spdFieldFull {
+  grid-column: 1 / -1;
+}
+
+.spdFieldLabel {
+  color: var(--nb-gray) !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.2px;
+}
+
+/* MUI input overrides — dark, rounded, read-only */
+.spdInput :global(.MuiOutlinedInput-root) {
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 13px;
+}
+
+.spdInput :global(.MuiOutlinedInput-input),
+.spdInput :global(.MuiSelect-select) {
+  color: #fff !important;
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+.spdInput :global(.MuiOutlinedInput-notchedOutline) {
+  border-color: var(--nb-border) !important;
+}
+
+/* ---------------- Plain list ---------------- */
+.spdListPlain {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13.5px;
+  color: #fff;
+}
+
+.spdListPlain li {
+  margin-bottom: 6px;
+}
+
+/* ---------------- Chips ---------------- */
+.spdChipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ---------------- Table ---------------- */
+.spdTable :global(.MuiTableCell-root) {
+  border-color: var(--nb-border) !important;
+  color: #fff;
+  font-size: 13.5px;
+  padding: 9px 0 !important;
+}
+
+.spdTable :global(.MuiTableRow-root:last-child .MuiTableCell-root) {
+  border-bottom: none !important;
+}
+
+/* ---------------- Inventory ---------------- */
+.spdStockLegend {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: var(--nb-gray);
+  margin-top: 8px;
+}
+
+.spdStockLegend b {
+  color: #fff;
+  font-family: 'SFMono-Regular', Consolas, monospace;
+}
+
+.spdThresholdNote {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #e0a439;
+  background: rgba(224, 164, 57, 0.12);
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+/* ---------------- Timestamp ---------------- */
+.spdTimestamp {
+  font-size: 11.5px;
+  color: var(--nb-gray);
+  padding: 4px 2px;
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 1024px) {
+  .spdBody {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .spdMetrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .spdFieldGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .spdHeader {
+    padding: 14px 16px;
+  }
+
+  .spdBody {
+    padding: 16px 16px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .spdHeaderActions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .spdTitle {
+    max-width: 220px;
+  }
+}
