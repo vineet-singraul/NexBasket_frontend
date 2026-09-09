@@ -36,11 +36,30 @@ const Notification = ({
         severity={severity}
         variant="filled"
         elevation={6}
-        sx={{
-          minWidth: 340,
-          borderRadius: "12px",
-          fontWeight: 500,
-          boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
+        sx={(theme) => {
+          const accent = theme.palette[severity]?.main ?? theme.palette.success.main;
+          return {
+            width: { xs: "100%", sm: "auto" },
+            minWidth: { xs: 0, sm: 340 },
+            maxWidth: { xs: "100%", sm: 420 },
+            alignItems: "center",
+            borderRadius: "14px",
+            fontWeight: 600,
+            fontSize: 13.5,
+            color: "#f2f2f5",
+            background:
+              "linear-gradient(135deg, rgba(18,18,26,0.94), rgba(8,8,12,0.97))",
+            backdropFilter: "blur(14px)",
+            border: `1px solid ${accent}40`,
+            borderLeft: `4px solid ${accent}`,
+            boxShadow: `0 12px 32px rgba(0,0,0,0.5), 0 0 20px 1px ${accent}4d`,
+            "& .MuiAlert-icon": {
+              color: accent,
+            },
+            "& .MuiAlert-action": {
+              color: "rgba(255,255,255,0.55)",
+            },
+          };
         }}
       >
         {message}

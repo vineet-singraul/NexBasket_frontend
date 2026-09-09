@@ -16,17 +16,7 @@ import type { NotificationInterfacce } from '../../../../auth/types/auth.types.j
 import Notification from '../../../../utils/Notification.js'
 import Loader from '../../../../utils/Loader.js'
 import { useNavigate } from 'react-router-dom'
-
-interface Owner {
-  id: string
-  fullName: string
-  email: string
-  mobile: string
-  role: string
-  isVerified: boolean
-  createdAt: string
-  updatedAt: string
-}
+import type { Owner } from '../../types/common.types.js'
 
 const OwnerListedStore = (_props: OwnerListedStoreProps) => {
   const [Owner, setOwner] = useState<Owner | null>(null)
