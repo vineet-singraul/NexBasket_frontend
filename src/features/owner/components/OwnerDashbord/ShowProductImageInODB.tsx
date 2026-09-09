@@ -172,7 +172,6 @@ interface productPrice {
 }
 
 const ShowProductImageInODB = ({ open, onClose, onShowDetails }: ShowAllProductProps) => {
-  console.log(onShowDetails)
   const {
     attributes,
     dimensions,

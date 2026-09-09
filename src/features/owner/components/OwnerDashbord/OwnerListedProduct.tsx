@@ -52,8 +52,7 @@ const OwnerListedProduct = ({
   const [isOpenPopUpShowDetails, setIsOpenPopUpShoeDetails] = useState<boolean | null>(null)
   const [selectedProductDetails, setSelectedProductDetails] = useState<ListedProduct | null>(null)
 
-  console.log('Pop Open Hua', isOpenPopUpShowDetails)
-  console.log('Pop Ki Details hai ye : ', selectedProductDetails)
+
 
   const navigate = useNavigate()
   const inStockCount = productDetails.filter((p) => p.inventory.stockStatus === 'in_stock').length

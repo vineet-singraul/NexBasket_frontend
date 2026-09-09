@@ -129,7 +129,6 @@ const AddCategoryLeftPannal = ({ subOwnerId }: AddCategoryLeftPannalProps) => {
     setLoading(true)
     try {
       const response = await apiGet(CATEGORY_ENDPOINTS.GET_CATEGORY_BY_ID(onEditId))
-      console.log('Show Single Category Response : ', response)
       const category = (response as { data: CategoryListItem }).data
       setFormData({
         name: category.name || '',

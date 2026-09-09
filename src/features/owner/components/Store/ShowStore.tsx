@@ -39,11 +39,6 @@ const ShowStore = ({ refreshKey }: ShowStoreProps) => {
 
   const navigate = useNavigate();
 
-  if (ownerData) {
-    console.log('Data aa gaya:', ownerData)
-  } else {
-    console.log('Abhi data nahi aaya')
-  }
 
   useEffect(() => {
     let isMounted = true

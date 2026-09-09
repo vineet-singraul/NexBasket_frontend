@@ -72,7 +72,7 @@ const run = async () => {
     };
   });
 
-  console.log('INSPECT RESULT:', JSON.stringify(appBarInfo, null, 2));
+  // console.log('INSPECT RESULT:', JSON.stringify(appBarInfo, null, 2));
 
   await browser.close();
 };

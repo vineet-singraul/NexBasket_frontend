@@ -31,7 +31,7 @@ const AddStore = ({ onCreated, id }: AddStoreProps) => {
   const navigate = useNavigate()
   // initialize edit mode from id to avoid setting state inside effect
   const [isEditMode, setIsEditMode] = useState<boolean>(Boolean(id))
-  console.log("<--- isEditMode -----> ",isEditMode)
+
   const [storeData, setStoreData] = useState<Store>({
     owner: '',
     storeName: '',
