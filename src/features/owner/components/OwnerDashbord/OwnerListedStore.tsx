@@ -44,7 +44,7 @@ const OwnerListedStore = (_props: OwnerListedStoreProps) => {
   const fatchOwnerDetails = async () => {
     setLoading(true)
     try {
-      const response = await apiGet<{ data: Owner[] }>(AUTH_ENDPOINTS.ME)
+      const response = await apiGet<{ user: Owner }>(AUTH_ENDPOINTS.ME)
       if (!response) {
         setNotification({
           open: true,
