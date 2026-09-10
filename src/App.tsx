@@ -5,7 +5,7 @@ import GoogleProviView from './auth/common/GoogleProviView'
 import SessionExpiryWatcher from './auth/common/SessionExpiryWatcher'
 import ProtectedRoute from './auth/common/ProtectedRoute'
 import UserHome from './features/user/pages/UserHome'
-import useGetCity from './hooks/useGetCity'
+import LocationGate from './components/LocationGate'
 import ChnagePassword from './features/user/components/ChnagePassword'
 import OwnerLayout from './features/owner/common/OwnerLayout'
 import AddCategury from './features/owner/pages/AddCategury'
@@ -16,9 +16,8 @@ import ProductCommonBase from './features/owner/pages/ProductCommonBase'
 import AddProduct from './features/owner/components/BaseProduct/AddProduct'
 import MainOwnerDashbord from './features/owner/pages/MainOwnerDashbord'
 function App() {
-  useGetCity()
   return (
-    <>
+    <LocationGate>
       <SessionExpiryWatcher />
       <Routes>
         <Route path="/" element={<UserHome />} />
@@ -126,7 +125,7 @@ function App() {
           />
         </Route>
       </Routes>
-    </>
+    </LocationGate>
   )
 }
 

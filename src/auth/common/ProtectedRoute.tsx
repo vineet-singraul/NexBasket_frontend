@@ -10,17 +10,17 @@ interface ProtectedRouteProps {
 // specific role). Backend still enforces this on every request — this just
 // stops an unauthenticated visit from ever rendering the protected UI.
 const ProtectedRoute = ({ role }: ProtectedRouteProps) => {
-  const session = getAuthSession<SignInUser>();
+  const session = getAuthSession<SignInUser>()
 
   if (!session) {
-    return <Navigate to="/signin" replace />;
+    return <Navigate to="/signin" replace />
   }
 
   if (role && session.user?.role !== role) {
-    return <Navigate to="/" replace />;
+    return <Navigate to={session.user?.role === "owner" ? "/owner/dashboard" : "/"} replace />
   }
 
-  return <Outlet />;
+  return <Outlet />
 };
 
 export default ProtectedRoute;
