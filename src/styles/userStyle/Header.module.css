@@ -32,6 +32,8 @@
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(2px);
   flex-wrap: nowrap;
+  position: relative;
+  z-index: 1000002;
 }
 
 /* ---------- Nav blocks (location, sign in, cart) ---------- */
@@ -644,7 +646,7 @@
   background: #000000 !important;
   border-radius: 10px;
   overflow: hidden;
-  z-index: 1200;
+  z-index: 1000001;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16) !important;
   animation: popupAnimation 0.2s ease-in-out;
 }
@@ -703,6 +705,50 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+  .profilePopup {
+    width: 220px;
+    top: 46px;
+    border-radius: 8px;
+  }
+
+  .popupArrow {
+    width: 12px;
+    height: 12px;
+    top: -6px;
+    right: 22px;
+  }
+
+  .popupHeader {
+    padding: 10px 14px !important;
+  }
+
+  .popupHeader p {
+    font-size: 13px !important;
+  }
+
+  .signupText {
+    font-size: 13px !important;
+  }
+
+  .menuItem {
+    padding: 8px 14px !important;
+  }
+
+  .icon {
+    min-width: 30px !important;
+  }
+
+  .icon svg {
+    font-size: 17px !important;
+  }
+
+  .menuItem span {
+    font-size: 12.5px !important;
   }
 }
 

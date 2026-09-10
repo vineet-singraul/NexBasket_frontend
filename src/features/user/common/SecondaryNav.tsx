@@ -79,7 +79,11 @@ const SecondaryNav = () => {
   }, [])
 
   return (
-    <Box ref={navRef} className={styles.secondaryNav} sx={{ overflowY: 'hidden' }}>
+    <Box
+      ref={navRef}
+      className={styles.secondaryNav}
+      sx={{ overflowY: 'hidden', display: { xs: 'none', sm: 'flex' } }}
+    >
       {categories.map(({ label, icon: Icon, active }) => (
         <Box
           key={label}

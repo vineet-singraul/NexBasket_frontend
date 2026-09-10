@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { Box, InputBase, Typography, Tooltip, Divider, Avatar, Stack } from '@mui/material'
+import { Box, InputBase, Typography, Avatar, Stack } from '@mui/material'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
@@ -12,9 +12,11 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import ProfilePopUp from '../components/ProfilePopUp'
 import type { RootState } from '../../../redux/store'
+import { type UserProfileDetailsProps } from '../types/user.types'
 
-const PrimaryNavbar = () => {
+const PrimaryNavbar = ({ user }: UserProfileDetailsProps) => {
   const [showeProfile, setShowProfile] = useState<boolean>(false)
+
   const navigate = useNavigate()
   const session = getAuthSession<{ email?: string; fullName?: string }>()
   const displayName = session?.user?.fullName || session?.user?.email
@@ -94,74 +96,159 @@ const PrimaryNavbar = () => {
         </div>
       </Box>
 
-      {/* Mobile search bar */}
+      {/* Mobile header */}
       <Box
         sx={{
-          display: { xs: 'flex', sm: 'none' },
-          alignItems: 'center',
+          display: { xs: 'block', sm: 'none' },
+          position: 'sticky',
+          top: 0,
+          zIndex: 150,
           background: 'linear-gradient(135deg, #0A1A2B 0%, #14283d 100%)',
-          padding: '12px 16px',
         }}
       >
+        {/* Row 1: logo + cart */}
         <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
-            flex: 1,
-            backgroundColor: '#ffffff',
-            borderRadius: '999px',
-            height: 44,
-            pl: '14px',
-            pr: '10px',
-            gap: 1,
-            boxShadow: '0 2px 6px rgba(0, 0, 0, 0.18)',
+            justifyContent: 'space-between',
+            padding: '10px 16px 8px',
           }}
         >
-          <SearchOutlinedIcon sx={{ color: '#6b6b6b', fontSize: 20 }} />
-          <InputBase
-            placeholder="Search NexBasket"
-            fullWidth
-            sx={{
-              flex: 1,
-              fontSize: 14.5,
-              color: '#111111',
-              '& input::placeholder': { color: '#8a8a8a', opacity: 1 },
-            }}
-          />
-          <Divider orientation="vertical" flexItem sx={{ height: 22, alignSelf: 'center' }} />
-          <Tooltip title={`Deliver to ${city} and pin code ${pinCode}`}>
-            <Box
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <Typography
               sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '3px',
-                flexShrink: 0,
-                cursor: 'pointer',
+                fontSize: 20,
+                fontWeight: 800,
+                letterSpacing: '-0.3px',
+                color: 'var(--nb-white)',
               }}
             >
-              <LocationOnOutlinedIcon sx={{ fontSize: 16, color: '#0A1A2B' }} />
-              <Typography
+              Nex
+              <Box component="span" sx={{ color: 'var(--nb-gold)' }}>
+                Basket
+              </Box>
+            </Typography>
+          </Link>
+
+          <Link to="/cart" style={{ textDecoration: 'none' }}>
+            <Box
+              sx={{
+                position: 'relative',
+                width: 40,
+                height: 40,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '10px',
+                background: 'rgba(255, 255, 255, 0.08)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+              }}
+            >
+              <ShoppingCartOutlinedIcon sx={{ color: 'var(--nb-white)', fontSize: 22 }} />
+              <Box
                 sx={{
-                  fontSize: 12.5,
-                  fontWeight: 600,
-                  color: '#0A1A2B',
-                  lineHeight: 1,
-                  whiteSpace: 'nowrap',
+                  position: 'absolute',
+                  top: -6,
+                  right: -6,
+                  minWidth: 18,
+                  height: 18,
+                  px: '4px',
+                  borderRadius: '999px',
+                  background: 'var(--nb-gold)',
+                  color: 'var(--nb-primary-bg)',
+                  fontSize: 11,
+                  fontWeight: 700,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: '2px solid var(--nb-primary-bg)',
                 }}
               >
-                {city}
-              </Typography>
+                0
+              </Box>
             </Box>
-          </Tooltip>
+          </Link>
         </Box>
 
-        <Stack sx={{ m: 0.7, cursor: 'pointer' }} onClick={() => setShowProfile(!showeProfile)}>
-          <Avatar sx={{ background: '#001226', border: '0.3px solid #3531ec' }}>V</Avatar>
-        </Stack>
+        {/* Row 2: search + avatar */}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.2,
+            padding: '0 16px 10px',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flex: 1,
+              backgroundColor: '#ffffff',
+              borderRadius: '10px',
+              height: 42,
+              px: '12px',
+              gap: 1,
+              boxShadow: '0 2px 6px rgba(0, 0, 0, 0.15)',
+            }}
+          >
+            <SearchOutlinedIcon sx={{ color: '#6b6b6b', fontSize: 20 }} />
+            <InputBase
+              placeholder="Search NexBasket"
+              fullWidth
+              sx={{
+                fontSize: 14.5,
+                color: '#111111',
+                '& input::placeholder': { color: '#8a8a8a', opacity: 1 },
+              }}
+            />
+          </Box>
 
-        {showeProfile && (
-          <ProfilePopUp userDetails={session?.user} setShowProfile={setShowProfile} />
-        )}
+          <Stack
+            sx={{ cursor: 'pointer', flexShrink: 0 }}
+            onClick={() => setShowProfile(!showeProfile)}
+          >
+            <Avatar
+              sx={{
+                width: 42,
+                height: 42,
+                background: 'var(--nb-gold)',
+                color: 'var(--nb-primary-bg)',
+                fontWeight: 100,
+              }}
+            >
+              {user?.fullName
+                .split(' ')
+                .map((cut) => cut[0])
+                .join('')}
+            </Avatar>
+          </Stack>
+
+          {showeProfile && (
+            <ProfilePopUp userDetails={session?.user} setShowProfile={setShowProfile} />
+          )}
+        </Box>
+
+        {/* Row 3: delivery location */}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px',
+            padding: '0 16px 10px',
+            cursor: 'pointer',
+          }}
+        >
+          <LocationOnOutlinedIcon sx={{ fontSize: 16, color: 'var(--nb-gold)' }} />
+          <Typography sx={{ fontSize: 12.5, color: 'var(--nb-text-muted)' }}>
+            Delivering to{' '}
+            <Box component="span" sx={{ fontWeight: 700, color: 'var(--nb-white)' }}>
+              {deliveryLocation}
+            </Box>
+          </Typography>
+          <KeyboardArrowDownOutlinedIcon sx={{ fontSize: 16, color: 'var(--nb-text-muted)' }} />
+        </Box>
       </Box>
     </>
   )

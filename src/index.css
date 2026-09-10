@@ -61,6 +61,22 @@ body {
 }
 
 /* ============================================================= */
+/* ================== Mobile Full-Height Viewport ================ */
+/* ============================================================= */
+
+@media (max-width: 600px) {
+  html,
+  body {
+    height: 100dvh;
+    min-height: 100svh;
+  }
+
+  #root {
+    min-height: 100dvh;
+  }
+}
+
+/* ============================================================= */
 /* ================== Custom Scrollbar (pill style) ============= */
 /* ============================================================= */
 
@@ -104,6 +120,30 @@ body {
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none;
+}
+
+/* ============================================================= */
+/* ================== Disable Text Selection ==================== */
+/* ============================================================= */
+
+html,
+body,
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+input,
+textarea,
+[contenteditable='true'] {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
 }
 
 /* ============================================================= */
