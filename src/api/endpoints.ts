@@ -60,3 +60,9 @@ export const Add_PRODUCT_IMAGE = {
 export const OWNER_DASHBOARD_API = {
   GET_ALL_DETAILS_OWNER_DASHBOARD : (storeId : string, ownerId : string) => `/ownerDashboard/${storeId}/${ownerId}`
 }
+
+
+
+export const USER_HOME_PAGE_CARDS = {
+  GET_ALL_CARDS: '/userHomePage/getUserHomePageDetails'
+}

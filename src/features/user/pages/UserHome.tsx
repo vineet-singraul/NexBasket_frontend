@@ -2,6 +2,14 @@ import { Box } from '@mui/material'
 import Header from '../common/Header'
 import UserCarousel from './UserCarousel'
 import MobileBottomNav from '../common/MobileBottomNav'
+import UserHomeProductSection from './UserHomeProductSection'
+import type { Product } from '../types/common.types.ts'
+import { useEffect, useState } from 'react'
+import type { NotificationInterfacce } from '../../../auth/types/auth.types.ts'
+import Loader from '../../../utils/Loader.tsx'
+import Notification from '../../../utils/Notification.tsx'
+import { apiGet } from '../../../api/userApi.ts'
+import { USER_HOME_PAGE_CARDS } from '../../../api/endpoints.ts'
 
 type CarouselItem = {
   id: number
@@ -54,12 +62,65 @@ const movies: CarouselItem[] = [
 ]
 
 const UserHome = () => {
+  const [cards, setCards] = useState<Product[]>([])
+  const [electranics, setElectranics] = useState<Product[]>([])
+  const [mans, setMans] = useState<Product[]>([])
+  const [womans, setWomans] = useState<Product[]>([])
+  const [loading, setLoading] = useState(false)
+  const [notification, setNotification] = useState<NotificationInterfacce | null>(null)
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true)
+        const response = await apiGet<{
+          data: Product[]
+          Electranics: Product[]
+          Mans: Product[]
+          Womans: Product[]
+        }>(USER_HOME_PAGE_CARDS.GET_ALL_CARDS)
+        setCards(response.data ?? [])
+        setElectranics(response.Electranics ?? [])
+        setMans(response.Mans ?? [])
+        setWomans(response.Womans ?? [])
+      } catch (error) {
+        setNotification({
+          open: true,
+          message: error instanceof Error ? error.message : 'Something went wrong',
+          severity: 'error',
+        })
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadData()
+  }, [])
+
   return (
     <div>
       <Header />
       <UserCarousel items={movies} startIndex={2} />
-      <Box sx={{ display: { xs: 'block', sm: 'none' }, height: 58 }} />
       <MobileBottomNav />
+      <UserHomeProductSection cards={cards} electranics={electranics} mans={mans} womans={womans} />
+      <Box
+        sx={{
+          display: { xs: 'block', sm: 'none' },
+          height: 'calc(58px + env(safe-area-inset-bottom))',
+        }}
+      />
+
+      {loading && <Loader />}
+      {notification && (
+        <Notification
+          open={notification.open}
+          message={notification.message}
+          severity={notification.severity}
+          onClose={() => {
+            setNotification(null)
+          }}
+        />
+      )}
     </div>
   )
 }
