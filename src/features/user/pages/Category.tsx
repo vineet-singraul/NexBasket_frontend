@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { USER_CATEGORY_PAGE } from '../../../api/endpoints'
 import { apiGet } from '../../../api/userApi.ts'
 import CategoryMainPage from '../components/Category/CategoryMainPage'
-import type { Category } from '../types/category.types.ts'
+import type { Category as CategoryModel } from '../types/category.types.ts'
 import type { NotificationInterfacce } from '../../../auth/types/auth.types.ts'
 import Loader from '../../../utils/Loader.tsx'
 import Notification from '../../../utils/Notification.tsx'
@@ -11,12 +11,12 @@ import Notification from '../../../utils/Notification.tsx'
 const Category = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [notification, setNotification] = useState<NotificationInterfacce | null>(null)
-  const [categories, setCategories] = useState<Category[]>([])
+  const [categories, setCategories] = useState<CategoryModel[]>([])
   useEffect(() => {
     const getAllCategories = async () => {
       try {
         setLoading(true)
-        const response = await apiGet<{ Category: Category[] }>(USER_CATEGORY_PAGE.GET_ALL_CATEGORY)
+        const response = await apiGet<{ Category: CategoryModel[] }>(USER_CATEGORY_PAGE.GET_ALL_CATEGORY)
         setCategories(response.Category)
       } catch (error) {
         setNotification({
