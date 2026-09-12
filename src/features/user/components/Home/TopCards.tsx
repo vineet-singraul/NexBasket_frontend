@@ -8,6 +8,7 @@ interface TopCardsProps {
   womans: Product[]
   mans: Product[]
   electranics: Product[]
+  grocery: Product[]
 }
 
 interface PromoCard {
@@ -15,13 +16,14 @@ interface PromoCard {
   products: Product[]
 }
 
-const TopCards = ({ womans, mans, electranics }: TopCardsProps) => {
+const TopCards = ({ womans, mans, electranics,grocery }: TopCardsProps) => {
   const promoCards: PromoCard[] = [
     { title: "Customers' Most-Loved Fashion for you", products: womans },
     { title: 'Minimum 60% off | Innerwear for all', products: mans },
-    { title: 'Up to 80% off on Home improvements + 10% Assured cashback', products: electranics },
-    { title: 'Lowest prices on NexBasket + Extra 15% cashback', products: electranics },
+    { title: 'Up to 80% off on Home improvements ', products: electranics },
+    { title: 'Lowest prices on NexBasket ', products: grocery },
   ]
+
 
   return (
     <Box component="section" className={styles.topCardsSection}>
@@ -38,7 +40,7 @@ const TopCards = ({ womans, mans, electranics }: TopCardsProps) => {
             </Box>
 
             <Box className={styles.tileGrid}>
-              {promo.products.slice(0, 4).map((product) => (
+              {promo.products.map((product) => (
                 <Box className={styles.tile} key={product._id}>
                   <Box className={styles.tileImageWrap}>
                     <Box

@@ -9,12 +9,13 @@ interface UserHomeProductSectionProps {
   electranics: Product[]
   mans: Product[]
   womans: Product[]
+  grocery: Product[]
 }
 
-const UserHomeProductSection = ({ cards, electranics, mans, womans }: UserHomeProductSectionProps) => {
+const UserHomeProductSection = ({ cards, electranics, mans, womans, grocery }: UserHomeProductSectionProps) => {
   return (
     <div style={{backgroundColor:'#e5e5e5',padding:5}}>
-      <TopCards womans={womans} mans={mans} electranics={electranics} />
+      <TopCards womans={womans} mans={mans} electranics={electranics} grocery={grocery} />
       <TopValues products={[...mans, ...womans]} />
       <TopUpgrates products={electranics} />
       <AllCards products={cards} />

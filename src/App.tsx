@@ -5,6 +5,7 @@ import GoogleProviView from './auth/common/GoogleProviView'
 import SessionExpiryWatcher from './auth/common/SessionExpiryWatcher'
 import ProtectedRoute from './auth/common/ProtectedRoute'
 import UserHome from './features/user/pages/UserHome'
+import Category from './features/user/pages/Category'
 import LocationGate from './components/LocationGate'
 import ChnagePassword from './features/user/components/ChnagePassword'
 import OwnerLayout from './features/owner/common/OwnerLayout'
@@ -21,6 +22,7 @@ function App() {
       <SessionExpiryWatcher />
       <Routes>
         <Route path="/" element={<UserHome />} />
+        <Route path="/category" element={<Category />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/google-continue" element={<GoogleProviView />} />

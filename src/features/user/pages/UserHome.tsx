@@ -68,6 +68,7 @@ const UserHome = () => {
   const [womans, setWomans] = useState<Product[]>([])
   const [loading, setLoading] = useState(false)
   const [notification, setNotification] = useState<NotificationInterfacce | null>(null)
+  const [grocery , setGrocery] = useState<Product[]>([])
 
   useEffect(() => {
     const loadData = async () => {
@@ -78,11 +79,13 @@ const UserHome = () => {
           Electranics: Product[]
           Mans: Product[]
           Womans: Product[]
+          Grocery : Product[]
         }>(USER_HOME_PAGE_CARDS.GET_ALL_CARDS)
         setCards(response.data ?? [])
         setElectranics(response.Electranics ?? [])
         setMans(response.Mans ?? [])
         setWomans(response.Womans ?? [])
+        setGrocery(response.Grocery ?? [])
       } catch (error) {
         setNotification({
           open: true,
@@ -102,7 +105,7 @@ const UserHome = () => {
       <Header />
       <UserCarousel items={movies} startIndex={2} />
       <MobileBottomNav />
-      <UserHomeProductSection cards={cards} electranics={electranics} mans={mans} womans={womans} />
+      <UserHomeProductSection cards={cards} electranics={electranics} mans={mans} womans={womans} grocery={grocery}/>
       <Box
         sx={{
           display: { xs: 'block', sm: 'none' },

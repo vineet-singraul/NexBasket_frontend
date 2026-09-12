@@ -41,6 +41,8 @@ const MobileBottomNav = () => {
     setValue(newValue)
     if (newValue === 'home') {
       navigate('/')
+    } else if (newValue === 'categories') {
+      navigate('/category')
     } else if (newValue === 'account') {
       if (!session) navigate('/signin')
     } else if (newValue === 'menu') {

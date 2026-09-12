@@ -1,0 +1,373 @@
+/* ============================================================= */
+/* ===== Category — Page shell =================================== */
+/* ============================================================= */
+
+.page {
+  background: #ffffff;
+  min-height: 100vh;
+}
+
+.body {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* ============================================================= */
+/* ===== Category — Header ======================================= */
+/* ============================================================= */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #ffffff;
+  border-bottom: 1px solid #ececec;
+}
+
+.headerTitle {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 800;
+  color: #0a1a2b;
+  white-space: nowrap;
+}
+
+.headerIcons {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.headerIconBtn {
+  color: #0a1a2b !important;
+}
+
+.cartBadge :global(.MuiBadge-badge) {
+  background: #e53935;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* ============================================================= */
+/* ===== Category — Sidebar (parent categories) =================== */
+/* ============================================================= */
+
+.parentCategory {
+  flex-shrink: 0;
+  width: 84px;
+  background: #f7f8fa;
+  border-right: 1px solid #ececec;
+  position: sticky;
+  top: 57px;
+  height: calc(100vh - 57px);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.parentCategory::-webkit-scrollbar {
+  display: none;
+}
+
+.parentNav {
+  display: flex;
+  flex-direction: column;
+}
+
+.categoryItem {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.categoryItem::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: transparent;
+}
+
+.categoryItemActive {
+  background: #ffffff;
+}
+
+.categoryItemActive::before {
+  background: #2874f0;
+}
+
+.categoryIconWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+  flex-shrink: 0;
+}
+
+.categoryIcon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.categoryLabel {
+  font-size: 10.5px;
+  line-height: 1.25;
+  color: #444444;
+  text-align: center;
+}
+
+.categoryLabelActive {
+  color: #2874f0;
+  font-weight: 700;
+}
+
+/* ============================================================= */
+/* ===== Category — Content shell ================================= */
+/* ============================================================= */
+
+.subCategory {
+  flex: 1;
+  min-width: 0;
+}
+
+.subCategoryContent {
+  padding: 14px 14px 32px;
+}
+
+.sectionTitle {
+  margin: 22px 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0a1a2b;
+}
+
+/* ============================================================= */
+/* ===== Category — Fashion banner ================================ */
+/* ============================================================= */
+
+.fashionBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(135deg, #e3edfb 0%, #d6e6fa 100%);
+  border-radius: 14px;
+  padding: 16px;
+  overflow: hidden;
+}
+
+.bannerText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.bannerTitle {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: #0a1a2b;
+}
+
+.bannerShopBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: #0a1a2b;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.bannerImage {
+  width: 112px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+/* ============================================================= */
+/* ===== Category — In the Spotlight grid ========================= */
+/* ============================================================= */
+
+.spotlightGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px 12px;
+}
+
+.spotlightItem {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.spotlightImageWrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f0f1f3;
+}
+
+.spotlightPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.spotlightItem:hover .spotlightPhoto {
+  transform: scale(1.05);
+}
+
+.spotlightPromo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.promoAutumn {
+  background: linear-gradient(135deg, #a85a34 0%, #6b3419 100%);
+}
+
+.promoFestival {
+  background: linear-gradient(135deg, #e6299c 0%, #ad1a6e 100%);
+}
+
+.promoNextGen {
+  background: linear-gradient(135deg, #0a1a2b 0%, #2c4361 100%);
+}
+
+.spotlightCaption {
+  margin: 0;
+  font-size: 12px;
+  color: #333333;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* ============================================================= */
+/* ===== Category — Men's Clothing grid ============================ */
+/* ============================================================= */
+
+.mensGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px 12px;
+}
+
+.mensItem {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.mensImageWrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f0f1f3;
+}
+
+.mensImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.mensItem:hover .mensImage {
+  transform: scale(1.05);
+}
+
+.mensCaption {
+  margin: 0;
+  font-size: 12px;
+  color: #333333;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* ---------- Responsive ---------- */
+@media (min-width: 900px) {
+  .parentCategory {
+    width: 110px;
+  }
+
+  .subCategoryContent {
+    padding: 20px 28px 40px;
+  }
+
+  .spotlightGrid,
+  .mensGrid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px 16px;
+  }
+
+  .bannerImage {
+    width: 160px;
+    height: 120px;
+  }
+}
+
+@media (max-width: 360px) {
+  .parentCategory {
+    width: 72px;
+  }
+
+  .categoryIconWrap {
+    width: 38px;
+    height: 38px;
+  }
+
+  .categoryLabel {
+    font-size: 9.5px;
+  }
+}

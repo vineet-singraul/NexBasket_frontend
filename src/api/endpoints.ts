@@ -46,7 +46,7 @@ export const PRODUCT_IMAGE_ADD = {
 
 export const BASE_PRODUCT = {
   ADD_BASE_PRODUCT : '/product/createBaseProduct',
-  DELETE_BASE_PRODUCT : (productId : string) => `/product/deleteBaseProduct/${productId}`,
+  DELETE_BASE_PRODUCT  : (productId : string) => `/product/deleteBaseProduct/${productId}`,
   GET_BASE_PRODUCT : (productId : string) => `/product/getProductById/${productId}`,
   EDIT_BASE_PRODUCT : (productId : string) => `/product/editBaseProduct/${productId}`
 }
@@ -65,4 +65,9 @@ export const OWNER_DASHBOARD_API = {
 
 export const USER_HOME_PAGE_CARDS = {
   GET_ALL_CARDS: '/userHomePage/getUserHomePageDetails'
+}
+
+export const USER_CATEGORY_PAGE = {
+  GET_ALL_CATEGORY : '/UserShowCategory/ShowAllCategoryToUser',
+  GET_SINGLE_CATEGORY : (categoryId : string) => `/UserShowCategory/getSingleCategoryByItsOwnId/${categoryId}` 
 }
