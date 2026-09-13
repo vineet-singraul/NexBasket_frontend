@@ -3,7 +3,7 @@ import CategoryHeader from './CategoryHeader'
 import ParentCategory from './ParentCategory'
 import SubCategory from './SubCategory'
 import styles from '../../../../styles/userStyle/Category.module.css'
-import { type Category, type MainCategoryProps } from "../../types/category.types.ts"
+import { type Category, type MainCategoryProps } from '../../types/category.types.ts'
 import { apiGet } from '../../../../api/userApi.ts'
 import { USER_CATEGORY_PAGE } from '../../../../api/endpoints.ts'
 import type { NotificationInterfacce } from '../../../../auth/types/auth.types.ts'
@@ -12,7 +12,7 @@ import Notification from '../../../../utils/Notification.tsx'
 
 const ALL_CATEGORY_ID = 'all'
 
-const CategoryMainPage = ({ categories } : MainCategoryProps) => {
+const CategoryMainPage = ({ categories }: MainCategoryProps) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(ALL_CATEGORY_ID)
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null)
   const [loading, setLoading] = useState(false)
@@ -28,7 +28,7 @@ const CategoryMainPage = ({ categories } : MainCategoryProps) => {
       try {
         setLoading(true)
         const response = await apiGet<{ data: Category }>(
-          USER_CATEGORY_PAGE.GET_SINGLE_CATEGORY(selectedCategoryId)
+          USER_CATEGORY_PAGE.GET_SINGLE_CATEGORY(selectedCategoryId),
         )
         setSelectedCategory(response.data ?? null)
       } catch (error) {
