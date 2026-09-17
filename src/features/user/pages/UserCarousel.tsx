@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "../../../styles/userStyle/carousel.module.css";
+import { CAROUSEL_VISIBLE_RANGE } from "../utils/context.ts";
 
 export interface CarouselItem {
   id: string | number;
@@ -17,8 +18,6 @@ interface UserCarouselProps {
   /** Auto-advance interval in ms. Omit or set 0 to disable. */
   autoPlayInterval?: number;
 }
-
-const VISIBLE_RANGE = 2; // how many cards show on each side of the active card
 
 const UserCarousel: React.FC<UserCarouselProps> = ({
   items,
@@ -95,7 +94,7 @@ const UserCarousel: React.FC<UserCarouselProps> = ({
           const offset = getOffset(index);
           const abs = Math.abs(offset);
 
-          if (abs > VISIBLE_RANGE) return null;
+          if (abs > CAROUSEL_VISIBLE_RANGE) return null;
 
           const isActive = offset === 0;
           const translateX = offset * 62; // % of card width, controls spacing

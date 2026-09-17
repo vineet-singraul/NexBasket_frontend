@@ -24,6 +24,7 @@ import { apiPost } from '../../../api/userApi'
 import { AUTH_ENDPOINTS } from '../../../api/endpoints'
 import Loader from '../../../utils/Loader'
 import Notification from '../../../utils/Notification'
+import { CHANGE_PASSWORD_REDIRECT_DELAY_MS, CHANGE_PASSWORD_TEXT } from '../utils/context.ts'
 
 const ChnagePassword = () => {
     const navigate = useNavigate()
@@ -82,7 +83,7 @@ const ChnagePassword = () => {
         }
 
         if (!newErrors.confirmPassword && formData.newPassword !== formData.confirmPassword) {
-            newErrors.confirmPassword = 'New password and confirm password do not match'
+            newErrors.confirmPassword = CHANGE_PASSWORD_TEXT.mismatchError
         }
 
         setError(newErrors)
@@ -93,11 +94,11 @@ const ChnagePassword = () => {
             const response = await apiPost<{ message?: string }>(AUTH_ENDPOINTS.CHNAGEPASSWORD, formData)
             setNotification({
                 open: true,
-                message: response?.message || 'Password changed successfully',
+                message: response?.message || CHANGE_PASSWORD_TEXT.successMessage,
                 severity: 'success',
             })
             setFormData({ oldPassword: '', newPassword: '', confirmPassword: '' })
-            setTimeout(() => navigate('/'), 2000)
+            setTimeout(() => navigate('/'), CHANGE_PASSWORD_REDIRECT_DELAY_MS)
         } catch (err) {
             setNotification({
                 open: true,
@@ -117,7 +118,7 @@ const ChnagePassword = () => {
             <LockResetRoundedIcon className={styles.icon} />
 
             <Typography variant="h4" className={styles.title}>
-              Change Password
+              {CHANGE_PASSWORD_TEXT.title}
             </Typography>
 
             <Typography className={styles.subtitle}>
@@ -127,7 +128,7 @@ const ChnagePassword = () => {
           <Stack spacing={3} component="form" onSubmit={handleChangePassword} noValidate>
             <TextField
               fullWidth
-              label="Current Password"
+              label={CHANGE_PASSWORD_TEXT.oldPasswordLabel}
               type={showPassword.oldPassword ? 'text' : 'password'}
               name='oldPassword'
               onBlur={handleOnBlur}
@@ -150,7 +151,7 @@ const ChnagePassword = () => {
 
             <TextField
               fullWidth
-              label="New Password"
+              label={CHANGE_PASSWORD_TEXT.newPasswordLabel}
               className={styles.textField}
               type={showPassword.newPassword ? 'text' : 'password'}
               name='newPassword'
@@ -173,7 +174,7 @@ const ChnagePassword = () => {
 
             <TextField
               fullWidth
-              label="Confirm Password"
+              label={CHANGE_PASSWORD_TEXT.confirmPasswordLabel}
               className={styles.textField}
               type={showPassword.confirmPassword ? 'text' : 'password'}
               name='confirmPassword'
@@ -202,11 +203,11 @@ const ChnagePassword = () => {
                 onClick={handleCancel}
                 disabled={loading}
               >
-                Cancel
+                {CHANGE_PASSWORD_TEXT.cancelBtn}
               </Button>
 
               <Button type="submit" variant="contained" className={styles.saveBtn} disabled={loading}>
-                Update Password
+                {CHANGE_PASSWORD_TEXT.submitBtn}
               </Button>
             </Stack>
           </Stack>

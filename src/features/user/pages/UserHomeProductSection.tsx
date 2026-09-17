@@ -3,6 +3,7 @@ import TopValues from '../components/Home/TopValues'
 import TopUpgrates from '../components/Home/TopUpgrates'
 import AllCards from '../components/Home/AllCards'
 import type { Product } from '../types/common.types.ts'
+import { PRODUCT_SECTION_BG, PRODUCT_SECTION_PADDING } from '../utils/context.ts'
 
 interface UserHomeProductSectionProps {
   cards: Product[]
@@ -14,7 +15,7 @@ interface UserHomeProductSectionProps {
 
 const UserHomeProductSection = ({ cards, electranics, mans, womans, grocery }: UserHomeProductSectionProps) => {
   return (
-    <div style={{backgroundColor:'#e5e5e5',padding:5}}>
+    <div style={{ backgroundColor: PRODUCT_SECTION_BG, padding: PRODUCT_SECTION_PADDING }}>
       <TopCards womans={womans} mans={mans} electranics={electranics} grocery={grocery} />
       <TopValues products={[...mans, ...womans]} />
       <TopUpgrates products={electranics} />

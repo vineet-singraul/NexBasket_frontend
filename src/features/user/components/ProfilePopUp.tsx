@@ -33,81 +33,88 @@ import Loader from '../../../utils/Loader'
 import Notification from '../../../utils/Notification'
 import { clearAuthSession } from '../../../utils/authStorage'
 import PasswordIcon from '@mui/icons-material/Password'
+import {
+  DEFAULT_ERROR_MESSAGE,
+  NEW_CUSTOMER_LABEL,
+  PROFILE_MENU_LABELS,
+  PROFILE_REDIRECT_DELAY_MS,
+  SIGN_OUT_SUCCESS_MESSAGE,
+} from '../utils/context.ts'
 
 const buildMenuItems = (handleSingout: () => void, moveToChnagePasswordPage: () => void) => [
   {
     icon: <PersonOutlineOutlinedIcon fontSize="small" />,
-    text: 'My Profile',
+    text: PROFILE_MENU_LABELS.myProfile,
     onClick: () => {
       console.log('hiii')
     },
   },
   {
     icon: <WorkspacePremiumOutlinedIcon fontSize="small" />,
-    text: 'Flipkart Plus Zone',
+    text: PROFILE_MENU_LABELS.plusZone,
     onClick: () => {
       console.log('hiii')
     },
   },
   {
     icon: <Inventory2OutlinedIcon fontSize="small" />,
-    text: 'Orders',
+    text: PROFILE_MENU_LABELS.orders,
     onClick: () => {
       console.log('hiii')
     },
   },
   {
     icon: <FavoriteBorderOutlinedIcon fontSize="small" />,
-    text: 'Wishlist',
+    text: PROFILE_MENU_LABELS.wishlist,
     onClick: () => {
       console.log('hiii')
     },
   },
   {
     icon: <StorefrontOutlinedIcon fontSize="small" />,
-    text: 'Become a Seller',
+    text: PROFILE_MENU_LABELS.becomeSeller,
     onClick: () => {
       console.log('hiii')
     },
   },
   {
     icon: <CardGiftcardOutlinedIcon fontSize="small" />,
-    text: 'Rewards',
+    text: PROFILE_MENU_LABELS.rewards,
     onClick: () => {
       console.log('hiii')
     },
   },
   {
     icon: <CardGiftcardOutlinedIcon fontSize="small" />,
-    text: 'Gift Cards',
+    text: PROFILE_MENU_LABELS.giftCards,
     onClick: () => {
       console.log('hiii')
     },
   },
   {
     icon: <NotificationsNoneOutlinedIcon fontSize="small" />,
-    text: 'Notification Preferences',
+    text: PROFILE_MENU_LABELS.notificationPrefs,
     onClick: () => {
       console.log('hiii')
     },
   },
   {
     icon: <SupportAgentOutlinedIcon fontSize="small" />,
-    text: '24x7 Customer Care',
+    text: PROFILE_MENU_LABELS.customerCare,
     onClick: () => {
       console.log('hiii')
     },
   },
   {
     icon: <PasswordIcon fontSize="small" />,
-    text: 'Chnage Password',
+    text: PROFILE_MENU_LABELS.changePassword,
     onClick: () => {
       moveToChnagePasswordPage()
     },
   },
   {
     icon: <LogoutOutlinedIcon fontSize="small" />,
-    text: 'Sing out',
+    text: PROFILE_MENU_LABELS.signOut,
     onClick: () => {
       handleSingout()
     },
@@ -130,18 +137,18 @@ const ProfilePopUp = ({ userDetails, setShowProfile }: ProfilePopUpProps) => {
       const response = await apiPost<{ message?: string }>(AUTH_ENDPOINTS.SIGNOUT)
       setNotification({
         open: true,
-        message: response?.message || 'Signed out successfully',
+        message: response?.message || SIGN_OUT_SUCCESS_MESSAGE,
         severity: 'success',
       })
       clearAuthSession()
       setTimeout(() => {
         setShowProfile(false)
         navigate('/signin')
-      }, 2000)
+      }, PROFILE_REDIRECT_DELAY_MS)
     } catch (error) {
       setNotification({
         open: true,
-        message: error instanceof Error ? error.message : 'Something went wrong',
+        message: error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE,
         severity: 'error',
       })
     } finally {
@@ -161,7 +168,7 @@ const ProfilePopUp = ({ userDetails, setShowProfile }: ProfilePopUpProps) => {
       <Box className={styles.popupArrow}></Box>
 
       <Box className={styles.popupHeader}>
-        <Typography variant="body1">New Customer?</Typography>
+        <Typography variant="body1">{NEW_CUSTOMER_LABEL}</Typography>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
           <IconButton

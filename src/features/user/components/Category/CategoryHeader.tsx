@@ -3,12 +3,13 @@ import SearchIcon from '@mui/icons-material/Search'
 import PhotoCameraOutlinedIcon from '@mui/icons-material/PhotoCameraOutlined'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import styles from '../../../../styles/userStyle/Category.module.css'
+import { CATEGORY_CART_BADGE_COUNT, CATEGORY_HEADER_TITLE } from '../../utils/context.ts'
 
 const CategoryHeader = () => {
   return (
     <Box component="header" className={styles.header}>
       <Typography component="h1" className={styles.headerTitle}>
-        All Categories
+        {CATEGORY_HEADER_TITLE}
       </Typography>
 
       <Box className={styles.headerIcons}>
@@ -19,7 +20,7 @@ const CategoryHeader = () => {
           <PhotoCameraOutlinedIcon />
         </IconButton>
         <IconButton className={styles.headerIconBtn} aria-label="Cart">
-          <Badge badgeContent={10} className={styles.cartBadge}>
+          <Badge badgeContent={CATEGORY_CART_BADGE_COUNT} className={styles.cartBadge}>
             <ShoppingCartOutlinedIcon />
           </Badge>
         </IconButton>

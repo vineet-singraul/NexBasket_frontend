@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import styles from '../../../../styles/userStyle/Category.module.css'
 import { type MainCategoryProps } from '../../types/category.types.ts'
-
-const ALL_CATEGORY_ID = 'all'
-const ALL_CATEGORY_IMAGE = 'https://picsum.photos/seed/nb-all/88'
+import { ALL_CATEGORY_ID, ALL_CATEGORY_IMAGE, ALL_CATEGORY_LABEL } from '../../utils/context.ts'
 
 interface ParentCategoryProps extends MainCategoryProps {
   onCategoryChange?: (id: string) => void
@@ -32,7 +30,7 @@ const ParentCategory = ({ categories, onCategoryChange }: ParentCategoryProps) =
         <span
           className={`${styles.categoryLabel} ${activeId === ALL_CATEGORY_ID ? styles.categoryLabelActive : ''}`}
         >
-          All
+          {ALL_CATEGORY_LABEL}
         </span>
       </button>
 

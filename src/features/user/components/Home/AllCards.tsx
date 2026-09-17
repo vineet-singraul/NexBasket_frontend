@@ -6,6 +6,14 @@ import FilterListIcon from '@mui/icons-material/FilterList'
 import styles from '../../../../styles/userStyle/homePage.module.css'
 import type { Product } from '../../types/common.types.ts'
 import { getProductImage, formatINR } from '../../utils/productDisplay.ts'
+import {
+  BESTSELLER_BADGE_LABEL,
+  DEAL_BANNER_TEXT,
+  DEAL_COUNTDOWN,
+  FILTER_BUTTON_LABEL,
+  LOW_STOCK_THRESHOLD,
+  TRENDING_NOW_TITLE,
+} from '../../utils/context.ts'
 
 interface AllCardsProps {
   products: Product[]
@@ -29,51 +37,52 @@ const AllCards = ({ products }: AllCardsProps) => {
               variant="inherit"
               className={`${styles.dealTitle} ${styles.dealTitleFull}`}
             >
-              Deal of the Day — Handpicked for you
+              {DEAL_BANNER_TEXT.titleFull}
             </Typography>
             <Typography
               variant="inherit"
               className={`${styles.dealTitle} ${styles.dealTitleShort}`}
             >
-              Deal of the Day
+              {DEAL_BANNER_TEXT.titleShort}
             </Typography>
 
             <Typography
               variant="inherit"
               className={`${styles.dealSubtitle} ${styles.dealSubtitleFull}`}
             >
-              Hurry before it&apos;s gone
+              {DEAL_BANNER_TEXT.subtitleFull}
             </Typography>
             <Typography
               variant="inherit"
               className={`${styles.dealSubtitle} ${styles.dealSubtitleShort}`}
             >
-              Hurry, limited stock
+              {DEAL_BANNER_TEXT.subtitleShort}
             </Typography>
           </Box>
         </Box>
 
         <Box className={styles.dealCountdown}>
-          <Typography variant="inherit" component="span" className={styles.dealCountdownBox}>
-            04
-          </Typography>
-          <Typography variant="inherit" component="span" className={styles.dealCountdownBox}>
-            12
-          </Typography>
-          <Typography variant="inherit" component="span" className={styles.dealCountdownBox}>
-            36
-          </Typography>
+          {DEAL_COUNTDOWN.map((unit) => (
+            <Typography
+              key={unit}
+              variant="inherit"
+              component="span"
+              className={styles.dealCountdownBox}
+            >
+              {unit}
+            </Typography>
+          ))}
         </Box>
       </Box>
 
       {/* Trending now + Filter — mobile only */}
       <Box className={styles.trendingRow}>
         <Typography component="h3" variant="inherit" className={styles.trendingTitle}>
-          Trending now
+          {TRENDING_NOW_TITLE}
         </Typography>
         <Button size="small" className={styles.filterBtn}>
           <FilterListIcon fontSize="small" />
-          Filter
+          {FILTER_BUTTON_LABEL}
         </Button>
       </Box>
 
@@ -88,7 +97,7 @@ const AllCards = ({ products }: AllCardsProps) => {
               <Box className={styles.dealImageArea}>
                 {product.isFeatured && (
                   <Typography component="span" variant="inherit" className={styles.dealBestsellerBadge}>
-                    <StarIcon sx={{ fontSize: 11 }} /> Bestseller
+                    <StarIcon sx={{ fontSize: 11 }} /> {BESTSELLER_BADGE_LABEL}
                   </Typography>
                 )}
                 {discountPercent > 0 && (
@@ -130,7 +139,7 @@ const AllCards = ({ products }: AllCardsProps) => {
                   )}
                 </Box>
 
-                {availableQuantity > 0 && availableQuantity <= 5 && (
+                {availableQuantity > 0 && availableQuantity <= LOW_STOCK_THRESHOLD && (
                   <Typography variant="inherit" className={styles.dealStock}>
                     Only {availableQuantity} left
                   </Typography>

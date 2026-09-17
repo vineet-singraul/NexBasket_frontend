@@ -4,6 +4,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import styles from '../../../../styles/userStyle/homePage.module.css'
 import type { Product } from '../../types/common.types.ts'
 import { getProductImage, formatINR } from '../../utils/productDisplay.ts'
+import { SMART_UPGRADES_TITLE, SMART_UPGRADES_VISIBLE_COUNT } from '../../utils/context.ts'
 
 interface TopUpgratesProps {
   products: Product[]
@@ -23,11 +24,11 @@ const TopUpgrates = ({ products }: TopUpgratesProps) => {
   return (
     <Box component="section" className={styles.upgradesSection}>
       <Typography component="h3" variant="inherit" className={styles.upgradesHeader}>
-        Smart upgrades
+        {SMART_UPGRADES_TITLE}
       </Typography>
 
       <Box className={styles.upgradesRow}>
-        {products.slice(0, 7).map((product, index) => (
+        {products.slice(0, SMART_UPGRADES_VISIBLE_COUNT).map((product, index) => (
           <Box className={styles.upgradeCard} key={product._id}>
             <Box
               className={`${styles.upgradeImageWrap} ${UPGRADE_BG_CLASSES[index % UPGRADE_BG_CLASSES.length]}`}

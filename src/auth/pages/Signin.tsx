@@ -31,7 +31,7 @@ import { AUTH_ENDPOINTS } from '../../api/endpoints'
 import { saveAuthSession } from '../../utils/authStorage'
 import { useDispatch } from 'react-redux'
 import { setUserData } from '../../redux/slice/userSlice'
-
+import VisibilityIcon from '@mui/icons-material/Visibility'
 
 const Signin = () => {
   const navigate = useNavigate()
@@ -39,8 +39,7 @@ const Signin = () => {
   const [formData, setFormData] = useState<SignInInterface>({
     identifier: '',
     password: '',
-  })     
-  
+  })
 
   const [error, setError] = useState<SignInErrorsInterface>({
     identifier: '',
@@ -48,11 +47,12 @@ const Signin = () => {
   })
 
   const [rememberMe, setRememberMe] = useState<boolean>(false)
-  const [loading, setLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean | null>(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const [notification, setNotification] = useState<NotificationInterfacce>({
-    open:false,
-    message:"",
-    severity:'success'
+    open: false,
+    message: '',
+    severity: 'success',
   })
 
   const handleOnBlur = (e: FocusEvent<HTMLInputElement>) => {
@@ -63,11 +63,14 @@ const Signin = () => {
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
-    setError((prev) => ({ ...prev, [name]: prev[name as keyof SignInErrorsInterface] ? validateField(name, value) : '' }))
+    setError((prev) => ({
+      ...prev,
+      [name]: prev[name as keyof SignInErrorsInterface] ? validateField(name, value) : '',
+    }))
   }
 
   const handleSignin = async (event: React.SyntheticEvent) => {
-    event.preventDefault();
+    event.preventDefault()
 
     const newErrors: SignInErrorsInterface = {
       identifier: validateField('identifier', formData.identifier),
@@ -81,7 +84,7 @@ const Signin = () => {
       password: formData.password,
     }
 
-    setLoading(true);
+    setLoading(true)
     try {
       const response = await apiPost<SignInResponse>(AUTH_ENDPOINTS.SIGNIN, payload)
       const rawUser = response?.user ?? response ?? {}
@@ -91,7 +94,7 @@ const Signin = () => {
       saveAuthSession(finalUserData, rememberMe)
       setNotification({
         open: true,
-        message: response?.message || "User Signin successfully",
+        message: response?.message || 'User Signin successfully',
         severity: 'success',
       })
       navigate(finalUserData.role === 'owner' ? '/owner/dashboard' : '/')
@@ -101,14 +104,13 @@ const Signin = () => {
         message: error instanceof Error ? error.message : 'Something went wrong',
         severity: 'error',
       })
-    }
-    finally {
-      setLoading(false);
+    } finally {
+      setLoading(false)
     }
   }
 
   const handleGoogleSignin = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
       const response = await signInWithPopup(auth, new GoogleAuthProvider())
       const payload = {
@@ -125,7 +127,7 @@ const Signin = () => {
         severity: 'error',
       })
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   }
 
@@ -141,13 +143,12 @@ const Signin = () => {
       />
 
       <Box className={styles.formPanel} component="form" onSubmit={handleSignin} noValidate>
+        <img src="/com_loggo.png" alt="NexBasket" className={styles.formLogo} />
         <Box className={styles.formCard}>
-
           <Box className={styles.titleAccent} />
           <Typography variant="h4" className={styles.title}>
             Welcome Back
           </Typography>
-
 
           <TextField
             label="Email or Mobile Number"
@@ -174,7 +175,7 @@ const Signin = () => {
           <TextField
             label="Password"
             placeholder="password"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             variant="outlined"
             fullWidth
             className={styles.textField}
@@ -192,8 +193,14 @@ const Signin = () => {
                 ),
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton className={styles.visibilityToggle} edge="end">
-                      <VisibilityOffIcon />
+                    <IconButton
+                      className={styles.visibilityToggle}
+                      edge="end"
+                      onClick={() => {
+                        setShowPassword(!showPassword)
+                      }}
+                    >
+                      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                     </IconButton>
                   </InputAdornment>
                 ),
@@ -205,10 +212,7 @@ const Signin = () => {
             <FormControlLabel
               className={styles.rememberLabel}
               control={
-                <Checkbox
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                />
+                <Checkbox checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
               }
               label="Remember me"
             />
@@ -239,14 +243,17 @@ const Signin = () => {
           </Typography>
         </Box>
       </Box>
-      {loading && <Loader/>}
-      {notification && <Notification
-        open={notification.open}
-        message={notification.message}
-        severity={notification.severity}
-        onClose={()=>{setNotification((prev)=>({...prev,open:false}))}}
-      />
-      }
+      {loading && <Loader />}
+      {notification && (
+        <Notification
+          open={notification.open}
+          message={notification.message}
+          severity={notification.severity}
+          onClose={() => {
+            setNotification((prev) => ({ ...prev, open: false }))
+          }}
+        />
+      )}
     </Box>
   )
 }

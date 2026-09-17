@@ -3,6 +3,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import styles from '../../../../styles/userStyle/homePage.module.css'
 import type { Product } from '../../types/common.types.ts'
 import { getProductImage } from '../../utils/productDisplay.ts'
+import { STILL_LOOKING_TITLE, TOP_VALUES_VISIBLE_COUNT, VIEW_STORE_LABEL } from '../../utils/context.ts'
 
 interface TopValuesProps {
   products: Product[]
@@ -12,11 +13,11 @@ const TopValues = ({ products }: TopValuesProps) => {
   return (
     <Box component="section" className={styles.valuesSection}>
       <Typography component="h3" variant="inherit" className={styles.valuesHeader}>
-        Still looking for these?
+        {STILL_LOOKING_TITLE}
       </Typography>
 
       <Box className={styles.valuesRow}>
-        {products.slice(0, 5).map((product) => (
+        {products.slice(0, TOP_VALUES_VISIBLE_COUNT).map((product) => (
           <Box className={styles.valueCard} key={product._id}>
             <Box className={styles.valueImageWrap}>
               <Box
@@ -36,7 +37,7 @@ const TopValues = ({ products }: TopValuesProps) => {
                 {product.title}
               </Typography>
               <Typography variant="inherit" className={styles.valueLink}>
-                View Store
+                {VIEW_STORE_LABEL}
               </Typography>
             </Box>
           </Box>

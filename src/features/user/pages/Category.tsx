@@ -7,6 +7,7 @@ import type { Category as CategoryModel } from '../types/category.types.ts'
 import type { NotificationInterfacce } from '../../../auth/types/auth.types.ts'
 import Loader from '../../../utils/Loader.tsx'
 import Notification from '../../../utils/Notification.tsx'
+import { DEFAULT_ERROR_MESSAGE } from '../utils/context.ts'
 
 const Category = () => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -21,7 +22,7 @@ const Category = () => {
       } catch (error) {
         setNotification({
           open: true,
-          message: error instanceof Error ? error.message : 'Something went wrong',
+          message: error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE,
           severity: 'error',
         })
       } finally {

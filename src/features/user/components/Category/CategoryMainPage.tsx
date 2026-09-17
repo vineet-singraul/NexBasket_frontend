@@ -9,8 +9,7 @@ import { USER_CATEGORY_PAGE } from '../../../../api/endpoints.ts'
 import type { NotificationInterfacce } from '../../../../auth/types/auth.types.ts'
 import Loader from '../../../../utils/Loader.tsx'
 import Notification from '../../../../utils/Notification.tsx'
-
-const ALL_CATEGORY_ID = 'all'
+import { ALL_CATEGORY_ID, DEFAULT_ERROR_MESSAGE } from '../../utils/context.ts'
 
 const CategoryMainPage = ({ categories }: MainCategoryProps) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(ALL_CATEGORY_ID)
@@ -34,7 +33,7 @@ const CategoryMainPage = ({ categories }: MainCategoryProps) => {
       } catch (error) {
         setNotification({
           open: true,
-          message: error instanceof Error ? error.message : 'Something went wrong',
+          message: error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE,
           severity: 'error',
         })
       } finally {
