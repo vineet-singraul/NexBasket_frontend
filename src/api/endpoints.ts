@@ -22,7 +22,9 @@ export const CATEGORY_ENDPOINTS = {
 
 export const AI_MODEL = {
   GENRATE_DISCRIPTION: (length: string, productName: string) =>
-    `/AiGenration/generateShortDescription/${encodeURIComponent(length)}/${encodeURIComponent(productName)}`
+    `/AiGenration/generateShortDescription/${encodeURIComponent(length)}/${encodeURIComponent(productName)}`,
+  GROK_FEATURES: '/AiGrock/autoGenrateProductFeatures',
+  GROK_HIGHLIGHTS: '/AiGrock/autoGenrateProductHighlights',
 }
 
 

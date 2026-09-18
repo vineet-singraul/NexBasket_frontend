@@ -5,6 +5,7 @@ import type {
 } from '../../../types/product.types'
 import type React from 'react'
 import AiGenerateButton from '../../../../../components/common/AiGenerateButton'
+import GrockAi from '../../../../../components/common/GrockAi'
 
 const StepProductInformation = ({ data, setFormsData, productName }: StepProductInformationProps) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -51,30 +52,60 @@ const StepProductInformation = ({ data, setFormsData, productName }: StepProduct
         <Box className={style.ABP_Grid3}>
           <Box className={style.ABP_Field}>
             <Typography className={style.ABP_FieldLabel}>Highlights</Typography>
-            <TextField
-              className={style.ABP_Input}
-              size="small"
-              multiline
-              minRows={1}
-              placeholder="One highlight per line"
-              name="highlights"
-              onChange={handleChange}
-              value={data.highlights}
-            />
+            <Box className={style.ABP_TextAreaWrap}>
+              <TextField
+                className={style.ABP_Input}
+                size="small"
+                multiline
+                fullWidth
+                minRows={1}
+                placeholder="One highlight per line"
+                name="highlights"
+                onChange={handleChange}
+                value={data.highlights}
+              />
+              <Box className={style.ABP_TextAreaAiBtn}>
+                <GrockAi
+                  kind="highlights"
+                  productName={productName}
+                  onGenerated={(text) =>
+                    setFormsData((prev) => ({
+                      ...prev,
+                      highlights: text as unknown as string[],
+                    }))
+                  }
+                />
+              </Box>
+            </Box>
           </Box>
 
           <Box className={style.ABP_Field}>
             <Typography className={style.ABP_FieldLabel}>Features</Typography>
-            <TextField
-              className={style.ABP_Input}
-              size="small"
-              multiline
-              minRows={1}
-              placeholder="One feature per line"
-              name="features"
-              onChange={handleChange}
-              value={data.features}
-            />
+            <Box className={style.ABP_TextAreaWrap}>
+              <TextField
+                className={style.ABP_Input}
+                size="small"
+                multiline
+                fullWidth
+                minRows={1}
+                placeholder="One feature per line"
+                name="features"
+                onChange={handleChange}
+                value={data.features}
+              />
+              <Box className={style.ABP_TextAreaAiBtn}>
+                <GrockAi
+                  kind="features"
+                  productName={productName}
+                  onGenerated={(text) =>
+                    setFormsData((prev) => ({
+                      ...prev,
+                      features: text as unknown as string[],
+                    }))
+                  }
+                />
+              </Box>
+            </Box>
           </Box>
 
           <Box className={style.ABP_Field}>

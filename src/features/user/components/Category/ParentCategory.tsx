@@ -49,7 +49,9 @@ const ParentCategory = ({ categories, onCategoryChange }: ParentCategoryProps) =
             <span className={styles.categoryIconWrap}>
               <img src={category.image} alt="" className={styles.categoryIcon} />
             </span>
-            <span className={`${styles.categoryLabel} ${isActive ? styles.categoryLabelActive : ''}`}>
+            <span
+              className={`${styles.categoryLabel} ${isActive ? styles.categoryLabelActive : ''}`}
+            >
               {category.name}
             </span>
           </button>
