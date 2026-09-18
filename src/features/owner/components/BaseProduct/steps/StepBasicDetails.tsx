@@ -10,15 +10,37 @@ import {
 import LockRoundedIcon from '@mui/icons-material/LockRounded'
 import { useParams } from 'react-router-dom'
 import style from '../../../../../styles/ownerStyle/AddBaseProduct.module.css'
-import type {StepBasicDetailsProps } from '../../../types/product.types'
-
+import type { StepBasicDetailsProps } from '../../../types/product.types'
+import { useState } from 'react'
+import AiGenerateButton from '../../../../../components/common/AiGenerateButton'
 
 const StepBasicDetails = ({ data, setFormsData }: StepBasicDetailsProps) => {
   const { id: categoryId, storeID } = useParams<{ id: string; storeID: string }>()
+  const [isSlugManuallyEdited, setslugManualEdited] = useState<boolean | null>(false)
+
+  const generateSlug = (title: string) => {
+    return title
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9\s-]/g, '') // special characters hatao
+      .replace(/\s+/g, '-') // spaces ko "-" se replace karo
+      .replace(/-+/g, '-') // multiple "-" ko single "-" banao
+  }
 
   const handleChangeDetails = (event: { target: { name: string; value: string } }) => {
     const { name, value } = event.target
-    setFormsData((prev) => ({ ...prev, storeID: storeID || '', categoryId: categoryId || '', [name]: value }))
+
+    if (name === 'slug') {
+      setslugManualEdited(true)
+    }
+
+    setFormsData((prev) => ({
+      ...prev,
+      storeID: storeID || '',
+      categoryId: categoryId || '',
+      [name]: value,
+      ...(name === 'title' && !isSlugManuallyEdited && { slug: generateSlug(value) }),
+    }))
   }
 
   return (
@@ -36,7 +58,7 @@ const StepBasicDetails = ({ data, setFormsData }: StepBasicDetailsProps) => {
               className={style.ABP_Input}
               size="small"
               disabled
-              name='storeId'
+              name="storeId"
               onChange={handleChangeDetails}
               value={storeID || ''}
               slotProps={{
@@ -58,8 +80,8 @@ const StepBasicDetails = ({ data, setFormsData }: StepBasicDetailsProps) => {
             <TextField
               className={style.ABP_Input}
               size="small"
-              value={categoryId || ""}
-              name='categoryId'
+              value={categoryId || ''}
+              name="categoryId"
               onChange={handleChangeDetails}
               disabled
               slotProps={{
@@ -89,7 +111,7 @@ const StepBasicDetails = ({ data, setFormsData }: StepBasicDetailsProps) => {
               className={style.ABP_Input}
               size="small"
               placeholder="e.g. Fresh Farm Tomatoes"
-              name='title'
+              name="title"
               onChange={handleChangeDetails}
               value={data.title}
             />
@@ -102,25 +124,32 @@ const StepBasicDetails = ({ data, setFormsData }: StepBasicDetailsProps) => {
               size="small"
               placeholder="fresh-farm-tomatoes"
               helperText="Auto-generated from title"
-              name='slug'
+              name="slug"
               onChange={handleChangeDetails}
               value={data.slug}
+              disabled
             />
           </Box>
 
           <Box className={style.ABP_Field}>
-            <Typography className={style.ABP_FieldLabel}>Product Code</Typography>
-            <TextField 
-              className={style.ABP_Input} 
-              size="small" 
-              placeholder="e.g. PC-10234"
-              name='productCode'
+            <Typography className={style.ABP_FieldLabel}>Actual Product is </Typography>
+            <TextField
+              className={style.ABP_Input}
+              size="small"
+              placeholder="Enter the parent category"
+              helperText="e.g., Mobile, Clothes, Laptop,T-Shirt fro man etc."
+              name="productIs"
               onChange={handleChangeDetails}
-              value={data.productCode}
-             />
+              value={data.productIs}
+            />
           </Box>
         </Box>
+      </Box>
 
+      <Box className={style.ABP_Section}>
+        <Box className={style.ABP_SectionHead}>
+          <Typography className={style.ABP_SectionTitle}>Type or Conditions </Typography>
+        </Box>
         <Box className={style.ABP_Grid3}>
           <Box className={style.ABP_Field}>
             <Typography className={style.ABP_FieldLabel}>Product Type</Typography>
@@ -128,7 +157,7 @@ const StepBasicDetails = ({ data, setFormsData }: StepBasicDetailsProps) => {
               className={style.ABP_Input}
               size="small"
               placeholder="e.g. Grocery, Electronics"
-              name='productType'
+              name="productType"
               value={data.productType}
               onChange={handleChangeDetails}
             />
@@ -139,7 +168,7 @@ const StepBasicDetails = ({ data, setFormsData }: StepBasicDetailsProps) => {
             <FormControl className={style.ABP_Input} size="small">
               <Select
                 onChange={handleChangeDetails}
-                name='condition'
+                name="condition"
                 defaultValue="new"
                 value={data.condition}
                 MenuProps={{ slotProps: { paper: { className: style.ABP_SelectMenuPaper } } }}
@@ -149,6 +178,18 @@ const StepBasicDetails = ({ data, setFormsData }: StepBasicDetailsProps) => {
                 <MenuItem value="refurbished">Refurbished</MenuItem>
               </Select>
             </FormControl>
+          </Box>
+
+          <Box className={style.ABP_Field}>
+            <Typography className={style.ABP_FieldLabel}>Product Code</Typography>
+            <TextField
+              className={style.ABP_Input}
+              size="small"
+              placeholder="e.g. PC-10234"
+              name="productCode"
+              onChange={handleChangeDetails}
+              value={data.productCode}
+            />
           </Box>
         </Box>
       </Box>
@@ -160,16 +201,30 @@ const StepBasicDetails = ({ data, setFormsData }: StepBasicDetailsProps) => {
         <Box className={style.ABP_Grid}>
           <Box className={`${style.ABP_Field} ${style.ABP_FieldFull}`}>
             <Typography className={style.ABP_FieldLabel}>Short Description</Typography>
-            <TextField
-              className={style.ABP_Input}
-              size="small"
-              multiline
-              minRows={3}
-              placeholder="One or two lines shown on listing cards"
-              onChange={handleChangeDetails}
-              name='shortDiscription'
-              value={data.shortDiscription}
-            />
+            <Box className={style.ABP_TextAreaWrap}>
+              <TextField
+                className={style.ABP_Input}
+                size="small"
+                multiline
+                fullWidth
+                minRows={3}
+                placeholder="One or two lines shown on listing cards"
+                onChange={handleChangeDetails}
+                name="shortDiscription"
+                value={data.shortDiscription}
+              />
+              <Box className={style.ABP_TextAreaAiBtn}>
+                <AiGenerateButton
+                  defaultProductName={data.title}
+                  onGenerated={(text) =>
+                    setFormsData((prev) => ({
+                      ...prev,
+                      shortDiscription: text,
+                    }))
+                  }
+                />
+              </Box>
+            </Box>
           </Box>
         </Box>
       </Box>

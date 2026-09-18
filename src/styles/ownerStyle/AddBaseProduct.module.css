@@ -363,6 +363,23 @@
   letter-spacing: 0.2px;
 }
 
+.ABP_TextAreaWrap {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.ABP_TextAreaWrap :global(textarea.MuiOutlinedInput-input) {
+  padding-right: 34px !important;
+}
+
+.ABP_TextAreaAiBtn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 1;
+}
+
 .ABP_FieldLabel_Required::after {
   content: ' *';
   color: var(--nb-orange);

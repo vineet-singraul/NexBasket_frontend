@@ -4,8 +4,9 @@ import type {
   StepProductInformationProps,
 } from '../../../types/product.types'
 import type React from 'react'
+import AiGenerateButton from '../../../../../components/common/AiGenerateButton'
 
-const StepProductInformation = ({ data, setFormsData }: StepProductInformationProps) => {
+const StepProductInformation = ({ data, setFormsData, productName }: StepProductInformationProps) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target
     setFormsData((prev) => ({ ...prev, [name]: value }))
@@ -20,16 +21,30 @@ const StepProductInformation = ({ data, setFormsData }: StepProductInformationPr
         <Box className={style.ABP_Grid}>
           <Box className={`${style.ABP_Field} ${style.ABP_FieldFull}`}>
             <Typography className={style.ABP_FieldLabel}>Full Description</Typography>
-            <TextField
-              className={style.ABP_Input}
-              size="small"
-              multiline
-              minRows={3}
-              placeholder="Detailed product description shown on the product page"
-              name="description"
-              onChange={handleChange}
-              value={data.description}
-            />
+            <Box className={style.ABP_TextAreaWrap}>
+              <TextField
+                className={style.ABP_Input}
+                size="small"
+                multiline
+                fullWidth
+                minRows={3}
+                placeholder="Detailed product description shown on the product page"
+                name="description"
+                onChange={handleChange}
+                value={data.description}
+              />
+              <Box className={style.ABP_TextAreaAiBtn}>
+                <AiGenerateButton
+                  defaultProductName={productName}
+                  onGenerated={(text) =>
+                    setFormsData((prev) => ({
+                      ...prev,
+                      description: text,
+                    }))
+                  }
+                />
+              </Box>
+            </Box>
           </Box>
         </Box>
 

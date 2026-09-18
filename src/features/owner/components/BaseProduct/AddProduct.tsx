@@ -210,9 +210,10 @@ const AddProduct = () => {
         )
       case 1:
         return (
-          <StepProductInformation 
+          <StepProductInformation
             data={productInformation as ProductInformationInterface}
             setFormsData={setProductInformation}
+            productName={basicDetails.title}
           />
         )
       case 2:

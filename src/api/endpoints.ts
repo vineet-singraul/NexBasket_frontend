@@ -20,6 +20,11 @@ export const CATEGORY_ENDPOINTS = {
   GET_CATEGORY_BY_OWNER_ID : (id: string) => `/category/getSingleOwnerCategory/${id}`
 };
 
+export const AI_MODEL = {
+  GENRATE_DISCRIPTION: (length: string, productName: string) =>
+    `/AiGenration/generateShortDescription/${encodeURIComponent(length)}/${encodeURIComponent(productName)}`
+}
+
 
 export const STORE_ENDPOINTS = {
   CREATE: "/store/AddStore",

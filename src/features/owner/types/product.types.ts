@@ -77,6 +77,7 @@ export interface BaseProductInterFace {
   productType: string
   condition: string
   shortDiscription: string
+  productIs: string
 }
 
 export interface StepBasicDetailsProps {
@@ -101,6 +102,7 @@ export interface ProductInformationInterface {
 export interface StepProductInformationProps {
   data: ProductInformationInterface
   setFormsData: React.Dispatch<React.SetStateAction<ProductInformationInterface>>
+  productName?: string
 }
 
 // Thired Step : 3 : Compilance and Warranty
