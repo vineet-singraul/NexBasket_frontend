@@ -177,6 +177,7 @@ export interface ProductSpecificationInterface {
 }
 
 export interface StepProductSpecificationProps {
+  title : string
   data: ProductSpecificationInterface
   setFormData: React.Dispatch<React.SetStateAction<ProductSpecificationInterface>>
 }
@@ -216,6 +217,7 @@ export interface ProductSeoManagementInterface {
 }
 
 export interface StepProductSeoManagementProps {
+  title: string
   data: ProductSeoManagementInterface
   setFormData: React.Dispatch<React.SetStateAction<ProductSeoManagementInterface>>
 }

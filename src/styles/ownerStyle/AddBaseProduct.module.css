@@ -318,6 +318,55 @@
   font-size: 9px !important;
 }
 
+/* Section heading on the left, AI "generate" icon pinned to the right */
+.ABP_SpecHeadRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ABP_SpecAiBtn {
+  flex-shrink: 0;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 10px !important;
+  color: var(--nb-orange) !important;
+  background: linear-gradient(135deg, rgba(255, 132, 0, 0.2), rgba(98, 0, 235, 0.2)) !important;
+  border: 1px solid rgba(255, 132, 0, 0.4) !important;
+  box-shadow: 0 4px 14px rgba(252, 128, 25, 0.15);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease,
+    background 0.2s ease;
+}
+
+.ABP_SpecAiBtn svg {
+  font-size: 17px !important;
+  transition: transform 0.25s ease;
+}
+
+.ABP_SpecAiBtn:hover:not(:disabled) {
+  border-color: var(--nb-orange) !important;
+  background: linear-gradient(135deg, rgba(255, 132, 0, 0.32), rgba(98, 0, 235, 0.28)) !important;
+  box-shadow: 0 0 0 4px rgba(252, 128, 25, 0.16), 0 6px 18px rgba(252, 128, 25, 0.28);
+  transform: translateY(-1px);
+}
+
+.ABP_SpecAiBtn:hover:not(:disabled) svg {
+  transform: rotate(-14deg) scale(1.12);
+}
+
+.ABP_SpecAiBtn:active:not(:disabled) {
+  transform: translateY(0) scale(0.96);
+}
+
+.ABP_SpecAiBtn:disabled {
+  color: var(--nb-gray) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: var(--nb-border) !important;
+  box-shadow: none;
+  cursor: progress;
+}
+
 .ABP_Divider {
   height: 1px;
   background: var(--nb-border);

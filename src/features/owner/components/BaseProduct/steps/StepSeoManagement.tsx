@@ -1,14 +1,36 @@
 import { useState } from 'react'
 import type { KeyboardEvent } from 'react'
-import { Box, Typography, TextField, FormControl, Select, MenuItem, Switch, IconButton } from '@mui/material'
+import {
+  Box,
+  Typography,
+  TextField,
+  FormControl,
+  Select,
+  MenuItem,
+  Switch,
+  IconButton,
+  Tooltip,
+  CircularProgress,
+} from '@mui/material'
 import type { SelectChangeEvent } from '@mui/material/Select'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
+import AutoFixHighRoundedIcon from '@mui/icons-material/AutoFixHighRounded'
 import style from '../../../../../styles/ownerStyle/AddBaseProduct.module.css'
 import type { StepProductSeoManagementProps } from '../../../types/product.types'
 import type React from 'react'
+import { apiGet } from '../../../../../api/userApi'
+import { AI_MODEL } from '../../../../../api/endpoints'
 
-const StepSeoManagement = ({ data, setFormData }: StepProductSeoManagementProps) => {
+interface SeoResponse {
+  metaTitle: string
+  metaDescription: string
+  searchKeywords: string[]
+  tags: string[]
+}
+
+const StepSeoManagement = ({title, data, setFormData }: StepProductSeoManagementProps) => {
   const [tagInput, setTagInput] = useState('')
+  const [generating, setGenerating] = useState(false)
   const tags = data.tags ?? []
 
   const handleChange = (
@@ -39,12 +61,56 @@ const StepSeoManagement = ({ data, setFormData }: StepProductSeoManagementProps)
     setFormData((prev) => ({ ...prev, tags: (prev.tags ?? []).filter((tag) => tag !== tagToRemove) }))
   }
 
+  const handleGenrateMetaOrSearchKeyWords = async () => {
+    const productName = title?.trim()
+    if (!productName) {
+      alert('Please enter the product title in Basic Details first')
+      return
+    }
+
+    try {
+      setGenerating(true)
+      const response = await apiGet<SeoResponse>(AI_MODEL.GENRATE_SEO_SEARCH_KEYWORD_META(productName))
+
+      setFormData((prev) => ({
+        ...prev,
+        metaTitle: response.metaTitle,
+        metaDescription: response.metaDescription,
+        searchKeywords: response.searchKeywords.join(', '),
+        tags: Array.from(new Set([...(prev.tags ?? []), ...response.tags])),
+      }))
+    } catch (error) {
+      alert(`${error instanceof Error ? error.message : 'Some thing went wrong'}`)
+    } finally {
+      setGenerating(false)
+    }
+  }
+
   return (
     <Box className={style.ABP_StepPanel}>
       {/* SEO */}
       <Box className={style.ABP_Section}>
-        <Box className={style.ABP_SectionHead}>
-          <Typography className={style.ABP_SectionTitle}>SEO</Typography>
+        <Box className={style.ABP_SpecHeadRow}>
+          <Box className={style.ABP_SectionHead}>
+            <Typography className={style.ABP_SectionTitle}>SEO</Typography>
+            <Typography className={style.ABP_SectionHint}>
+              Meta title, description, keywords &amp; tags
+            </Typography>
+          </Box>
+
+          <Tooltip title="Generate SEO with AI" arrow>
+            <span>
+              <IconButton
+                type="button"
+                className={style.ABP_SpecAiBtn}
+                onClick={() => void handleGenrateMetaOrSearchKeyWords()}
+                disabled={generating}
+                aria-label="Generate SEO with AI"
+              >
+                {generating ? <CircularProgress size={16} color="inherit" /> : <AutoFixHighRoundedIcon />}
+              </IconButton>
+            </span>
+          </Tooltip>
         </Box>
         <Box className={style.ABP_Grid}>
           <Box className={style.ABP_Field}>

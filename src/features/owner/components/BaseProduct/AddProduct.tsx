@@ -235,6 +235,7 @@ const AddProduct = () => {
       case 4:
         return (
           <StepSpecifications
+            title={basicDetails.title}
             data={productSpecification}
             setFormData={setProductSpecification}
           />
@@ -249,6 +250,7 @@ const AddProduct = () => {
       case 6:
         return (
           <StepSeoManagement
+            title={basicDetails.title}
             data={productSeoManagement}
             setFormData={setProductSeoManagement}
           />

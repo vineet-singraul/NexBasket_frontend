@@ -55,7 +55,7 @@ const GrockAi = ({ kind, productName = '', onGenerated }: GrockAiProps) => {
     if (!name) {
       setError('Add the product title in Basic Details first')
       return
-    }
+    }   
 
     setLoading(true)
     setError(null)
