@@ -28,11 +28,12 @@ import type {
   ProductPricingInventoryInterface,
   ProductSeoManagementInterface,
 } from '../../types/product.types'
-import type {NotificationInterfacce} from "../../../../auth/types/auth.types"
+import type { NotificationInterfacce } from '../../../../auth/types/auth.types'
 import { apiPost } from '../../../../api/userApi'
-import { BASE_PRODUCT } from '../../../../api/endpoints'
+import { AI_MODEL, BASE_PRODUCT } from '../../../../api/endpoints'
 import Loader from '../../../../utils/Loader'
 import Notification from '../../../../utils/Notification'
+import ProductValidationReview from '../../common/ProductValidationReview'
 
 const PHASES = [
   { label: 'Basic Details', icon: <Inventory2RoundedIcon /> },
@@ -44,23 +45,39 @@ const PHASES = [
   { label: 'SEO & Product Management', icon: <ManageSearchRoundedIcon /> },
 ]
 
+// Product Payload Validation Response
+
+interface ProductValidationResponse {
+  success: boolean
+  isValid: boolean
+  score: number // 0 – 100
+  errors: string[]
+  warnings: string[]
+  suggestions: string[]
+}
+
 const AddProduct = () => {
   const [activeStep, setActiveStep] = useState(0)
   const [basicDetails, setBasicDetails] = useState<BaseProductInterFace>({} as BaseProductInterFace)
 
-  const [productInformation, setProductInformation] = useState<ProductInformationInterface>({} as ProductInformationInterface)
+  const [productInformation, setProductInformation] = useState<ProductInformationInterface>(
+    {} as ProductInformationInterface,
+  )
 
-  const [complianceWarranty, setComplianceWarranty] = useState<ProductCompilanceWarrenty>({} as ProductCompilanceWarrenty)
+  const [complianceWarranty, setComplianceWarranty] = useState<ProductCompilanceWarrenty>(
+    {} as ProductCompilanceWarrenty,
+  )
 
-  const [productVarient, setProductVarient] = useState<ProductVarientInterface>({} as ProductVarientInterface)
+  const [productVarient, setProductVarient] = useState<ProductVarientInterface>(
+    {} as ProductVarientInterface,
+  )
 
   const [productSpecification, setProductSpecification] = useState<ProductSpecificationInterface>(
     {} as ProductSpecificationInterface,
   )
 
-  const [productPricingInventory, setProductPricingInventory] = useState<ProductPricingInventoryInterface>(
-    {} as ProductPricingInventoryInterface,
-  )
+  const [productPricingInventory, setProductPricingInventory] =
+    useState<ProductPricingInventoryInterface>({} as ProductPricingInventoryInterface)
 
   const [productSeoManagement, setProductSeoManagement] = useState<ProductSeoManagementInterface>(
     {} as ProductSeoManagementInterface,
@@ -68,6 +85,12 @@ const AddProduct = () => {
 
   const [notification, setNofication] = useState<NotificationInterfacce | null>(null)
   const [loading, setLoading] = useState<boolean | null>(null)
+  const [wornings, setWornings] = useState<string[]>([])
+  const [suggestions, setSuggestions] = useState<string[]>([])
+  const [errors, setErrors] = useState<string[]>([])
+  const [isValidDetails, setIsValidDetails] = useState<boolean>(false)
+  const [score, setScore] = useState<number>(0)
+  const [open, setOpen] = useState<boolean>(false)
   const isFirstStep = activeStep === 0
   const isLastStep = activeStep === PHASES.length - 1
 
@@ -102,6 +125,7 @@ const AddProduct = () => {
       productType: basicDetails.productType,
       condition: basicDetails.condition,
       shortDescription: basicDetails.shortDiscription,
+      productIs: basicDetails.productIs,
 
       // Product Information
       description: productInformation.description,
@@ -165,6 +189,29 @@ const AddProduct = () => {
     return payload
   }
 
+  const AI_VALIDATE_DETAILS = async () => {
+    try {
+      const payload = prepareProductPayload()
+      setLoading(true)
+      const response = await apiPost<ProductValidationResponse>(
+        AI_MODEL.AUTO_VALIDATE_PRODUCT_LISTTING_DETAILS,
+        payload,
+      )
+      setOpen(true)
+      console.log('<Response = >', response)
+      setWornings(response.warnings ?? [])
+      setSuggestions(response.suggestions ?? [])
+      setErrors(response.errors ?? [])
+      setIsValidDetails(response.isValid)
+      setScore(response.score)
+    } catch (error) {
+      setLoading(true)
+      console.log(`${error instanceof Error ? error.message : 'Some Went Wromg hare'}`)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const handleSubmitProduct = async () => {
     const payload = prepareProductPayload()
 
@@ -172,7 +219,7 @@ const AddProduct = () => {
       setNofication({
         open: true,
         message: 'please fill the all details of product',
-        severity:"warning",
+        severity: 'warning',
       })
       return
     }
@@ -180,12 +227,12 @@ const AddProduct = () => {
     setLoading(true)
 
     try {
-      const response = await apiPost<{message? : string}>(BASE_PRODUCT.ADD_BASE_PRODUCT, payload)
+      const response = await apiPost<{ message?: string }>(BASE_PRODUCT.ADD_BASE_PRODUCT, payload)
       setLoading(true)
       setNofication({
-        open:true,
-        message:response.message || "added product sucessfully",
-        severity:"success"
+        open: true,
+        message: response.message || 'added product sucessfully',
+        severity: 'success',
       })
       resetForm()
     } catch (error) {
@@ -218,18 +265,15 @@ const AddProduct = () => {
         )
       case 2:
         return (
-          <StepComplianceWarranty
-            data={complianceWarranty}
-            setFormData={setComplianceWarranty}
-          />
+          <StepComplianceWarranty data={complianceWarranty} setFormData={setComplianceWarranty} />
         )
       case 3:
         return (
-          <StepVariant 
-           data={productVarient as ProductVarientInterface}
-           setFormData={
-             setProductVarient as unknown as Dispatch<SetStateAction<ProductCompilanceWarrenty>>
-           }
+          <StepVariant
+            data={productVarient as ProductVarientInterface}
+            setFormData={
+              setProductVarient as unknown as Dispatch<SetStateAction<ProductCompilanceWarrenty>>
+            }
           />
         )
       case 4:
@@ -319,7 +363,7 @@ const AddProduct = () => {
 
       <Box className={style.ABP_Footer}>
         <Typography className={style.ABP_FooterProgress}>
-          Step <b>{activeStep + 1}</b> of {PHASES.length} — {PHASES[activeStep].label}
+          Step <b>{activeStep + 1}</b> of {PHASES.length}
         </Typography>
 
         <Box className={style.ABP_FooterActions}>
@@ -333,7 +377,9 @@ const AddProduct = () => {
           </Button>
 
           {isLastStep ? (
-            <Button className={style.ABP_BtnPrimary}   onClick={handleSubmitProduct}>Submit Product</Button>
+            <Button className={style.ABP_BtnPrimary} onClick={AI_VALIDATE_DETAILS}>
+              AI Review
+            </Button>
           ) : (
             <Button
               className={style.ABP_BtnPrimary}
@@ -346,18 +392,27 @@ const AddProduct = () => {
         </Box>
       </Box>
 
+      {loading && <Loader />}
+      {notification && (
+        <Notification
+          open={notification.open}
+          message={notification.message}
+          severity={notification.severity}
+          onClose={() => setNofication(null)}
+        />
+      )}
 
-   {loading && <Loader/>}
-   {notification &&  
-    <Notification 
-      open={notification.open}
-      message={notification.message}
-      severity={notification.severity}
-      onClose={() => setNofication(null)}
-    />
-   }
-
-
+      {open && (
+        <ProductValidationReview
+          wornings={wornings}
+          suggestions={suggestions}
+          errors={errors}
+          isValidDetails={isValidDetails}
+          score={score}
+          onSubmit={handleSubmitProduct}
+          onClose={() => setOpen(false)}
+        />
+      )}
     </Box>
   )
 }
