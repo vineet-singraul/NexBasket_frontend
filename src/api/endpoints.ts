@@ -29,7 +29,8 @@ export const AI_MODEL = {
     `/AiGenration/autoGenrateSeoOrProductMnageMnet/${encodeURIComponent(productName)}`,
   GROK_FEATURES: '/AiGrock/autoGenrateProductFeatures',
   GROK_HIGHLIGHTS: '/AiGrock/autoGenrateProductHighlights',
-  AUTO_VALIDATE_PRODUCT_LISTTING_DETAILS: '/AiGenration/aiAutomaticallyValidateProduct'
+  AUTO_VALIDATE_PRODUCT_LISTTING_DETAILS: '/AiGenration/aiAutomaticallyValidateProduct',
+  AUTO_BRAND_DETECTION: '/AiGenration/autoBrandPridiction',
 }
 
 export const STORE_ENDPOINTS = {

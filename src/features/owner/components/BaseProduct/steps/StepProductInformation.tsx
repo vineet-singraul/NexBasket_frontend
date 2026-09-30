@@ -1,16 +1,75 @@
-import { Box, Typography, TextField } from '@mui/material'
+import { Box, Typography, TextField, CircularProgress } from '@mui/material'
 import style from '../../../../../styles/ownerStyle/AddBaseProduct.module.css'
-import type {
-  StepProductInformationProps,
-} from '../../../types/product.types'
+import type { StepProductInformationProps } from '../../../types/product.types'
 import type React from 'react'
 import AiGenerateButton from '../../../../../components/common/AiGenerateButton'
 import GrockAi from '../../../../../components/common/GrockAi'
+import { apiPost } from '../../../../../api/userApi'
+import { AI_MODEL } from '../../../../../api/endpoints'
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
+import { useState } from 'react'
 
-const StepProductInformation = ({ data, setFormsData, productName }: StepProductInformationProps) => {
+const StepProductInformation = ({
+  data,
+  setFormsData,
+  productName,
+}: StepProductInformationProps) => {
+  const [loading, setLoading] = useState(false)
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target
     setFormsData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const AutoGeenrateBrandsDetails = async (title: string) => {
+    try {
+      setLoading(true)
+      const response = await apiPost<{ message: string }>(AI_MODEL.AUTO_BRAND_DETECTION, {
+        title: title.trim(),
+      })
+
+      const raw = response.message as unknown
+      const text = Array.isArray(raw)
+        ? raw.map((part: { text?: string }) => part.text ?? '').join('')
+        : String(raw ?? '')
+      const result: unknown = JSON.parse(text.replace(/```(?:json)?/gi, '').trim())
+      console.log('AI brand result:', result)
+
+      // AI key names vary ("Brand Name", "brand_name", "brandName", "[0] Brand Name"...),
+      // so compare keys as lowercase letters only. An array comes back in prompt order.
+      const values: Record<string, unknown> = {}
+      if (Array.isArray(result)) {
+        ;['brandname', 'manufacturername', 'modelname', 'modelnumber', 'manufacturerpartnumber'].forEach(
+          (key, index) => (values[key] = result[index])
+        )
+      } else if (result && typeof result === 'object') {
+        Object.entries(result).forEach(([key, value]) => {
+          values[key.replace(/^\[\d+\]/, '').toLowerCase().replace(/[^a-z]/g, '')] = value
+        })
+      }
+      const pick = (...keys: string[]) => {
+        for (const key of keys) {
+          const value = values[key]
+          if (value !== null && value !== undefined && String(value).trim()) return String(value)
+        }
+        return undefined
+      }
+
+      const brand = pick('brandname', 'brand')
+      setFormsData((prev) => ({
+        ...prev,
+        brand: brand ?? prev.brand,
+        manufacturer: pick('manufacturername', 'manufacturer') ?? brand ?? prev.manufacturer,
+        modelName: pick('modelname', 'model') ?? prev.modelName,
+        modelNumber: pick('modelnumber', 'modelno') ?? prev.modelNumber,
+        manufacturerPartNumber:
+          pick('manufacturerpartnumber', 'partnumber', 'mpn') ?? prev.manufacturerPartNumber,
+      }))
+    } catch (error) {
+      alert(`${error instanceof Error ? error.message : 'Something went wrong'}`)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -127,6 +186,16 @@ const StepProductInformation = ({ data, setFormsData, productName }: StepProduct
       <Box className={style.ABP_Section}>
         <Box className={style.ABP_SectionHead}>
           <Typography className={style.ABP_SectionTitle}>Brand</Typography>
+          <Box className={style.ABP_TextAreaAiBtn}>
+            {loading ? (
+              <CircularProgress size={17} sx={{ color: '#f05a359c' }} />
+            ) : (
+              <AutoAwesomeIcon
+                className={style.ABP_BrandAiIcon}
+                onClick={() => AutoGeenrateBrandsDetails(productName ?? '')}
+              />
+            )}
+          </Box>
         </Box>
         <Box className={style.ABP_Grid4}>
           <Box className={style.ABP_Field}>

@@ -313,6 +313,17 @@
   text-transform: uppercase;
 }
 
+.ABP_BrandAiIcon {
+  border: 1px solid #dc2c0087;
+  padding: 3.2px;
+  margin: 0.8px;
+  font-size: 17px !important;
+  color: #f05a359c;
+  border-radius: 8px;
+  background-color: #a62d2d29;
+  cursor: pointer;
+}
+
 .ABP_SectionHint {
   color: var(--nb-gray) !important;
   font-size: 9px !important;
