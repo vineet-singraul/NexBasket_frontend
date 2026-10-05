@@ -18,6 +18,7 @@ export const CATEGORY_ENDPOINTS = {
   GET_CATEGORY_BY_ID: (id: string) => `/category/getCategoryOfProductById/${id}`,
   UPDATE_CATEGORY: (id: string) => `/category/updateCategoryOfProduct/${id}`,
   GET_CATEGORY_BY_OWNER_ID: (id: string) => `/category/getSingleOwnerCategory/${id}`,
+  GET_ALL_CATEGORY: `/category/getAllCategoriesOfProduct`
 }
 
 export const AI_MODEL = {

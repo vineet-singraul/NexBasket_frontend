@@ -113,10 +113,12 @@ const AddCategoryLeftPannal = ({ subOwnerId }: AddCategoryLeftPannalProps) => {
       })
       setFormData({ name: '', slug: '', description: '', image: '', isActive: 'true' })
     } catch (err) {
+      // 409 = category overlaps / belongs under an existing one
+      const isConflict = (err as { status?: number })?.status === 409
       setNotification({
         open: true,
         message: err instanceof Error ? err.message : 'Something went wrong',
-        severity: 'error',
+        severity: isConflict ? 'warning' : 'error',
       })
     } finally {
       setLoading(false)

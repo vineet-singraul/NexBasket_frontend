@@ -7,14 +7,6 @@ import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
 import SearchOffRoundedIcon from '@mui/icons-material/SearchOffRounded'
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded'
-import DevicesOtherOutlinedIcon from '@mui/icons-material/DevicesOtherOutlined'
-import LocalGroceryStoreOutlinedIcon from '@mui/icons-material/LocalGroceryStoreOutlined'
-import CheckroomOutlinedIcon from '@mui/icons-material/CheckroomOutlined'
-import ChairAltOutlinedIcon from '@mui/icons-material/ChairAltOutlined'
-import SpaOutlinedIcon from '@mui/icons-material/SpaOutlined'
-import SportsSoccerOutlinedIcon from '@mui/icons-material/SportsSoccerOutlined'
-import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined'
-import KitchenOutlinedIcon from '@mui/icons-material/KitchenOutlined'
 import style from '../../../../styles/ownerStyle/AddProducts.module.css'
 import { useNavigate, useParams } from 'react-router-dom'
 import { apiGet } from '../../../../api/userApi'
@@ -24,23 +16,15 @@ import type { CategoryListItem } from '../../types/category.types'
 import Loader from '../../../../utils/Loader'
 import Notification from '../../../../utils/Notification'
 
-interface StaticCategory {
-  name: string
-  description: string
-  icon: ReactNode
-  image?: string
-}
-
 const LeftSideAddProduct = () => {
   const { ownerdId, idStore } = useParams<{ ownerdId: string; idStore: string }>()
-  
+
   const [selected, setSelected] = useState<string | null>(null)
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState<boolean | null>(false)
   const [notification, setNotification] = useState<NotificationInterfacce | null>(null)
   const [categories, setCategorys] = useState<CategoryListItem[]>([])
-  const [storeId, setStoreId] = useState<string | null>(idStore ?? null);
-
+  const [storeId, setStoreId] = useState<string | null>(idStore ?? null)
 
   const navigate = useNavigate()
 
@@ -57,7 +41,7 @@ const LeftSideAddProduct = () => {
     setLoading(true)
     try {
       const response = await apiGet<{ data: CategoryListItem[] }>(
-        CATEGORY_ENDPOINTS.GET_CATEGORY_BY_OWNER_ID(ownerdId),
+        CATEGORY_ENDPOINTS.GET_ALL_CATEGORY,
       )
 
       const categories = Array.isArray(response.data) ? response.data : []
@@ -78,13 +62,13 @@ const LeftSideAddProduct = () => {
   useEffect(() => {
     if (!ownerdId || !idStore) return
 
-    void Promise.resolve().then(() => fatchCatagoryOfOwner()) 
-    localStorage.setItem("ownerdId",ownerdId)
+    void Promise.resolve().then(() => fatchCatagoryOfOwner())
+    localStorage.setItem('ownerdId', ownerdId)
   }, [ownerdId, idStore])
 
   // Send To Add Product Page :
   const SendToProductPage = (id: string) => {
-    if(!storeId) return;
+    if (!storeId) return
     navigate(`/owner/product/All/${id}/${storeId}/${ownerdId}`)
   }
 

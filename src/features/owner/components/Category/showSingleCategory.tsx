@@ -50,7 +50,7 @@ const ShowSingleCategory = ({ onClose }: ShowSingleCategoryProps) => {
 
     setLoading(true)
     try {
-      const response = await apiGet(CATEGORY_ENDPOINTS.GET_OWNER_CATEGORY(ownerId))
+      const response = await apiGet(CATEGORY_ENDPOINTS.GET_ALL_CATEGORY)
       const payload = response as
         | CategoryListItem[]
         | { data?: CategoryListItem | CategoryListItem[] | null }
