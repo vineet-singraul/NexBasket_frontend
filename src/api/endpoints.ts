@@ -87,17 +87,3 @@ export const USER_FILLTER = {
 }
 
 
-
-
-
-// const generateSeo = async (productName) => {
-//   const res = await fetch(
-//     `http://localhost:8000/api/AiGenration/autoGenrateSeoOrProductMnageMnet/${encodeURIComponent(productName)}`,
-//   );
-//   const data = await res.json();
-
-//   if (!data.success) throw new Error(data.message);
-
-//   // data.seo = { metaTitle, metaDescription, searchKeywords, tags }
-//   return data.seo;
-// };

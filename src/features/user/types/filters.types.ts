@@ -44,13 +44,13 @@ export type RangeValue = [number, number]
 
 export type RangeProps = {
   filter: ProductFilter
-//   value?: RangeValue
-//   onChange: (key: string, value: RangeValue) => void
+  value?: RangeValue
+  onChange: (key: string, value: RangeValue) => void
 }
 
 
 export type CheckBoxProps = {
   filter: ProductFilter
-//   value?: RangeValue
-//   onChange: (key: string, value: RangeValue) => void
+  value: string[]
+  onChange: (key: string, value: string) => void
 }

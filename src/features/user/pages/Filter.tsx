@@ -4,6 +4,7 @@ import { USER_FILLTER } from '../../../api/endpoints'
 import { apiGet } from '../../../api/userApi'
 import { useParams } from 'react-router-dom'
 import type {ProductFilterGroup} from "../types/filters.types.ts"
+import styles from '../../../styles/userStyle/Filters.module.css'
 
 const Filter = () => {
   const { itemid } = useParams()
@@ -29,7 +30,7 @@ const Filter = () => {
 
   return (
     <>
-     {fillter ? <ShowAllFillters fillter={fillter}/> : <p>No filters found</p>}
+     {fillter ? <ShowAllFillters fillter={fillter}/> : <p className={styles.empty}>No filters found</p>}
     </>
   )
 }

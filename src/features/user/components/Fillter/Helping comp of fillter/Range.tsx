@@ -1,29 +1,35 @@
-import { Typography, Box, Slider } from '@mui/material'
+import { Slider } from '@mui/material'
 
 import { type RangeProps } from '../../../types/filters.types'
-import { useState } from 'react'
+import styles from '../../../../../styles/userStyle/Filters.module.css'
 
-const Range = ({ filter }: RangeProps) => {
-  const [price, setPrice] = useState<number[]>([filter.min ?? 0, filter.max ?? 0])
+const Range = ({ filter, value, onChange }: RangeProps) => {
+  const min = filter.min ?? 0
+  const max = filter.max ?? 5000
+  const price = value ?? [min, max]
 
   const handleChange = (_event: Event, newValue: number | number[]) => {
-    setPrice(newValue as number[])
+    if (!Array.isArray(newValue)) return
+    onChange(filter.key, [newValue[0], newValue[1]])
   }
-
-  console.log('<price>', price)
 
   return (
     <div>
-      <Typography gutterBottom>Airbnb</Typography>
-      <Box sx={{ width: 300 }}>
+      <h3 className={styles.sectionTitle}>{filter.name}</h3>
+      <div className={styles.rangeBody}>
         <Slider
           value={price}
-          min={filter.min ?? 0}
-          max={filter.max ?? 5000}
+          min={min}
+          max={max}
           onChange={handleChange}
           valueLabelDisplay="auto"
         />
-      </Box>
+        <div className={styles.rangeValues}>
+          <span className={styles.rangeValue}>₹{price[0]}</span>
+          <span className={styles.rangeTo}>to</span>
+          <span className={styles.rangeValue}>₹{price[1]}</span>
+        </div>
+      </div>
     </div>
   )
 }
