@@ -82,6 +82,9 @@ export const USER_CATEGORY_PAGE = {
 }
 
 
+export const USER_FILLTER = {
+  GET_PARTICULLER_FILLTER: (findingKeywords: string) => `/getParticulerFillter/filterModel/${findingKeywords}`
+}
 
 
 

@@ -16,6 +16,7 @@ import AddProducts from './features/owner/components/Products/AddProducts'
 import ProductCommonBase from './features/owner/pages/ProductCommonBase'
 import AddProduct from './features/owner/components/BaseProduct/AddProduct'
 import MainOwnerDashbord from './features/owner/pages/MainOwnerDashbord'
+import Filter from './features/user/pages/Filter'
 function App() {
   return (
     <LocationGate>
@@ -23,6 +24,7 @@ function App() {
       <Routes>
         <Route path="/" element={<UserHome />} />
         <Route path="/category" element={<Category />} />
+        <Route path="/Filters/:itemid" element={<Filter />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/google-continue" element={<GoogleProviView />} />

@@ -88,6 +88,9 @@ const SubCategory = ({ category }: SubCategoryProps) => {
               key={item.id}
               className={styles.mensItem}
               onClick={() => navigate(`/Filters/${item.id}`)}
+              // onClick={() => {
+              //   haneleClickToFindTheFillter(`${item.id}`)
+              // }}
               role="button"
               tabIndex={0}
               style={{ cursor: 'pointer' }}

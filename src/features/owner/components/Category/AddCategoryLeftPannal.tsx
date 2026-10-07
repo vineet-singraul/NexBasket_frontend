@@ -192,7 +192,7 @@ const AddCategoryLeftPannal = ({ subOwnerId }: AddCategoryLeftPannalProps) => {
       setLoading(false)
       setFormData({
         name: '',
-        slug: '',
+        slug: '', 
         description: '',
         image: '',
         isActive: 'true',
