@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import styles from '../../../../styles/userStyle/Category.module.css'
 import { type Category } from '../../types/category.types.ts'
@@ -55,7 +54,6 @@ interface SubCategoryProps {
 }
 
 const SubCategory = ({ category }: SubCategoryProps) => {
-  const navigate = useNavigate()
   const subCategoryItems = SUBCATEGORY_GROUPS[resolveSubCategoryGroup(category?.name)]
 
   return (
@@ -84,17 +82,7 @@ const SubCategory = ({ category }: SubCategoryProps) => {
         <h3 className={styles.sectionTitle}>{CATEGORY_SECTION_TITLES.shopByCategory}</h3>
         <div className={styles.mensGrid}>
           {subCategoryItems.map((item) => (
-            <div
-              key={item.id}
-              className={styles.mensItem}
-              onClick={() => navigate(`/Filters/${item.id}`)}
-              // onClick={() => {
-              //   haneleClickToFindTheFillter(`${item.id}`)
-              // }}
-              role="button"
-              tabIndex={0}
-              style={{ cursor: 'pointer' }}
-            >
+            <div key={item.id} className={styles.mensItem}>
               <ShimmerImage
                 src={item.image}
                 alt={item.name}
