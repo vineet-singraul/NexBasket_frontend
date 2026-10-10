@@ -1,9 +1,13 @@
-import { Box, Typography, IconButton } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import styles from '../../../../styles/userStyle/homePage.module.css'
 import type { Product } from '../../types/common.types.ts'
 import { getProductImage } from '../../utils/productDisplay.ts'
-import { STILL_LOOKING_TITLE, TOP_VALUES_VISIBLE_COUNT, VIEW_STORE_LABEL } from '../../utils/context.ts'
+import {
+  STILL_LOOKING_TITLE,
+  TOP_VALUES_VISIBLE_COUNT,
+  VIEW_STORE_LABEL,
+} from '../../utils/context.ts'
 
 interface TopValuesProps {
   products: Product[]
@@ -12,9 +16,9 @@ interface TopValuesProps {
 const TopValues = ({ products }: TopValuesProps) => {
   return (
     <Box component="section" className={styles.valuesSection}>
-      <Typography component="h3" variant="inherit" className={styles.valuesHeader}>
+      <Box component="h3" className={styles.valuesHeader}>
         {STILL_LOOKING_TITLE}
-      </Typography>
+      </Box>
 
       <Box className={styles.valuesRow}>
         {products.slice(0, TOP_VALUES_VISIBLE_COUNT).map((product) => (
@@ -27,18 +31,14 @@ const TopValues = ({ products }: TopValuesProps) => {
                 alt={product.title}
               />
               {product.pricing?.discountPercent > 0 && (
-                <Typography variant="inherit" component="span" className={styles.valueDiscountBadge}>
+                <Box component="span" className={styles.valueDiscountBadge}>
                   ↓{product.pricing.discountPercent}%
-                </Typography>
+                </Box>
               )}
             </Box>
             <Box className={styles.valueCaption}>
-              <Typography variant="inherit" className={styles.valueCategory}>
-                {product.title}
-              </Typography>
-              <Typography variant="inherit" className={styles.valueLink}>
-                {VIEW_STORE_LABEL}
-              </Typography>
+              <Box className={styles.valueCategory}>{product.title}</Box>
+              <Box className={styles.valueLink}>{VIEW_STORE_LABEL}</Box>
             </Box>
           </Box>
         ))}

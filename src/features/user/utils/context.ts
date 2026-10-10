@@ -398,3 +398,44 @@ export const HOME_CAROUSEL_ITEMS: CarouselItem[] = [
 
 export const PRODUCT_SECTION_BG = '#e5e5e5'
 export const PRODUCT_SECTION_PADDING = 5
+
+export const PRODUCT_DETAILS_TEXT = {
+  notFound: 'Product not found',
+  backToHome: 'Back to Home',
+  addToCart: 'Add to Cart',
+  buyNow: 'Buy Now',
+  inclusiveOfTaxes: 'Inclusive of all taxes',
+  inStock: 'In Stock',
+  outOfStock: 'Out of Stock',
+  aboutThisItem: 'About this item',
+  highlights: 'Highlights',
+  features: 'Features',
+  whatsIncluded: "What's in the box",
+  specifications: 'Specifications',
+  tags: 'Tags',
+  noImage: 'No image available',
+  home: 'Home',
+  youSave: 'You save',
+  warranty: 'Warranty',
+  deliveryAndServices: 'Delivery & Services',
+  freeDelivery: 'Free Delivery',
+  delivery: 'Delivery',
+  deliveryCharge: 'Delivery charge',
+  itemPrice: 'Item price',
+  totalPayable: 'Total payable',
+  free: 'FREE',
+  returnTitle: 'Return',
+  returnWindow: 'Return window',
+  warrantyType: 'Warranty type',
+  warrantyPeriod: 'Warranty period',
+}
+
+// Products priced above this amount are delivered free
+export const FREE_DELIVERY_ABOVE = 400
+
+// Delivery charge by product price, for products that don't qualify for free delivery
+export const DELIVERY_CHARGE_SLABS = [
+  { upTo: 100, charge: 20 },
+  { upTo: 200, charge: 30 },
+  { upTo: FREE_DELIVERY_ABOVE, charge: 40 },
+]

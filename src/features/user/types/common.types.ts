@@ -12,6 +12,7 @@ export interface Product {
 
   description: string
   shortDescription: string
+  fullDescription: string
 
   highlights: string[]
   features: string[]
@@ -49,10 +50,7 @@ export interface Product {
   sku: string
   variantName: string
 
-  attributes: {
-    color: string
-    size: string
-  }
+  attributes: Record<string, string>
 
   gtin: string
   isDefault: boolean
@@ -73,38 +71,36 @@ export interface Product {
   updatedAt: string
 
   images: Image[]
-category: Category[];
+  category: Category[]
   count: number
 }
 
 export interface Category {
-  _id: string;
-  ownerId: string;
-  name: string;
-  slug: string;
-  description: string;
-  image: string;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
+  _id: string
+  ownerId: string
+  name: string
+  slug: string
+  description: string
+  image: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+  __v: number
 }
-
 
 export interface Image {
-  _id: string;
-  productId: string;
-  imageUrl: string;
-  publicId: string;
-  altText: string;
-  imageType: "product" | "thumbnail" | "gallery" | "detail";
-  sortOrder: number;
-  isPrimary: boolean;
-  __v: number;
-  createdAt: string;
-  updatedAt: string;
+  _id: string
+  productId: string
+  imageUrl: string
+  publicId: string
+  altText: string
+  imageType: 'product' | 'thumbnail' | 'gallery' | 'detail'
+  sortOrder: number
+  isPrimary: boolean
+  __v: number
+  createdAt: string
+  updatedAt: string
 }
-
 
 export interface Warranty {
   duration: number
@@ -149,6 +145,3 @@ export interface Specification {
   _id: string
   id: string
 }
-
-
-

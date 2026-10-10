@@ -1,4 +1,4 @@
-import { Box, Paper, Typography, IconButton } from '@mui/material'
+import { Box, Paper, IconButton } from '@mui/material'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import styles from '../../../../styles/userStyle/homePage.module.css'
 import type { Product } from '../../types/common.types.ts'
@@ -17,7 +17,7 @@ interface PromoCard {
   products: Product[]
 }
 
-const TopCards = ({ womans, mans, electranics,grocery }: TopCardsProps) => {
+const TopCards = ({ womans, mans, electranics, grocery }: TopCardsProps) => {
   const promoCards: PromoCard[] = [
     { title: PROMO_CARD_TITLES.fashionForYou, products: womans },
     { title: PROMO_CARD_TITLES.innerwear, products: mans },
@@ -25,16 +25,15 @@ const TopCards = ({ womans, mans, electranics,grocery }: TopCardsProps) => {
     { title: PROMO_CARD_TITLES.lowestPrices, products: grocery },
   ]
 
-
   return (
     <Box component="section" className={styles.topCardsSection}>
       <Box className={styles.cardsRow}>
         {promoCards.map((promo) => (
           <Paper elevation={0} className={styles.card} key={promo.title}>
             <Box className={styles.cardHeader}>
-              <Typography component="h3" variant="inherit" className={styles.cardTitle}>
+              <Box component="h3" className={styles.cardTitle}>
                 {promo.title}
-              </Typography>
+              </Box>
               <IconButton size="small" className={styles.cardArrow}>
                 <ChevronRightIcon fontSize="small" />
               </IconButton>
@@ -51,9 +50,7 @@ const TopCards = ({ womans, mans, electranics,grocery }: TopCardsProps) => {
                       alt={product.title}
                     />
                   </Box>
-                  <Typography variant="inherit" className={styles.tileCaption}>
-                    {product.title}
-                  </Typography>
+                  <Box className={styles.tileCaption}>{product.title}</Box>
                 </Box>
               ))}
             </Box>

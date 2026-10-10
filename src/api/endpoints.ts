@@ -73,6 +73,7 @@ export const OWNER_DASHBOARD_API = {
 
 export const USER_HOME_PAGE_CARDS = {
   GET_ALL_CARDS: '/userHomePage/getUserHomePageDetails',
+  GET_SINGLE_CARD : (productId : string) => `/userHomePage/getSingleProductDetails/${productId}`
 }
 
 export const USER_CATEGORY_PAGE = {

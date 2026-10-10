@@ -16,6 +16,7 @@ import AddProducts from './features/owner/components/Products/AddProducts'
 import ProductCommonBase from './features/owner/pages/ProductCommonBase'
 import AddProduct from './features/owner/components/BaseProduct/AddProduct'
 import MainOwnerDashbord from './features/owner/pages/MainOwnerDashbord'
+import ShowCardDetails from './features/user/components/Home/ShowCardDetails'
 function App() {
   return (
     <LocationGate>
@@ -43,6 +44,9 @@ function App() {
             </OwnerLayout>
           }
         />
+
+        <Route path="/Productdetails/:productId" element={<ShowCardDetails/>}/>
+
         <Route element={<ProtectedRoute role="owner" />}>
           <Route
             path="/owner/dashboard"

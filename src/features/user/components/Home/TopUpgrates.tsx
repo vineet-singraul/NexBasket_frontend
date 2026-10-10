@@ -1,4 +1,4 @@
-import { Box, Typography, IconButton } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import styles from '../../../../styles/userStyle/homePage.module.css'
@@ -23,9 +23,9 @@ const UPGRADE_BG_CLASSES = [
 const TopUpgrates = ({ products }: TopUpgratesProps) => {
   return (
     <Box component="section" className={styles.upgradesSection}>
-      <Typography component="h3" variant="inherit" className={styles.upgradesHeader}>
+      <Box component="h3" className={styles.upgradesHeader}>
         {SMART_UPGRADES_TITLE}
-      </Typography>
+      </Box>
 
       <Box className={styles.upgradesRow}>
         {products.slice(0, SMART_UPGRADES_VISIBLE_COUNT).map((product, index) => (
@@ -41,12 +41,10 @@ const TopUpgrates = ({ products }: TopUpgratesProps) => {
               />
             </Box>
             <Box className={styles.upgradeCaption}>
-              <Typography variant="inherit" className={styles.upgradeCategory}>
-                {product.title}
-              </Typography>
-              <Typography variant="inherit" className={styles.upgradePrice}>
+              <Box className={styles.upgradeCategory}>{product.title}</Box>
+              <Box className={styles.upgradePrice}>
                 From {formatINR(product.pricing?.sellingPrice)}
-              </Typography>
+              </Box>
             </Box>
           </Box>
         ))}
