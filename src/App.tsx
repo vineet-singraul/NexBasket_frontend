@@ -17,6 +17,7 @@ import ProductCommonBase from './features/owner/pages/ProductCommonBase'
 import AddProduct from './features/owner/components/BaseProduct/AddProduct'
 import MainOwnerDashbord from './features/owner/pages/MainOwnerDashbord'
 import ShowCardDetails from './features/user/components/Home/ShowCardDetails'
+import ShowCategory from './features/user/common/ShowCategory'
 function App() {
   return (
     <LocationGate>
@@ -28,6 +29,8 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/google-continue" element={<GoogleProviView />} />
         <Route path="/change-password" element={<ChnagePassword />} />
+        <Route path="/Productdetails/:productId" element={<ShowCardDetails />} />
+        <Route path='/showCategoryofProduct/:categoryId' element={<ShowCategory/>}/>
         <Route
           path="/__preview/add-product"
           element={
@@ -44,8 +47,6 @@ function App() {
             </OwnerLayout>
           }
         />
-
-        <Route path="/Productdetails/:productId" element={<ShowCardDetails/>}/>
 
         <Route element={<ProtectedRoute role="owner" />}>
           <Route

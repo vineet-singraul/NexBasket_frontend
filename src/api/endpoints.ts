@@ -18,7 +18,7 @@ export const CATEGORY_ENDPOINTS = {
   GET_CATEGORY_BY_ID: (id: string) => `/category/getCategoryOfProductById/${id}`,
   UPDATE_CATEGORY: (id: string) => `/category/updateCategoryOfProduct/${id}`,
   GET_CATEGORY_BY_OWNER_ID: (id: string) => `/category/getSingleOwnerCategory/${id}`,
-  GET_ALL_CATEGORY: `/category/getAllCategoriesOfProduct`
+  GET_ALL_CATEGORY: `/category/getAllCategoriesOfProduct`,
 }
 
 export const AI_MODEL = {
@@ -73,13 +73,13 @@ export const OWNER_DASHBOARD_API = {
 
 export const USER_HOME_PAGE_CARDS = {
   GET_ALL_CARDS: '/userHomePage/getUserHomePageDetails',
-  GET_SINGLE_CARD : (productId : string) => `/userHomePage/getSingleProductDetails/${productId}`
+  GET_SINGLE_CARD: (productId: string) => `/userHomePage/getSingleProductDetails/${productId}`,
 }
 
 export const USER_CATEGORY_PAGE = {
   GET_ALL_CATEGORY: '/UserShowCategory/ShowAllCategoryToUser',
   GET_SINGLE_CATEGORY: (categoryId: string) =>
     `/UserShowCategory/getSingleCategoryByItsOwnId/${categoryId}`,
+  GET_PRODUCT_BY_CATEGORY_ID: (categoryId: string) =>
+    `/userHomePage/getProductsByCategotyId/${categoryId}`,
 }
-
-

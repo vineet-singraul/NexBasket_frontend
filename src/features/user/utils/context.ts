@@ -318,6 +318,12 @@ export const FILTER_BUTTON_LABEL = 'Filter'
 export const BESTSELLER_BADGE_LABEL = 'Bestseller'
 export const LOW_STOCK_THRESHOLD = 5
 
+export const CATEGORY_PRODUCTS_TEXT = {
+  title: 'Products',
+  back: 'Back',
+  empty: 'No products found in this category',
+}
+
 export const PROMO_CARD_TITLES = {
   fashionForYou: "Customers' Most-Loved Fashion for you",
   innerwear: 'Minimum 60% off | Innerwear for all',

@@ -530,6 +530,13 @@
   color: #0A192A;
 }
 
+.navImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .navLabel {
   font-size: 10px;
   font-weight: 500;

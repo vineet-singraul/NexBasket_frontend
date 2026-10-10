@@ -2,39 +2,17 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { Box, Typography } from '@mui/material'
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined'
-import CheckroomOutlinedIcon from '@mui/icons-material/CheckroomOutlined'
-import SmartphoneOutlinedIcon from '@mui/icons-material/SmartphoneOutlined'
-import FaceRetouchingNaturalOutlinedIcon from '@mui/icons-material/FaceRetouchingNaturalOutlined'
-import DevicesOutlinedIcon from '@mui/icons-material/DevicesOutlined'
-import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined'
-import TvOutlinedIcon from '@mui/icons-material/TvOutlined'
-import ToysOutlinedIcon from '@mui/icons-material/ToysOutlined'
-import LocalDrinkOutlinedIcon from '@mui/icons-material/LocalDrinkOutlined'
-import SportsMotorsportsOutlinedIcon from '@mui/icons-material/SportsMotorsportsOutlined'
-import TwoWheelerOutlinedIcon from '@mui/icons-material/TwoWheelerOutlined'
-import FitnessCenterOutlinedIcon from '@mui/icons-material/FitnessCenterOutlined'
-import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined'
-import WeekendOutlinedIcon from '@mui/icons-material/WeekendOutlined'
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined'
 import styles from '../../../styles/userStyle/Header.module.css'
+import type { CategoryListItem } from '../../owner/types/category.types.ts'
+import { useNavigate } from 'react-router-dom'
 
-const categories = [
-  { label: 'For You', icon: ShoppingBagOutlinedIcon, active: true },
-  { label: 'Fashion', icon: CheckroomOutlinedIcon },
-  { label: 'Mobiles', icon: SmartphoneOutlinedIcon },
-  { label: 'Beauty', icon: FaceRetouchingNaturalOutlinedIcon },
-  { label: 'Electronics', icon: DevicesOutlinedIcon },
-  { label: 'Home', icon: LightbulbOutlinedIcon },
-  { label: 'Appliances', icon: TvOutlinedIcon },
-  { label: 'Toys, baby...', icon: ToysOutlinedIcon },
-  { label: 'Food & Health', icon: LocalDrinkOutlinedIcon },
-  { label: 'Auto Accessories', icon: SportsMotorsportsOutlinedIcon },
-  { label: '2 Wheelers', icon: TwoWheelerOutlinedIcon },
-  { label: 'Sports & Fitness', icon: FitnessCenterOutlinedIcon },
-  { label: 'Books & More', icon: MenuBookOutlinedIcon },
-  { label: 'Furniture', icon: WeekendOutlinedIcon },
-]
+interface SecondaryNavProps {
+  categories: CategoryListItem[]
+}
 
-const SecondaryNav = () => {
+const SecondaryNav = ({ categories }: SecondaryNavProps) => {
+  const navigate = useNavigate()
   const navRef = useRef<HTMLDivElement>(null)
   const lastScrollY = useRef(0)
   const isHidden = useRef(false)
@@ -78,21 +56,35 @@ const SecondaryNav = () => {
     }
   }, [])
 
+  const handleClickGetProductsByCategoryId = (categoryId : string) => {
+    navigate(`/showCategoryofProduct/${categoryId}`)
+  }
+
   return (
     <Box
       ref={navRef}
       className={styles.secondaryNav}
       sx={{ overflowY: 'hidden', display: { xs: 'none', sm: 'flex' } }}
     >
-      {categories.map(({ label, icon: Icon, active }) => (
-        <Box
-          key={label}
-          className={active ? `${styles.navItem} ${styles.active}` : styles.navItem}
+      <Box className={`${styles.navItem} ${styles.active}`}>
+        <Box className={styles.iconBox}>
+          <ShoppingBagOutlinedIcon className={styles.navIcon} />
+        </Box>
+        <Typography className={styles.navLabel}>For You</Typography>
+      </Box>
+
+      {categories.map(({ _id, name, image }) => (
+        <Box key={_id} className={styles.navItem}
+         onClick={() => {handleClickGetProductsByCategoryId(_id)}}
         >
           <Box className={styles.iconBox}>
-            <Icon className={styles.navIcon} />
+            {image ? (
+              <img src={image} alt={name} className={styles.navImage} />
+            ) : (
+              <CategoryOutlinedIcon className={styles.navIcon} />
+            )}
           </Box>
-          <Typography className={styles.navLabel}>{label}</Typography>
+          <Typography className={styles.navLabel}>{name}</Typography>
         </Box>
       ))}
     </Box>
