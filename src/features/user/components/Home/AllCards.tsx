@@ -13,8 +13,19 @@ import {
   FILTER_BUTTON_LABEL,
   LOW_STOCK_THRESHOLD,
   TRENDING_NOW_TITLE,
+  DEFAULT_ERROR_MESSAGE,
+  WISHLIST_ADD_SUCCESS_MESSAGE,
+  WISHLIST_ALREADY_ADDED_MESSAGE,
+  WISHLIST_LOGIN_REQUIRED_MESSAGE,
 } from '../../utils/context.ts'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import type { NotificationInterfacce } from '../../../../auth/types/auth.types'
+import Loader from '../../../../utils/Loader'
+import Notification from '../../../../utils/Notification'
+import { getAuthSession } from '../../../../utils/authStorage.ts'
+import { apiPost } from '../../../../api/userApi.ts'
+import { USER_CATEGORY_PAGE } from '../../../../api/endpoints.ts'
 
 interface AllCardsProps {
   products: Product[]
@@ -23,8 +34,66 @@ interface AllCardsProps {
 const AllCards = ({ products }: AllCardsProps) => {
   const navigate = useNavigate()
 
+  const [loading, setLoading] = useState<boolean>(false)
+  const [notification, setNotification] = useState<NotificationInterfacce>({
+    open: false,
+    message: '',
+    severity: 'success',
+  })
+
   const handleShowSingleProduct = (id: string) => {
     navigate(`/Productdetails/${id}`)
+  }
+
+  const handleAddToWishList = async (productId: string) => {
+    const userId = getAuthSession<{ _id: string }>()?.user?._id
+
+    if (!userId) {
+      setNotification({
+        open: true,
+        message: WISHLIST_LOGIN_REQUIRED_MESSAGE,
+        severity: 'warning',
+      })
+      return
+    }
+
+    const payload = {
+      productId: productId,
+      userId: userId,
+      quantity: 1,
+    }
+
+    setLoading(true)
+    try {
+      const response = await apiPost<{ message?: string; code?: number }>(
+        USER_CATEGORY_PAGE.ADD_TO_WISHLIST,
+        payload,
+      )
+
+      if (response.code === 409) {
+        setNotification({
+          open: true,
+          message: response?.message || WISHLIST_ALREADY_ADDED_MESSAGE,
+          severity: 'warning',
+        })
+        return
+      }
+
+      setNotification({
+        open: true,
+        message: response?.message || WISHLIST_ADD_SUCCESS_MESSAGE,
+        severity: 'success',
+      })
+    } catch (error) {
+      const isAlreadyAdded = (error as { status?: number })?.status === 409
+      setNotification({
+        open: true,
+        message: error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE,
+        severity: isAlreadyAdded ? 'warning' : 'error',
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -104,7 +173,14 @@ const AllCards = ({ products }: AllCardsProps) => {
                   alt={product.title}
                   sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
-                <IconButton size="small" className={styles.dealWishlistBtn}>
+                <IconButton
+                  size="small"
+                  className={styles.dealWishlistBtn}
+                  disabled={loading}
+                  onClick={() => {
+                    handleAddToWishList(product._id)
+                  }}
+                >
                   <FavoriteBorderIcon />
                 </IconButton>
               </Box>
@@ -132,6 +208,16 @@ const AllCards = ({ products }: AllCardsProps) => {
           )
         })}
       </Box>
+
+      {loading && <Loader />}
+      {notification && (
+        <Notification
+          open={notification.open}
+          message={notification.message}
+          severity={notification.severity}
+          onClose={() => setNotification((prev) => ({ ...prev, open: false }))}
+        />
+      )}
     </Box>
   )
 }

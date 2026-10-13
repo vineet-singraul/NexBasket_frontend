@@ -317,6 +317,9 @@ export const TRENDING_NOW_TITLE = 'Trending now'
 export const FILTER_BUTTON_LABEL = 'Filter'
 export const BESTSELLER_BADGE_LABEL = 'Bestseller'
 export const LOW_STOCK_THRESHOLD = 5
+export const WISHLIST_LOGIN_REQUIRED_MESSAGE = 'Please sign in to add items to your wishlist'
+export const WISHLIST_ADD_SUCCESS_MESSAGE = 'Added to wishlist'
+export const WISHLIST_ALREADY_ADDED_MESSAGE = 'Already in your wishlist'
 
 export const CATEGORY_PRODUCTS_TEXT = {
   title: 'Products',

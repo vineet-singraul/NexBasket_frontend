@@ -118,7 +118,7 @@ const ShowCategory = () => {
                         event.stopPropagation()
                       }}
                     >
-                      <FavoriteBorderIcon />
+                      <FavoriteBorderIcon />  
                     </IconButton>
                   </Box>
 
