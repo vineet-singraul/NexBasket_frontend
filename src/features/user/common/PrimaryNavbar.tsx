@@ -6,16 +6,21 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import styles from '../../../styles/userStyle/Header.module.css'
 import { getAuthSession, clearAuthSession } from '../../../utils/authStorage'
-import { apiPost } from '../../../api/userApi'
-import { AUTH_ENDPOINTS } from '../../../api/endpoints'
-import { useState } from 'react'
+import { apiGet, apiPost } from '../../../api/userApi'
+import { AUTH_ENDPOINTS, USER_CATEGORY_PAGE } from '../../../api/endpoints'
+import { useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import ProfilePopUp from '../components/ProfilePopUp'
 import type { RootState } from '../../../redux/store'
 import { type UserProfileDetailsProps } from '../types/user.types'
+import type { Product } from '../types/common.types'
+import { getProductImage } from '../utils/productDisplay'
 
 const PrimaryNavbar = ({ user }: UserProfileDetailsProps) => {
   const [showeProfile, setShowProfile] = useState<boolean>(false)
+  const [searchResult, setSearchResult] = useState<Product[]>([])
+  const [showResults, setShowResults] = useState<boolean>(false)
+  const latestSearchKey = useRef<string>('')
 
   const navigate = useNavigate()
   const session = getAuthSession<{ email?: string; fullName?: string }>()
@@ -37,6 +42,57 @@ const PrimaryNavbar = ({ user }: UserProfileDetailsProps) => {
     }
   }
 
+  const handleSearchProduct = async (searchKey: string) => {
+    latestSearchKey.current = searchKey
+    setShowResults(true)
+
+    if (!searchKey?.trim()) {
+      setSearchResult([])
+      return
+    }
+
+    try {
+      const response = await apiGet<{ data: Product[] }>(
+        USER_CATEGORY_PAGE.PRODUCT_SEARCH_API(searchKey),
+      )
+      // ignore responses for a key the user has already typed past
+      if (latestSearchKey.current !== searchKey) return
+      setSearchResult(response.data ?? [])
+    } catch (error) {
+      console.log(`${error instanceof Error ? error.message : 'some thing went wrong'}`)
+    }
+  }
+
+  // shared by the desktop and mobile search boxes
+  const searchResultsList = showResults && searchResult.length > 0 && (
+    <ul className={styles.searchResults} onClick={() => setShowResults(false)}>
+      {searchResult.map((product) => {
+        // API sends a single category object, the Product type declares an array
+        const category = [product.category].flat()[0]
+        return (
+          <li key={product._id} className={styles.searchItem}>
+            <Link to={`/Productdetails/${product._id}`} className={styles.searchItemThumb}>
+              <img src={getProductImage(product)} alt="" />
+            </Link>
+            <div className={styles.searchItemText}>
+              <Link to={`/Productdetails/${product._id}`} className={styles.searchItemTitle}>
+                {product.title}
+              </Link>
+              {category && (
+                <Link
+                  to={`/showCategoryofProduct/${category._id}`}
+                  className={styles.searchItemCategory}
+                >
+                  in {category.name}
+                </Link>
+              )}
+            </div>
+          </li>
+        )
+      })}
+    </ul>
+  )
+
   return (
     <>
       {/* Desktop / tablet bar */}
@@ -57,15 +113,32 @@ const PrimaryNavbar = ({ user }: UserProfileDetailsProps) => {
           </div>
         </div>
 
-        <div className={styles.searchBar}>
-          <div className={styles.searchScope}>
-            All
-            <KeyboardArrowDownOutlinedIcon className={styles.caret} />
+        <div
+          className={styles.searchWrap}
+          onFocus={() => setShowResults(true)}
+          onBlur={(e) => {
+            if (!e.currentTarget.contains(e.relatedTarget)) setShowResults(false)
+          }}
+        >
+          <div className={styles.searchBar}>
+            <div className={styles.searchScope}>
+              All
+              <KeyboardArrowDownOutlinedIcon className={styles.caret} />
+            </div>
+            <input
+              type="text"
+              placeholder="Search NexBasket.in"
+              className={styles.searchInput}
+              onChange={(e) => {
+                handleSearchProduct(e.target.value)
+              }}
+            />
+            <button type="button" className={styles.searchButton}>
+              <SearchOutlinedIcon className={styles.searchIcon} />
+            </button>
           </div>
-          <input type="text" placeholder="Search NexBasket.in" className={styles.searchInput} />
-          <button type="button" className={styles.searchButton}>
-            <SearchOutlinedIcon className={styles.searchIcon} />
-          </button>
+
+          {searchResultsList}
         </div>
 
         <div className={styles.navBlock}>
@@ -181,28 +254,40 @@ const PrimaryNavbar = ({ user }: UserProfileDetailsProps) => {
           }}
         >
           <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              flex: 1,
-              backgroundColor: '#ffffff',
-              borderRadius: '10px',
-              height: 42,
-              px: '12px',
-              gap: 1,
-              boxShadow: '0 2px 6px rgba(0, 0, 0, 0.15)',
+            sx={{ position: 'relative', flex: 1, minWidth: 0 }}
+            onFocus={() => setShowResults(true)}
+            onBlur={(e) => {
+              if (!e.currentTarget.contains(e.relatedTarget)) setShowResults(false)
             }}
           >
-            <SearchOutlinedIcon sx={{ color: '#6b6b6b', fontSize: 20 }} />
-            <InputBase
-              placeholder="Search NexBasket"
-              fullWidth
+            <Box
               sx={{
-                fontSize: 14.5,
-                color: '#111111',
-                '& input::placeholder': { color: '#8a8a8a', opacity: 1 },
+                display: 'flex',
+                alignItems: 'center',
+                backgroundColor: '#ffffff',
+                borderRadius: '10px',
+                height: 42,
+                px: '12px',
+                gap: 1,
+                boxShadow: '0 2px 6px rgba(0, 0, 0, 0.15)',
               }}
-            />
+            >
+              <SearchOutlinedIcon sx={{ color: '#6b6b6b', fontSize: 20 }} />
+              <InputBase
+                placeholder="Search NexBasket"
+                fullWidth
+                onChange={(e) => {
+                  handleSearchProduct(e.target.value)
+                }}
+                sx={{
+                  fontSize: 14.5,
+                  color: '#111111',
+                  '& input::placeholder': { color: '#8a8a8a', opacity: 1 },
+                }}
+              />
+            </Box>
+
+            {searchResultsList}
           </Box>
 
           <Stack
