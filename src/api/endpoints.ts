@@ -82,5 +82,6 @@ export const USER_CATEGORY_PAGE = {
     `/UserShowCategory/getSingleCategoryByItsOwnId/${categoryId}`,
   GET_PRODUCT_BY_CATEGORY_ID: (categoryId: string) =>
     `/userHomePage/getProductsByCategotyId/${categoryId}`,
-  PRODUCT_SEARCH_API: (searchKey: string) => `/userHomePage/searchProduct/${searchKey}`
+  PRODUCT_SEARCH_API: (searchKey: string) => `/userHomePage/searchProduct/${searchKey}`,
+  ADD_TO_WISHLIST : `/userHomePage/AddToWishList`
 }
