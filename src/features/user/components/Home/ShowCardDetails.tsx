@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Box, Button } from '@mui/material'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import BoltIcon from '@mui/icons-material/Bolt'
-import { apiGet } from '../../../../api/userApi'
+import { apiGet, apiPost } from '../../../../api/userApi'
 import { USER_HOME_PAGE_CARDS } from '../../../../api/endpoints'
 import styles from '../../../../styles/userStyle/ShowSingleProduct.module.css'
 import Header from '../../common/Header'
@@ -18,6 +18,7 @@ import type { SpecificationRow } from '../../common/Product Details/Specificatio
 import Tags from '../../common/Product Details/Tags'
 import Loader from '../../../../utils/Loader'
 import Notification from '../../../../utils/Notification'
+import { getAuthSession } from '../../../../utils/authStorage.ts'
 import type { NotificationInterfacce } from '../../../../auth/types/auth.types.ts'
 import type {
   Image,
@@ -113,6 +114,64 @@ const ShowCardDetails = () => {
     }
   }, [productId])
 
+  // Add To Cart :
+  const handleAddToCart = async (productId: string) => {
+    if (!productId) {
+      setNotification({
+        open: true,
+        message: 'some thing went erong !!',
+        severity: 'warning',
+      })
+      return
+    }
+
+    const userId = getAuthSession<{ _id: string }>()?.user?._id
+
+    if (!userId) {
+      setNotification({
+        open: true,
+        message: 'Please login to add products to cart',
+        severity: 'warning',
+      })
+      return
+    }
+
+    const payload = {
+      userId: userId,
+      productId: productId,
+      quantity: 1,
+    }
+
+    try {
+      const response = await apiPost<{ message: string }>(USER_HOME_PAGE_CARDS.ADD_TO_CART, payload)
+      setNotification({
+        open: true,
+        message: response.message ?? 'product added to cart',
+        severity: 'success',
+      })
+      console.log(response)
+    } catch (error) {
+      const message = error instanceof Error ? error.message : ''
+      const status = (error as { status?: number })?.status
+
+      // Product is already in the cart -> show a warning instead of an error
+      if (status === 409 || message.toLowerCase().includes('already')) {
+        setNotification({
+          open: true,
+          message: message || 'item already in Cart',
+          severity: 'warning',
+        })
+        return
+      }
+
+      setNotification({
+        open: true,
+        message: message || 'Some thing went wrong',
+        severity: 'error',
+      })
+    }
+  }
+
   const inventory = product?.inventory
   const availableQuantity =
     product?.availableQuantity ??
@@ -134,7 +193,13 @@ const ShowCardDetails = () => {
                 discountPercent={product.pricing?.discountPercent}
               />
               <Box className={styles.actionRow}>
-                <Button className={styles.addToCartBtn} disabled={!inStock}>
+                <Button
+                  className={styles.addToCartBtn}
+                  disabled={!inStock}
+                  onClick={() => {
+                    handleAddToCart(productId ?? '')
+                  }}
+                >
                   <ShoppingCartOutlinedIcon fontSize="small" />
                   {PRODUCT_DETAILS_TEXT.addToCart}
                 </Button>

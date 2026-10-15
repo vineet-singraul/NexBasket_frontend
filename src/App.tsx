@@ -18,6 +18,7 @@ import AddProduct from './features/owner/components/BaseProduct/AddProduct'
 import MainOwnerDashbord from './features/owner/pages/MainOwnerDashbord'
 import ShowCardDetails from './features/user/components/Home/ShowCardDetails'
 import ShowCategory from './features/user/common/ShowCategory'
+import Cart from './features/user/common/Cart'
 function App() {
   return (
     <LocationGate>
@@ -30,7 +31,8 @@ function App() {
         <Route path="/google-continue" element={<GoogleProviView />} />
         <Route path="/change-password" element={<ChnagePassword />} />
         <Route path="/Productdetails/:productId" element={<ShowCardDetails />} />
-        <Route path='/showCategoryofProduct/:categoryId' element={<ShowCategory/>}/>
+        <Route path="/showCategoryofProduct/:categoryId" element={<ShowCategory />} />
+        <Route path="/cart" element={<Cart />} />
         <Route
           path="/__preview/add-product"
           element={

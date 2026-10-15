@@ -74,6 +74,7 @@ export const OWNER_DASHBOARD_API = {
 export const USER_HOME_PAGE_CARDS = {
   GET_ALL_CARDS: '/userHomePage/getUserHomePageDetails',
   GET_SINGLE_CARD: (productId: string) => `/userHomePage/getSingleProductDetails/${productId}`,
+  ADD_TO_CART: `userHomePage/AddToCart`,
 }
 
 export const USER_CATEGORY_PAGE = {
@@ -83,5 +84,5 @@ export const USER_CATEGORY_PAGE = {
   GET_PRODUCT_BY_CATEGORY_ID: (categoryId: string) =>
     `/userHomePage/getProductsByCategotyId/${categoryId}`,
   PRODUCT_SEARCH_API: (searchKey: string) => `/userHomePage/searchProduct/${searchKey}`,
-  ADD_TO_WISHLIST : `/userHomePage/AddToWishList`
+  ADD_TO_WISHLIST: `/userHomePage/AddToWishList`,
 }
