@@ -439,6 +439,44 @@ export const PRODUCT_DETAILS_TEXT = {
   warrantyPeriod: 'Warranty period',
 }
 
+export const CART_TEXT = {
+  title: 'My Cart',
+  back: 'Back',
+  empty: 'Your cart is empty',
+  emptySubtitle: 'Add items to it now',
+  shopNow: 'Shop Now',
+  loginRequired: 'Please login to see your cart',
+  priceDetails: 'Price Details',
+  price: 'Price',
+  discount: 'Discount',
+  deliveryCharges: 'Delivery Charges',
+  totalAmount: 'Total Amount',
+  youWillSave: "You'll save",
+  onThisOrder: 'on this order',
+  placeOrder: 'Place Order',
+  quantity: 'Qty',
+  outOfStock: 'Out of Stock',
+  topDiscount: 'Top Discount of the Sale',
+  deliveryBy: 'Delivery by',
+  saveForLater: 'Save for later',
+  remove: 'Remove',
+  buyThisNow: 'Buy this now',
+  comingSoon: 'This feature is coming soon',
+  fromSavedAddresses: 'From Saved Addresses',
+  enterPincode: 'Enter Delivery Pincode',
+  mrpInclTaxes: 'MRP (incl. of all taxes)',
+  fees: 'Fees',
+  discounts: 'Discounts',
+  discountOnMrp: 'Discount on MRP',
+  securePayments: 'Safe and secure payments. Easy returns. 100% Authentic products.',
+}
+
+// Items with at least this discount get the "Top Discount of the Sale" badge
+export const CART_TOP_DISCOUNT_PERCENT = 50
+// Expected delivery = today + these many days
+export const CART_DELIVERY_DAYS = 6
+export const CART_MAX_QUANTITY = 10
+
 // Products priced above this amount are delivered free
 export const FREE_DELIVERY_ABOVE = 400
 

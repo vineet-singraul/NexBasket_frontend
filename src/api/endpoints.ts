@@ -75,6 +75,7 @@ export const USER_HOME_PAGE_CARDS = {
   GET_ALL_CARDS: '/userHomePage/getUserHomePageDetails',
   GET_SINGLE_CARD: (productId: string) => `/userHomePage/getSingleProductDetails/${productId}`,
   ADD_TO_CART: `userHomePage/AddToCart`,
+  SHOW_CART : (userId : string) => `/userHomePage/showCartsDetails/${userId}`
 }
 
 export const USER_CATEGORY_PAGE = {
