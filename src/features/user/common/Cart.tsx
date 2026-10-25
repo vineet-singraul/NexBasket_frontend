@@ -11,7 +11,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import GppGoodIcon from '@mui/icons-material/GppGood'
-import { apiGet } from '../../../api/userApi'
+import { apiDelete, apiGet } from '../../../api/userApi'
 import { USER_HOME_PAGE_CARDS } from '../../../api/endpoints'
 import styles from '../../../styles/userStyle/Cart.module.css'
 import Header from './Header'
@@ -94,6 +94,38 @@ const Cart = () => {
     setCartItems((items) =>
       items.map((item) => (item._id === productId ? { ...item, quantity } : item)),
     )
+  }
+
+  const handleDelete = async (productId: string) => {
+    if (!userId) {
+      setNotification({
+        open: true,
+        message: CART_TEXT.loginRequired,
+        severity: 'warning',
+      })
+      return
+    }
+
+    try {
+      setLoading(true)
+      const response = await apiDelete<{ message?: string }>(
+        USER_HOME_PAGE_CARDS.DELETE_ITEM(productId, userId),
+      )
+      setCartItems((items) => items.filter((item) => item._id !== productId))
+      setNotification({
+        open: true,
+        message: response?.message || CART_TEXT.itemRemoved,
+        severity: 'success',
+      })
+    } catch (error) {
+      setNotification({
+        open: true,
+        message: error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE,
+        severity: 'error',
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   const showComingSoon = () => {
@@ -240,7 +272,10 @@ const Cart = () => {
                           <MoveToInboxOutlinedIcon fontSize="small" />
                           {CART_TEXT.saveForLater}
                         </Button>
-                        <Button className={styles.actionBtn} onClick={showComingSoon}>
+                        <Button className={styles.actionBtn} onClick={() => {
+                            handleDelete(item._id)
+                          }}
+                        >
                           <DeleteOutlineIcon fontSize="small" />
                           {CART_TEXT.remove}
                         </Button>

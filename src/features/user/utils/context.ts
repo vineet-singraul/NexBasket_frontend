@@ -460,6 +460,7 @@ export const CART_TEXT = {
   deliveryBy: 'Delivery by',
   saveForLater: 'Save for later',
   remove: 'Remove',
+  itemRemoved: 'Item removed from your cart',
   buyThisNow: 'Buy this now',
   comingSoon: 'This feature is coming soon',
   fromSavedAddresses: 'From Saved Addresses',
