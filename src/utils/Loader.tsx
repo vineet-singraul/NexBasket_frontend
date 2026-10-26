@@ -44,6 +44,7 @@ type LoaderProps = {
   fullScreen?: boolean
   bgcolor?: string
   size?: number
+  bgImage?: string
 }
 
 const NEON_ORANGE = '#ff7a1a'
@@ -57,16 +58,16 @@ const GLOW_GRADIENT = `radial-gradient(circle, ${NEON_ORANGE} 0%, ${NEON_BLUE} 5
 const RING_MASK = 'radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px))'
 const RING_MASK_THIN = 'radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px))'
 
-const Loader = ({ fullScreen = true, bgcolor = '#05050acc', size = 76 }: LoaderProps) => {
+const Loader = ({ fullScreen = true, bgcolor = '#05050a8c', size = 76, bgImage = '/GoogleImage.png' }: LoaderProps) => {
   return (
     <Box
       sx={{
         ...(fullScreen && {
           position: 'fixed',
           inset: 0,
-          bgcolor,
+          // Overlay colour layered on top of the brand image
+          background: `linear-gradient(${bgcolor}, ${bgcolor}), url('${bgImage}') center / cover no-repeat`,
           zIndex: 9999,
-          backdropFilter: 'blur(3px)',
         }),
         display: 'flex',
         justifyContent: 'center',
