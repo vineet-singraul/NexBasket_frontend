@@ -7,8 +7,8 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import styles from '../../../styles/userStyle/Header.module.css'
 import { getAuthSession, clearAuthSession } from '../../../utils/authStorage'
 import { apiGet, apiPost } from '../../../api/userApi'
-import { AUTH_ENDPOINTS, USER_CATEGORY_PAGE } from '../../../api/endpoints'
-import { useRef, useState } from 'react'
+import { AUTH_ENDPOINTS, USER_CATEGORY_PAGE, USER_HOME_PAGE_CARDS } from '../../../api/endpoints'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import ProfilePopUp from '../components/ProfilePopUp'
 import type { RootState } from '../../../redux/store'
@@ -20,14 +20,17 @@ const PrimaryNavbar = ({ user }: UserProfileDetailsProps) => {
   const [showeProfile, setShowProfile] = useState<boolean>(false)
   const [searchResult, setSearchResult] = useState<Product[]>([])
   const [showResults, setShowResults] = useState<boolean>(false)
+  const [cartCount, setCartCount] = useState<number>(0)
   const latestSearchKey = useRef<string>('')
 
   const navigate = useNavigate()
   const session = getAuthSession<{ email?: string; fullName?: string }>()
+  // console.log("sessions : ",session?.user?._id)
   const displayName = session?.user?.fullName || session?.user?.email
   const city = useSelector((state: RootState) => state.user.city?.city)
   const pinCode = useSelector((state: RootState) => state.user.pinCode?.postcode)
   const deliveryLocation = city ? `${city}${pinCode ? ` ${pinCode}` : ''}` : 'Indore 452001'
+  const userId = session?.user?._id;
 
   const handleAccountClick = async () => {
     if (!session) {
@@ -62,6 +65,20 @@ const PrimaryNavbar = ({ user }: UserProfileDetailsProps) => {
       console.log(`${error instanceof Error ? error.message : 'some thing went wrong'}`)
     }
   }
+
+  useEffect(() => {
+   const featchCartCount = async () => {
+      try {
+        const response = await apiGet<{count : number}>(USER_HOME_PAGE_CARDS.SHOW_CART(userId));
+        setCartCount(response.count)
+        console.log(response)
+      } catch (error) {
+        alert(`${error instanceof Error ? error.message : "some thing went wrong"}`)
+      }
+    }
+
+     featchCartCount()
+  }, [userId])
 
   // shared by the desktop and mobile search boxes
   const searchResultsList = showResults && searchResult.length > 0 && (
@@ -145,7 +162,7 @@ const PrimaryNavbar = ({ user }: UserProfileDetailsProps) => {
           <Link to="/cart" className={styles.cartLink}>
             <div className={styles.cartIconWrap}>
               <ShoppingCartOutlinedIcon className={styles.cartIcon} />
-              <span className={styles.cartBadge}>0</span>
+              <span className={styles.cartBadge}>{cartCount}</span>
             </div>
           </Link>
         </div>
@@ -238,7 +255,7 @@ const PrimaryNavbar = ({ user }: UserProfileDetailsProps) => {
                   border: '2px solid var(--nb-primary-bg)',
                 }}
               >
-                0
+                {cartCount}
               </Box>
             </Box>
           </Link>

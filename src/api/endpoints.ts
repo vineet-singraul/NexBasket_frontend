@@ -76,7 +76,8 @@ export const USER_HOME_PAGE_CARDS = {
   GET_SINGLE_CARD: (productId: string) => `/userHomePage/getSingleProductDetails/${productId}`,
   ADD_TO_CART: `userHomePage/AddToCart`,
   SHOW_CART : (userId : string) => `/userHomePage/showCartsDetails/${userId}`,
-  DELETE_ITEM : (productId : string, userId : string) => `/userHomePage/deleteCartItem/${productId}/${userId}`
+  DELETE_ITEM : (productId : string, userId : string) => `/userHomePage/deleteCartItem/${productId}/${userId}`,
+  SHOW_CART_COUNT : (userId : string) => `/userHomePage/ShowCountOfItem/${userId}`
 }
 
 export const USER_CATEGORY_PAGE = {
