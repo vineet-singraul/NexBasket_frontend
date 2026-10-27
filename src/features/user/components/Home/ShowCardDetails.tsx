@@ -149,7 +149,6 @@ const ShowCardDetails = () => {
         message: response.message ?? 'product added to cart',
         severity: 'success',
       })
-      await fetchCartCount()
       console.log(response)
     } catch (error) {
       const message = error instanceof Error ? error.message : ''
