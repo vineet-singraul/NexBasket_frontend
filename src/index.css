@@ -118,6 +118,24 @@ body,
   -ms-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
+  /* no blue tap/click highlight box on any element (mobile + desktop) */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* hide the blue selection paint (icons/SVGs can still show it) */
+*::selection {
+  background: transparent;
+}
+
+/* no focus ring on mouse/touch clicks — keyboard (Tab) focus still shows it */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+input::selection,
+textarea::selection,
+[contenteditable='true']::selection {
+  background: rgba(252, 128, 25, 0.35);
 }
 
 input,
