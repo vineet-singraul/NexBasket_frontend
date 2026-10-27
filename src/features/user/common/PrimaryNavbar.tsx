@@ -8,26 +8,31 @@ import styles from '../../../styles/userStyle/Header.module.css'
 import { getAuthSession, clearAuthSession } from '../../../utils/authStorage'
 import { apiGet, apiPost } from '../../../api/userApi'
 import { AUTH_ENDPOINTS, USER_CATEGORY_PAGE } from '../../../api/endpoints'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import ProfilePopUp from '../components/ProfilePopUp'
 import type { RootState } from '../../../redux/store'
 import { type UserProfileDetailsProps } from '../types/user.types'
 import type { Product } from '../types/common.types'
 import { getProductImage } from '../utils/productDisplay'
+import socket from '../../../../src/utils/socket'
 
 const PrimaryNavbar = ({ user }: UserProfileDetailsProps) => {
   const [showeProfile, setShowProfile] = useState<boolean>(false)
   const [searchResult, setSearchResult] = useState<Product[]>([])
   const [showResults, setShowResults] = useState<boolean>(false)
+  const [cartCount, setCartCount] = useState(0)
   const latestSearchKey = useRef<string>('')
 
   const navigate = useNavigate()
   const session = getAuthSession<{ email?: string; fullName?: string }>()
+  console.log(session)
   const displayName = session?.user?.fullName || session?.user?.email
   const city = useSelector((state: RootState) => state.user.city?.city)
+
   const pinCode = useSelector((state: RootState) => state.user.pinCode?.postcode)
   const deliveryLocation = city ? `${city}${pinCode ? ` ${pinCode}` : ''}` : 'Indore 452001'
+  const userId = getAuthSession<{ _id: string }>()?.user?._id
 
   const handleAccountClick = async () => {
     if (!session) {
@@ -37,6 +42,7 @@ const PrimaryNavbar = ({ user }: UserProfileDetailsProps) => {
     try {
       await apiPost(AUTH_ENDPOINTS.SIGNOUT)
     } finally {
+      socket.disconnect()
       clearAuthSession()
       navigate('/signin')
     }
@@ -62,6 +68,27 @@ const PrimaryNavbar = ({ user }: UserProfileDetailsProps) => {
       console.log(`${error instanceof Error ? error.message : 'some thing went wrong'}`)
     }
   }
+
+  useEffect(() => {
+    if (!userId) return
+
+    // rooms are lost on reconnect, so join again on every connect
+    const joinCart = () => socket.emit('joinCart', userId)
+    const handleCartUpdated = ({ cartCount }: { cartCount: number }) => {
+      setCartCount(cartCount)
+    }
+
+    socket.on('connect', joinCart)
+    socket.on('cartUpdated', handleCartUpdated)
+
+    if (socket.connected) joinCart()
+    else socket.connect()
+
+    return () => {
+      socket.off('connect', joinCart)
+      socket.off('cartUpdated', handleCartUpdated)
+    }
+  }, [userId])
 
   // shared by the desktop and mobile search boxes
   const searchResultsList = showResults && searchResult.length > 0 && (
@@ -145,7 +172,7 @@ const PrimaryNavbar = ({ user }: UserProfileDetailsProps) => {
           <Link to="/cart" className={styles.cartLink}>
             <div className={styles.cartIconWrap}>
               <ShoppingCartOutlinedIcon className={styles.cartIcon} />
-              <span className={styles.cartBadge}>0</span>
+              <span className={styles.cartBadge}>{cartCount}</span>
             </div>
           </Link>
         </div>
@@ -238,7 +265,7 @@ const PrimaryNavbar = ({ user }: UserProfileDetailsProps) => {
                   border: '2px solid var(--nb-primary-bg)',
                 }}
               >
-                0
+                {cartCount}
               </Box>
             </Box>
           </Link>
