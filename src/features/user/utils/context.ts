@@ -478,6 +478,41 @@ export const CART_TOP_DISCOUNT_PERCENT = 50
 export const CART_DELIVERY_DAYS = 6
 export const CART_MAX_QUANTITY = 10
 
+export const ACCOUNT_TEXT = {
+  title: 'My Account',
+  back: 'Back',
+  guest: 'Guest',
+  verified: 'Verified',
+  notVerified: 'Not verified',
+  email: 'Email',
+  mobile: 'Mobile',
+  memberSince: 'Member since',
+  wishlist: 'My Wishlist',
+  wishlistItems: 'Wishlist items',
+  emptyWishlist: 'Your wishlist is empty',
+  emptyWishlistSubtitle: 'Save items you like and find them here later',
+  shopNow: 'Shop Now',
+  outOfStock: 'Out of Stock',
+  off: 'off',
+  hello: 'Hello,',
+  hey: 'Hey!',
+  profile: 'Profile Information',
+  profileSubtitle: 'Your personal details',
+  wishlistSubtitle: 'Products you have saved for later',
+  orders: 'My Orders',
+  ordersSubtitle: 'Track, return or buy things again',
+  cart: 'My Cart',
+  addresses: 'Saved Addresses',
+  addressesSubtitle: 'Manage your delivery addresses',
+  changePassword: 'Change Password',
+  helpCenter: 'Help Center',
+  signOut: 'Sign Out',
+  accountSettings: 'Account Settings',
+  myActivity: 'My Activity',
+  comingSoon: 'This feature is coming soon',
+  fullName: 'Full Name',
+}
+
 // Products priced above this amount are delivered free
 export const FREE_DELIVERY_ABOVE = 400
 

@@ -3,7 +3,7 @@ import { DELIVERY_CHARGE_SLABS, FREE_DELIVERY_ABOVE } from './context.ts'
 
 export const PLACEHOLDER_PRODUCT_IMAGE = 'https://via.placeholder.com/400x400?text=No+Image'
 
-export const getProductImage = (product: Product): string => {
+export const getProductImage = (product: Pick<Product, 'images'>): string => {
   const primary = product.images?.find((img) => img.isPrimary)
   return primary?.imageUrl || product.images?.[0]?.imageUrl || PLACEHOLDER_PRODUCT_IMAGE
 }
