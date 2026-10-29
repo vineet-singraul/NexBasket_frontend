@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   Paper,
   Box,
@@ -41,12 +41,16 @@ import {
   SIGN_OUT_SUCCESS_MESSAGE,
 } from '../utils/context.ts'
 
-const buildMenuItems = (handleSingout: () => void, moveToChnagePasswordPage: () => void) => [
+const buildMenuItems = (
+  handleSingout: () => void,
+  moveToChnagePasswordPage: () => void,
+  moveToProfileSection: () => void,
+) => [
   {
     icon: <PersonOutlineOutlinedIcon fontSize="small" />,
     text: PROFILE_MENU_LABELS.myProfile,
     onClick: () => {
-      console.log('hiii')
+      moveToProfileSection()
     },
   },
   {
@@ -161,7 +165,11 @@ const ProfilePopUp = ({ userDetails, setShowProfile }: ProfilePopUpProps) => {
     navigate('/change-password')
   }
 
-  const menuItems = buildMenuItems(handleSingout, moveToChnagePasswordPage)
+  const moveToProfileSection = () => {
+    navigate('/account/user-profile')
+  }
+
+  const menuItems = buildMenuItems(handleSingout, moveToChnagePasswordPage, moveToProfileSection)
 
   return (
     <Paper elevation={6} className={styles.profilePopup}>
@@ -216,4 +224,4 @@ const ProfilePopUp = ({ userDetails, setShowProfile }: ProfilePopUpProps) => {
   )
 }
 
-export default ProfilePopUp;
+export default ProfilePopUp

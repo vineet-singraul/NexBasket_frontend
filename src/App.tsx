@@ -19,6 +19,7 @@ import MainOwnerDashbord from './features/owner/pages/MainOwnerDashbord'
 import ShowCardDetails from './features/user/components/Home/ShowCardDetails'
 import ShowCategory from './features/user/common/ShowCategory'
 import Cart from './features/user/common/Cart'
+import Account from './features/user/pages/Account'
 function App() {
   return (
     <LocationGate>
@@ -33,6 +34,7 @@ function App() {
         <Route path="/Productdetails/:productId" element={<ShowCardDetails />} />
         <Route path="/showCategoryofProduct/:categoryId" element={<ShowCategory />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/account/user-profile" element={<Account />} />
         <Route
           path="/__preview/add-product"
           element={

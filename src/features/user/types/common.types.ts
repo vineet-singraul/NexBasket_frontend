@@ -1,3 +1,6 @@
+import type { Owner } from "../../owner/types/common.types"
+import type { ListedProduct } from "../../owner/types/dashboard.types"
+
 export interface Product {
   _id: string
   id: string
@@ -145,3 +148,11 @@ export interface Specification {
   _id: string
   id: string
 }
+
+
+
+export type AccountProps = {
+  userdata?: Owner | null
+  userWishList?: ListedProduct[]
+}
+
