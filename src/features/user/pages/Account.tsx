@@ -31,7 +31,7 @@ const SECTION_HEADINGS: Record<AccountSection, { title: string; subtitle: string
   addresses: { title: ACCOUNT_TEXT.addresses, subtitle: ACCOUNT_TEXT.addressesSubtitle },
 }
 
-const Account = () => {
+const Account = ({ initialSection = null }: { initialSection?: AccountSection | null }) => {
   const navigate = useNavigate()
   const userId = getAuthSession<{ _id: string }>()?.user?._id
   const [notification, setNotification] = useState<NotificationInterfacce | null>(() =>
@@ -47,7 +47,7 @@ const Account = () => {
   const [userdata, setUserData] = useState<Owner | null>();
   const [userWishList, setUserWishList] = useState<ListedProduct[]>([]);
   // null = nothing picked yet: mobile shows the menu, desktop shows the profile
-  const [activeSection, setActiveSection] = useState<AccountSection | null>(null)
+  const [activeSection, setActiveSection] = useState<AccountSection | null>(initialSection)
 
   useEffect(() => {
     if (!userId) return

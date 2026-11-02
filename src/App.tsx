@@ -34,7 +34,11 @@ function App() {
         <Route path="/Productdetails/:productId" element={<ShowCardDetails />} />
         <Route path="/showCategoryofProduct/:categoryId" element={<ShowCategory />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/account/user-profile" element={<Account />} />
+        <Route path="/account/user-profile" element={<Account key="profile" />} />
+        <Route
+          path="/account/wishlist"
+          element={<Account key="wishlist" initialSection="wishlist" />}
+        />
         <Route
           path="/__preview/add-product"
           element={

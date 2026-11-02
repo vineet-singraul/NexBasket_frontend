@@ -45,6 +45,7 @@ const buildMenuItems = (
   handleSingout: () => void,
   moveToChnagePasswordPage: () => void,
   moveToProfileSection: () => void,
+  moveToWishList: () => void,
 ) => [
   {
     icon: <PersonOutlineOutlinedIcon fontSize="small" />,
@@ -53,13 +54,13 @@ const buildMenuItems = (
       moveToProfileSection()
     },
   },
-  {
-    icon: <WorkspacePremiumOutlinedIcon fontSize="small" />,
-    text: PROFILE_MENU_LABELS.plusZone,
-    onClick: () => {
-      console.log('hiii')
-    },
-  },
+  // {
+  //   icon: <WorkspacePremiumOutlinedIcon fontSize="small" />,
+  //   text: PROFILE_MENU_LABELS.plusZone,
+  //   onClick: () => {
+  //     console.log('hiii')
+  //   },
+  // },
   {
     icon: <Inventory2OutlinedIcon fontSize="small" />,
     text: PROFILE_MENU_LABELS.orders,
@@ -71,44 +72,44 @@ const buildMenuItems = (
     icon: <FavoriteBorderOutlinedIcon fontSize="small" />,
     text: PROFILE_MENU_LABELS.wishlist,
     onClick: () => {
-      console.log('hiii')
+      moveToWishList()
     },
   },
-  {
-    icon: <StorefrontOutlinedIcon fontSize="small" />,
-    text: PROFILE_MENU_LABELS.becomeSeller,
-    onClick: () => {
-      console.log('hiii')
-    },
-  },
-  {
-    icon: <CardGiftcardOutlinedIcon fontSize="small" />,
-    text: PROFILE_MENU_LABELS.rewards,
-    onClick: () => {
-      console.log('hiii')
-    },
-  },
-  {
-    icon: <CardGiftcardOutlinedIcon fontSize="small" />,
-    text: PROFILE_MENU_LABELS.giftCards,
-    onClick: () => {
-      console.log('hiii')
-    },
-  },
-  {
-    icon: <NotificationsNoneOutlinedIcon fontSize="small" />,
-    text: PROFILE_MENU_LABELS.notificationPrefs,
-    onClick: () => {
-      console.log('hiii')
-    },
-  },
-  {
-    icon: <SupportAgentOutlinedIcon fontSize="small" />,
-    text: PROFILE_MENU_LABELS.customerCare,
-    onClick: () => {
-      console.log('hiii')
-    },
-  },
+  // {
+  //   icon: <StorefrontOutlinedIcon fontSize="small" />,
+  //   text: PROFILE_MENU_LABELS.becomeSeller,
+  //   onClick: () => {
+  //     console.log('hiii')
+  //   },
+  // },
+  // {
+  //   icon: <CardGiftcardOutlinedIcon fontSize="small" />,
+  //   text: PROFILE_MENU_LABELS.rewards,
+  //   onClick: () => {
+  //     console.log('hiii')
+  //   },
+  // },
+  // {
+  //   icon: <CardGiftcardOutlinedIcon fontSize="small" />,
+  //   text: PROFILE_MENU_LABELS.giftCards,
+  //   onClick: () => {
+  //     console.log('hiii')
+  //   },
+  // },
+  // {
+  //   icon: <NotificationsNoneOutlinedIcon fontSize="small" />,
+  //   text: PROFILE_MENU_LABELS.notificationPrefs,
+  //   onClick: () => {
+  //     console.log('hiii')
+  //   },
+  // },
+  // {
+  //   icon: <SupportAgentOutlinedIcon fontSize="small" />,
+  //   text: PROFILE_MENU_LABELS.customerCare,
+  //   onClick: () => {
+  //     console.log('hiii')
+  //   },
+  // },
   {
     icon: <PasswordIcon fontSize="small" />,
     text: PROFILE_MENU_LABELS.changePassword,
@@ -169,7 +170,16 @@ const ProfilePopUp = ({ userDetails, setShowProfile }: ProfilePopUpProps) => {
     navigate('/account/user-profile')
   }
 
-  const menuItems = buildMenuItems(handleSingout, moveToChnagePasswordPage, moveToProfileSection)
+  const moveToWishList = () => {
+    navigate('/account/wishlist')
+  }
+
+  const menuItems = buildMenuItems(
+    handleSingout,
+    moveToChnagePasswordPage,
+    moveToProfileSection,
+    moveToWishList,
+  )
 
   return (
     <Paper elevation={6} className={styles.profilePopup}>

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {
   Paper,
   BottomNavigation,
@@ -33,7 +33,14 @@ const NAV_HEIGHT = 58
 
 const MobileBottomNav = () => {
   const navigate = useNavigate()
-  const [value, setValue] = useState('home')
+  const { pathname } = useLocation()
+  // Highlight the tab that matches the current page
+  const [value, setValue] = useState(() => {
+    if (pathname === '/account/wishlist') return 'wishlist'
+    if (pathname.startsWith('/account')) return 'account'
+    if (pathname.startsWith('/category')) return 'categories'
+    return 'home'
+  })
   const [menuOpen, setMenuOpen] = useState(false)
   const session = getAuthSession<{ email?: string; fullName?: string }>()
 
@@ -43,8 +50,10 @@ const MobileBottomNav = () => {
       navigate('/')
     } else if (newValue === 'categories') {
       navigate('/category')
+    } else if (newValue === 'wishlist') {
+      navigate(session ? '/account/wishlist' : '/signin')
     } else if (newValue === 'account') {
-      if (!session) navigate('/signin')
+      navigate(session ? '/account/user-profile' : '/signin')
     } else if (newValue === 'menu') {
       setMenuOpen(true)
     }
