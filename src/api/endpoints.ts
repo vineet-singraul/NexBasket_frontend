@@ -78,7 +78,8 @@ export const USER_HOME_PAGE_CARDS = {
   SHOW_CART : (userId : string) => `/userHomePage/showCartsDetails/${userId}`,
   DELETE_ITEM : (productId : string, userId : string) => `/userHomePage/deleteCartItem/${productId}/${userId}`,
   SHOW_CART_COUNT: (userId: string) => `/userHomePage/ShowCountOfItem/${userId}`,
-  SHOW_WISHLIST_ITEM: (userId: string) => `/userHomePage/ShowWishList/${userId}`
+  SHOW_WISHLIST_ITEM: (userId: string) => `/userHomePage/ShowWishList/${userId}`,
+  SAVE_ADDRESSES :  `/adresses/SaveUserAdress`
 }
 
 export const USER_CATEGORY_PAGE = {

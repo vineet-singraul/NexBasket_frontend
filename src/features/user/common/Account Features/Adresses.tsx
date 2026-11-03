@@ -42,6 +42,8 @@ import { type NotificationInterfacce } from '../../../../auth/types/auth.types'
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
+import { apiPost } from '../../../../api/userApi'
+import { USER_HOME_PAGE_CARDS } from '../../../../api/endpoints'
 
 delete (L.Icon.Default.prototype as unknown as { _getIconUrl?: unknown })._getIconUrl
 L.Icon.Default.mergeOptions({
@@ -120,7 +122,7 @@ const LABELS: { value: AddressLabel; icon: React.ReactElement }[] = [
   { value: 'Work', icon: <WorkOutlineIcon fontSize="small" /> },
   { value: 'Other', icon: <BookmarkBorderIcon fontSize="small" /> },
 ]
-const EMPTY_FORM: AddressForm = { label: 'Home', houseNo: '', landmark: '', isDefault: false }
+const EMPTY_FORM: AddressForm ={ label: 'Home', houseNo: '', landmark: '', isDefault: false }
 type MapType = 'street' | 'satellite'
 const TILES: Record<MapType, { url: string; attribution: string }> = {
   street: {
@@ -293,16 +295,27 @@ const Addresses = ({ onSaved }: AddressesProps) => {
       setHouseNoError(true)
       return
     }
+    if (!userId) {
+      notify('Please sign in to save an address', 'warning')
+      return
+    }
     setSaving(true)
+    // Curl / backend jaisa hi payload (lat/lng string, label backend enum me)
+    const payload = {
+      userId,
+      lattitude: String(position.lat),
+      logitude: String(position.lng),
+      // Backend enum: ["Home", "Work", "Other"]
+      AdressIs: form.label,
+      fullAdress: geo.fullAddress,
+      AdressConfirm: form.houseNo.trim(),
+      LandMark: form.landmark.trim(),
+    }
     try {
-      const { data } = await axios.post<SavedAddress>(
-        `${API}/addresses`,
-        { ...form, ...geo, lat: position.lat, lng: position.lng },
-        { headers: { 'x-user-id': userId ?? 'demo-user' } },
-      )
+      const res = await apiPost<{ data: SavedAddress }>(USER_HOME_PAGE_CARDS.SAVE_ADDRESSES, payload)
       notify('Address saved', 'success')
       setForm(EMPTY_FORM)
-      onSaved?.(data)
+      onSaved?.(res.data)
     } catch (e) {
       if (axios.isAxiosError<{ message?: string }>(e)) {
         notify(e.response?.data?.message || 'Save failed', 'error')
