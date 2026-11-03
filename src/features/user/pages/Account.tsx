@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { Box, IconButton } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined'
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
 import Profile from '../common/Account Features/Profile'
 import WishList from '../common/Account Features/WishList'
 import AccountMenu, {
@@ -23,6 +22,7 @@ import { AUTH_ENDPOINTS, USER_HOME_PAGE_CARDS } from '../../../api/endpoints.ts'
 import { type Owner } from '../../owner/types/common.types.ts'
 import Notification from '../../../utils/Notification.tsx';
 import {type ListedProduct} from "../../owner/types/dashboard.types.ts"
+import Addresses from '../common/Account Features/Adresses.tsx'
 
 const SECTION_HEADINGS: Record<AccountSection, { title: string; subtitle: string }> = {
   profile: { title: ACCOUNT_TEXT.profile, subtitle: ACCOUNT_TEXT.profileSubtitle },
@@ -196,12 +196,7 @@ const Account = ({ initialSection = null }: { initialSection?: AccountSection | 
                     <Box className={styles.emptyTitle}>{ACCOUNT_TEXT.comingSoon}</Box>
                   </Box>
                 )}
-                {section === 'addresses' && (
-                  <Box className={styles.empty}>
-                    <LocationOnOutlinedIcon className={styles.emptyIcon} />
-                    <Box className={styles.emptyTitle}>{ACCOUNT_TEXT.comingSoon}</Box>
-                  </Box>
-                )}
+                {section === 'addresses' && <Addresses />}
               </Box>
             </Box>
           </Box>
