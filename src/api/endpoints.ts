@@ -79,8 +79,11 @@ export const USER_HOME_PAGE_CARDS = {
   DELETE_ITEM : (productId : string, userId : string) => `/userHomePage/deleteCartItem/${productId}/${userId}`,
   SHOW_CART_COUNT: (userId: string) => `/userHomePage/ShowCountOfItem/${userId}`,
   SHOW_WISHLIST_ITEM: (userId: string) => `/userHomePage/ShowWishList/${userId}`,
-  SAVE_ADDRESSES :  `/adresses/SaveUserAdress`
+  SAVE_ADDRESSES: `/adresses/SaveUserAdress`,
+  GET_USER_ADDRESSES: (userId: string) => `/adresses/gatAddressOfUser/${userId}`,
+  DELETE_ADDRESS: (userId: string, _id: string) => `/adresses/deleteAddress/${userId}/${_id}`
 }
+
 
 export const USER_CATEGORY_PAGE = {
   GET_ALL_CATEGORY: '/UserShowCategory/ShowAllCategoryToUser',
