@@ -1,0 +1,166 @@
+/* ===== Admin Layout ===== */
+.layout {
+  min-height: 100vh;
+  background: #f2f2f5;
+}
+
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+/* ===== Header ===== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #0a1a2b;
+  color: #ffffff;
+  box-shadow: 0 2px 12px rgba(10, 26, 43, 0.25);
+}
+
+.headerInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #fc8019;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.brandName {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.brandTag {
+  font-size: 11px;
+  color: #989ba8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ===== Tabs ===== */
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 4px;
+  border-radius: 12px;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 9px;
+  color: #c9ccd6;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+}
+
+.tab:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.tabActive,
+.tabActive:hover {
+  background: #fc8019;
+  color: #ffffff;
+}
+
+.tabIcon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* ===== Right side (admin profile) ===== */
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #0a1a2b;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+
+.profileName {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 768px) {
+  .headerInner {
+    height: auto;
+    padding: 12px 16px;
+    flex-wrap: wrap;
+  }
+
+  .profileName {
+    display: none;
+  }
+
+  .tabs {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+}

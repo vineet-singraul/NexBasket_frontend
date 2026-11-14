@@ -98,6 +98,7 @@ const Signin = () => {
         severity: 'success',
       })
       navigate(finalUserData.role === 'owner' ? '/owner/dashboard' : '/')
+      navigate(finalUserData.role === 'admin' ? '/admin' : '/')
     } catch (error) {
       setNotification({
         open: true,

@@ -79,11 +79,8 @@ export const USER_HOME_PAGE_CARDS = {
   DELETE_ITEM : (productId : string, userId : string) => `/userHomePage/deleteCartItem/${productId}/${userId}`,
   SHOW_CART_COUNT: (userId: string) => `/userHomePage/ShowCountOfItem/${userId}`,
   SHOW_WISHLIST_ITEM: (userId: string) => `/userHomePage/ShowWishList/${userId}`,
-  SAVE_ADDRESSES: `/adresses/SaveUserAdress`,
-  GET_USER_ADDRESSES: (userId: string) => `/adresses/gatAddressOfUser/${userId}`,
-  DELETE_ADDRESS: (userId: string, _id: string) => `/adresses/deleteAddress/${userId}/${_id}`
+  SAVE_ADDRESSES :  `/adresses/SaveUserAdress`
 }
-
 
 export const USER_CATEGORY_PAGE = {
   GET_ALL_CATEGORY: '/UserShowCategory/ShowAllCategoryToUser',
@@ -93,4 +90,12 @@ export const USER_CATEGORY_PAGE = {
     `/userHomePage/getProductsByCategotyId/${categoryId}`,
   PRODUCT_SEARCH_API: (searchKey: string) => `/userHomePage/searchProduct/${searchKey}`,
   ADD_TO_WISHLIST: `/userHomePage/AddToWishList`,
+}
+
+
+
+export const ADMIN_API = {
+  SHOW_OWNER_DETAILS_API : `/AdminPannalInOwnerDetails/OwnerDetails`,
+  DELETE_OWNER_API: (ownerId: string) =>
+    `/AdminPannalInOwnerDetails/OwnerDeleteWithProductsAndStore/${ownerId}`,
 }

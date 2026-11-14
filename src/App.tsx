@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route,Navigate } from 'react-router-dom'
 import Signup from './auth/pages/Signup'
 import Signin from './auth/pages/Signin'
 import GoogleProviView from './auth/common/GoogleProviView'
@@ -20,6 +20,10 @@ import ShowCardDetails from './features/user/components/Home/ShowCardDetails'
 import ShowCategory from './features/user/common/ShowCategory'
 import Cart from './features/user/common/Cart'
 import Account from './features/user/pages/Account'
+import AdminLayout from './features/Admin/Pages/AdminLayout'
+import ShowOwnerDataToAdmin from './features/Admin/Pages/ShowOwnerDataToAdmin'
+import ShowUserDataToAdmin from './features/Admin/Pages/ShowUserDataToAdmin'
+import ShowDelevaryBoyDataToAdmin from './features/Admin/Pages/ShowDelevaryBoyDataToAdmin'
 function App() {
   return (
     <LocationGate>
@@ -138,6 +142,23 @@ function App() {
               </OwnerLayout>
             }
           />
+        </Route>
+
+        {/* ADMIN KE AREN ROUTES : */}
+        <Route
+          path="/admin"
+          // element={(() => {
+          //   const authData = JSON.parse(localStorage.getItem('authData') || 'null')
+          //   const isAuthenticated = authData 
+          //   const isAdmin = authData?.user?.role === 'admin'
+          //   return isAuthenticated && isAdmin ? <AdminLayout /> : <Navigate to="/signin" replace />
+          // })()}
+          element={<AdminLayout/>}
+        >
+          <Route index element={<Navigate to="/admin/OwnerDetails" replace />} />
+          <Route path='/admin/OwnerDetails' element={<ShowOwnerDataToAdmin/>}/>
+          <Route path='/admin/UserDetails' element={<ShowUserDataToAdmin/>}/>
+          <Route path='/admin/DelevaryboyDetails' element={<ShowDelevaryBoyDataToAdmin/>}/>
         </Route>
       </Routes>
     </LocationGate>
