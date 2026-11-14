@@ -100,7 +100,7 @@ const Signin = () => {
       navigate(finalUserData.role === 'owner' ? '/owner/dashboard' : '/')
       navigate(finalUserData.role === 'admin' ? '/admin' : '/')
     } catch (error) {
-      setNotification({
+      setNotification({ 
         open: true,
         message: error instanceof Error ? error.message : 'Something went wrong',
         severity: 'error',
