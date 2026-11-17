@@ -164,3 +164,93 @@
     font-size: 13px;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* List All User [UserListPage.tsx] */
+.card {
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  background: linear-gradient(135deg, #f8fafc, #eef2ff);
+}
+
+.title {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.subtitle {
+  color: #64748b;
+}
+
+.tableContainer {
+  overflow-x: auto;
+}
+
+.tableHead th {
+  background: #f1f5f9;
+  font-weight: 700;
+  color: #334155;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.row {
+  transition: background 0.2s ease;
+}
+
+.row:hover {
+  background: #f8fafc;
+}
+
+.userCell {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.avatar {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+  color: #fff;
+  font-weight: 700;
+}
+
+.iconText {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.emptyBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 60px 20px;
+}

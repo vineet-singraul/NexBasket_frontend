@@ -100,4 +100,7 @@ export const ADMIN_API = {
   SHOW_OWNER_DETAILS_API : `/AdminPannalInOwnerDetails/OwnerDetails`,
   DELETE_OWNER_API: (ownerId: string) =>
     `/api/AdminPannalInOwnerDetails/OwnerDeleteWithProductsAndStore/${ownerId}`,
+
+  // Api for User to show in Admin ! 
+  LIST_OF_ALL_USER_FOR_ADMIN: `/AdminPannalInUsersDetails/getAllUserForAdmin`
 }
